@@ -137,6 +137,10 @@ class SocketIoMultiplayerNamespace {
     }
   }
 
+  emit(socketioRoomId, eventName, eventData) {
+    this.io.to(socketioRoomId).emit(eventName, eventData);
+  }
+
   disconnectClient(socketId) {
     // elimino se non già disconnesso
     if (this.io.sockets[socketId]) {

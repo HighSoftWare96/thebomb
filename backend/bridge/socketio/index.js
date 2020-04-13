@@ -21,6 +21,10 @@ class SocketIoManager {
     }
   }
 
+  emit(namespace, socketioRoomId, eventName, data) {
+    this.namespaces[namespace].emit(socketioRoomId,eventName, data);
+  }
+
   disconnectClient(namespace, socketId) {
     this.namespaces[namespace].disconnectClient(socketId);
   }

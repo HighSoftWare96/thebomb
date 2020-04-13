@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": "backend/bridge"
+		},
+		{
+			"path": "backend/gateway"
+		},
+		{
+			"path": "backend/rooms"
+		},
+		{
+			"path": "backend/game"
+		}
+	],
+	"settings": {}
+}

@@ -242,7 +242,7 @@ module.exports = {
           const partecipant = foundPartecipants[0];
 
           // disconnetto il client dal socket
-          await this.broker.call('socketio.disconnectMultiplayerClient', {
+          await this.broker.call('socketio.disconnectClient', {
             socketId: partecipant.socketId
           });
 
