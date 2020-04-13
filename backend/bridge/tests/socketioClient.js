@@ -1,5 +1,5 @@
 const API_URL = 'http://localhost:3001'
-const SOCKETIO_ROOMID = '04fc5cb4-cfcd-4ee1-919b-3e939e5d4dfb';
+const SOCKETIO_ROOMID = '62d2c863-1eb1-44ff-8776-757e28086baa';
 const PARTECIPANT_ID = 1;
 const NAMESPACE = 'multiplayer';
 

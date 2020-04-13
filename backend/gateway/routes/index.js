@@ -17,7 +17,8 @@ module.exports = [{
       'POST /rooms/leave/:id': 'room.leave',
       'GET /rooms/:id': 'room.get',
       'POST /partecipants': 'partecipant.create',
-      'GET /partecipants/:id': 'partecipant.get'
+      'GET /partecipants/:id': 'partecipant.get',
+      'POST /game/start': 'game.start'
     },
 
     callingOptions: {},
@@ -33,7 +34,7 @@ module.exports = [{
       }
     },
 
-    mappingPolicy: "restrict", // Available values: "all", "restrict"
+    mappingPolicy: "all", // Available values: "all", "restrict"
 
     logging: true
   }];

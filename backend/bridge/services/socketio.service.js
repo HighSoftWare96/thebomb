@@ -61,7 +61,7 @@ module.exports = {
         );
         return Promise.resolve();
       }
-    }
+    },
     disconnectClient: {
       params: {
         socketId: {

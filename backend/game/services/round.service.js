@@ -43,8 +43,8 @@ module.exports = {
         unique: true,
         fields: ['id']
       }, {
-        unique: true,
-        fields: ['socketId']
+        unique: false,
+        fields: ['gameId']
       }]
     }
   }
