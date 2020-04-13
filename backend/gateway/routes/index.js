@@ -1,0 +1,39 @@
+module.exports = [{
+    path: "/api",
+    whitelist: [
+      "**"
+    ],
+    use: [],
+    mergeParams: true,
+    authentication: false,
+    authorization: false,
+
+    autoAliases: true,
+
+    aliases: {
+      'POST /rooms': 'room.create',
+      'POST /rooms/join/:id': 'room.join',
+      // TODO: remove
+      'POST /rooms/leave/:id': 'room.leave',
+      'GET /rooms/:id': 'room.get',
+      'POST /partecipants': 'partecipant.create',
+      'GET /partecipants/:id': 'partecipant.get'
+    },
+
+    callingOptions: {},
+
+    bodyParsers: {
+      json: {
+        strict: false,
+        limit: "1MB"
+      },
+      urlencoded: {
+        extended: true,
+        limit: "1MB"
+      }
+    },
+
+    mappingPolicy: "restrict", // Available values: "all", "restrict"
+
+    logging: true
+  }];

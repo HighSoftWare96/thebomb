@@ -1,7 +1,9 @@
 "use strict";
-const { namespace } = require('./config');
+const { namespace, nodeName } = require('./config');
 const uuid = require('uuid');
 const { boot } = require('./boot');
+const appModulePath = require('app-module-path');
+appModulePath.addPath('.');
 
 /**
  * Moleculer ServiceBroker configuration file
@@ -32,7 +34,7 @@ module.exports = {
 	// Namespace of nodes to segment your nodes on the same network.
 	namespace,
 	// Unique node identifier. Must be unique in a namespace.
-	nodeID: uuid.v4(),
+	nodeID: nodeName + '#' + uuid.v4(),
 	// Custom metadata store. Store here what you want. Accessing: `this.broker.metadata`
 	metadata: {},
 
@@ -155,7 +157,7 @@ module.exports = {
 
 	// Enable/disable built-in metrics function. More info: https://moleculer.services/docs/0.14/metrics.html
 	metrics: {
-		enabled: true,
+		enabled: false,
 		// Available built-in reporters: "Console", "CSV", "Event", "Prometheus", "Datadog", "StatsD"
 		reporter: {
 			type: "Prometheus",
