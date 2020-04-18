@@ -62,6 +62,53 @@ module.exports = {
         return Promise.resolve();
       }
     },
+    endGame: {
+      params: {
+        socketioRoom: {
+          type: 'string'
+        },
+        game: 'object',
+        statistics: 'array'
+      },
+      handler(ctx) {
+        const {
+          game,
+          statistics,
+          socketioRoom
+        } = ctx.params;
+
+        socketIoManager.emit(
+          socketioConfig.namespaces.multiplayer,
+          socketioRoom,
+          events.fromServer.gameEnded,
+          { game, statistics }
+        );
+        return Promise.resolve();
+      }
+    },
+    turnChecked: {
+      params: {
+        socketioRoom: {
+          type: 'string'
+        },
+        round: 'object'
+      },
+      handler(ctx) {
+        const {
+          round,
+          socketioRoom
+        } = ctx.params;
+
+        socketIoManager.emit(
+          socketioConfig.namespaces.multiplayer,
+          socketioRoom,
+          events.fromServer.turnChecked,
+          { round }
+        );
+
+        return Promise.resolve();
+      }
+    },
     disconnectClient: {
       params: {
         socketId: {

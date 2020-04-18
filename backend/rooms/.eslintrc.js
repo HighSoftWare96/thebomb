@@ -16,12 +16,11 @@ module.exports = {
     "rules": {
         "indent": [
             "warn",
-            "tab",
-            { "SwitchCase": 1 }
+            2
         ],
         "quotes": [
             "warn",
-            "double"
+            "single"
         ],
         "semi": [
             "error",

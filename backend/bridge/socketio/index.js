@@ -18,7 +18,7 @@ class SocketIoManager {
       multiplayer: new SocketIoMultiplayerNamespace(
         this.service, this.io
       )
-    }
+    };
   }
 
   emit(namespace, socketioRoomId, eventName, data) {
@@ -29,7 +29,7 @@ class SocketIoManager {
     this.namespaces[namespace].disconnectClient(socketId);
   }
 
-};
+}
 
 const socketIoManager = new SocketIoManager();
 module.exports = { socketIoManager };

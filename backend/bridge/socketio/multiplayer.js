@@ -71,7 +71,6 @@ class SocketIoMultiplayerNamespace {
     } catch (e) {
       this.service.logger.error(e);
       return next(new Error('JOINING_ERROR'));
-      client.disconnect();
     }
   }
 
@@ -119,16 +118,29 @@ class SocketIoMultiplayerNamespace {
 
       // evento di join della stanza
       client.emit(
-        events.fromServer.roomJoined, {
-        room: foundRoom[0],
-        partecipant: updatedPartecipant
-      });
+        events.fromServer.roomJoined,
+        {
+          room: foundRoom[0],
+          partecipant: updatedPartecipant
+        });
 
       // comunico a tutti l'arrivo del nuovo utente
       this.io.to(socketioRoom).emit(
-        events.fromServer.newRoomate, {
-        room: foundRoom[0],
-        partecipant: updatedPartecipant
+        events.fromServer.newRoomate,
+        {
+          room: foundRoom[0],
+          partecipant: updatedPartecipant
+        });
+
+      // mi registro per eventuali eventi dal client
+      socketioRoom.on(events.fromClient.turnCheck, async (payload) => {
+        try {
+          await this.service.broker.call('game.turnCheck', {
+            payload
+          });
+        } catch (e) {
+          this.logger.error(e);
+        }
       });
 
     } catch (e) {
@@ -147,7 +159,7 @@ class SocketIoMultiplayerNamespace {
       this.io.sockets[socketId].disconnect();
     }
   }
-};
+}
 
 module.exports = {
   SocketIoMultiplayerNamespace

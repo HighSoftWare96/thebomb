@@ -1,5 +1,5 @@
-const API_URL = 'http://localhost:3001'
-const SOCKETIO_ROOMID = '62d2c863-1eb1-44ff-8776-757e28086baa';
+const API_URL = 'http://localhost:3001';
+const SOCKETIO_ROOMID = '57e18c21-f9ea-4a1b-97b4-3723b7ffc667';
 const PARTECIPANT_ID = 1;
 const NAMESPACE = 'multiplayer';
 
@@ -28,6 +28,22 @@ ioClient.on('room-joined', (payload) => {
 
 ioClient.on('new-roomate', (payload) => {
   console.log('🙇🏻‍♂️New partecipant!', payload);
+});
+
+ioClient.on('game-started', (payload) => {
+  console.log('Gioco partito!', payload);
+});
+
+ioClient.on('game-ended', (payload) => {
+  console.log('Gioco finito!', payload);
+});
+
+ioClient.on('round-started', (payload) => {
+  console.log('Round partito!', payload);
+});
+
+ioClient.on('round-ended', (payload) => {
+  console.log('Round finito!', payload);
 });
 
 ioClient.on('error', (error) => {

@@ -7,9 +7,11 @@ module.exports = {
     gameStarted: 'game-started',
     gameEnded: 'game-ended',
     roundStarted: 'round-started',
-    roundEnded: 'round-ended'
+    roundEnded: 'round-ended',
+    turnChecked: 'turn-checked',
   },
   fromClient: {
-    joinRoom: 'join-room'
+    joinRoom: 'join-room',
+    turnCheck: 'turn-check',
   }
 };
