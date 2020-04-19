@@ -42,9 +42,9 @@ class SocketIoMultiplayerNamespace {
         return next(new Error('MISSING_PARAMS'));
       }
 
-      // cerco una stanza corrispondente
+      // cerco una stanza corrispondente, non bloccata
       const foundRoom = await this.service.broker.call('room.count', {
-        query: { socketioRoom }
+        query: { socketioRoom, locked: false }
       });
 
       if (!foundRoom) {
@@ -90,7 +90,7 @@ class SocketIoMultiplayerNamespace {
 
       // cerco una stanza corrispondente
       const foundRoom = await this.service.broker.call('room.find', {
-        query: { socketioRoom }
+        query: { socketioRoom, locked: false }
       });
 
 

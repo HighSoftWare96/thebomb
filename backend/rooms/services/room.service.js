@@ -1,18 +1,18 @@
-const DbService = require("moleculer-db");
+const DbService = require('moleculer-db');
 const { actions: DbActions } = DbService;
-const SqlAdapter = require("moleculer-db-adapter-sequelize");
-const Sequelize = require("sequelize");
+const SqlAdapter = require('moleculer-db-adapter-sequelize');
+const Sequelize = require('sequelize');
 const { Op } = Sequelize;
 const { db } = require('config');
-const { notFound } = require('helpers/errors');
+const { notFound, roomFull } = require('helpers/errors');
 const uuid = require('uuid');
 
 module.exports = {
-  name: "room",
+  name: 'room',
   mixins: [DbService],
   adapter: new SqlAdapter(db.connectionString),
   model: {
-    name: "room",
+    name: 'room',
     define: {
       id: {
         type: Sequelize.INTEGER,
@@ -133,15 +133,18 @@ module.exports = {
           const { id, partecipantId } = ctx.params;
 
           // recupero la stanza
-          const room = this._get(ctx, {
-            id
+          let room = this._find(ctx, {
+            id,
+            locked: false
           });
 
-          if (!room) {
+          if (!room || !room.length) {
             return Promise.reject(
               notFound('room', id)
             );
           }
+
+          room = room[0];
 
           // cerco il partecipante e verifico sia libero
           const foundPartecipants = await this.broker.call('partecipant.find', {

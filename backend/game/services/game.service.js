@@ -114,16 +114,23 @@ module.exports = {
           }
 
           // recupero la stanza
-          const room = await this.broker.call('room.get', {
-            id: roomId
+          let room = await this.broker.call('room.find', {
+            id: roomId,
+            locked: false
           });
 
           // stanza inesistente => fallisco
-          if (!room) {
+          if (!room || !room.length) {
             return Promise.reject(
               entityNotFound('room', roomId)
             );
           }
+
+          // freezo la stanza
+          room = await this.broker.call('room.update', {
+            id: roomId,
+            locked: true
+          });
 
           // creo nuova partita
           const game = await this._create(ctx, {
@@ -199,8 +206,6 @@ module.exports = {
             // creo il prossimo round
             const nextRound = await this.broker.call('round.create', {
               gameId: game.id,
-              // TODO: create random syllable
-              syllable: 'AE',
               // incomincia chi aveva perso il round precedente o se non c'è più
               // il primo
               currentPartecipantId:

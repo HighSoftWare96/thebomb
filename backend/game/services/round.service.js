@@ -1,15 +1,14 @@
-const DbService = require("moleculer-db");
-const { actions: DbActions } = DbService;
-const SqlAdapter = require("moleculer-db-adapter-sequelize");
-const Sequelize = require("sequelize");
+const DbService = require('moleculer-db');
+const SqlAdapter = require('moleculer-db-adapter-sequelize');
+const Sequelize = require('sequelize');
 const { db } = require('config');
 
 module.exports = {
-  name: "round",
+  name: 'round',
   mixins: [DbService],
   adapter: new SqlAdapter(db.connectionString),
   model: {
-    name: "round",
+    name: 'round',
     define: {
       id: {
         type: Sequelize.INTEGER,
@@ -61,6 +60,44 @@ module.exports = {
     }
   },
   actions: {
+    create: {
+      params: {
+        gameId: {
+          type: 'number',
+          integer: true,
+          positive: true,
+          convert: true
+        },
+        language: {
+          type: 'string'
+        },
+        currentPartecipantId: {
+          type: 'number',
+          integer: true,
+          positive: true,
+          convert: true
+        }
+      },
+      handler(ctx) {
+
+        const {
+          language,
+          gameId,
+          currentPartecipantId
+        } = ctx.params;
+
+        // TODO: random syllable per language??
+        const round = {
+          dice: this.throwDice(),
+          gameId,
+          currentPartecipantId,
+          ended: false,
+          syllable: 'AE'
+        };
+
+        return this._create(ctx, round);
+      }
+    },
     turnCheck: {
       params: {
         partecipantId: {
@@ -104,13 +141,18 @@ module.exports = {
 
           game = game[0];
 
-          const room = await this.broker.call('room.get', {
-            id: game.roomId
+          let room = await this.broker.call('room.find', {
+            id: game.roomId,
+            locked: true
           });
 
-          if (!room) {
+          if (!room || !room.length) {
             return Promise.reject('ROOM_NOT_FOUND');
-          } else if (!room.partecipantIds.includes(partecipantId)) {
+          }
+
+          room = room[0];
+
+          if (!room.partecipantIds.includes(partecipantId)) {
             return Promise.reject('PARTECIPANT_NOT_FOUND');
           }
 
@@ -170,6 +212,9 @@ module.exports = {
     }
   },
   methods: {
+    throwDice() {
+      return Math.floor(Math.random() * 3);
+    },
     isResponseRight(round, response) {
       const responseLowerCase =
         response.toLowerCase();
@@ -178,13 +223,13 @@ module.exports = {
       let responseIsRight = false;
 
       switch (round.dice) {
+        // non all'inizio
         case 0:
-          // non all'inizio
           responseIsRight = responseLowerCase.endsWith(syllableLowerCase) ||
             (responseLowerCase.includes(syllableLowerCase) && !responseLowerCase.startsWith(syllableLowerCase));
           break;
+        // non alla fine
         case 1:
-          // non alla fine
           responseIsRight = responseLowerCase.startsWith(syllableLowerCase) ||
             (responseLowerCase.includes(syllableLowerCase) || !responseLowerCase.endsWith(syllableLowerCase));
           break;
