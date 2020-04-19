@@ -23,7 +23,9 @@
   },
   "dependencies": {
     "app-module-path": "^2.2.0",
+    "cookie-parser": "^1.4.5",
     "ioredis": "^4.14.1",
+    "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.15",
     "moleculer": "^0.14.0",
     "moleculer-web": "^0.9.0",
