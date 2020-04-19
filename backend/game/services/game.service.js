@@ -1,6 +1,7 @@
 const DbService = require('moleculer-db');
 const SqlAdapter = require('moleculer-db-adapter-sequelize');
 const Sequelize = require('sequelize');
+const { Op } = Sequelize;
 const { db } = require('config');
 const { entityNotFound, badReq } = require('helpers/errors');
 const { sortBy } = require('lodash');
@@ -113,10 +114,12 @@ module.exports = {
             return Promise.reject(badReq());
           }
 
-          // recupero la stanza
+          // recupero la stanza: almeno 2 giocatori presenti
           let room = await this.broker.call('room.find', {
-            id: roomId,
-            locked: false
+            query: {
+              id: roomId,
+              locked: false
+            }
           });
 
           // stanza inesistente => fallisco
@@ -124,6 +127,8 @@ module.exports = {
             return Promise.reject(
               entityNotFound('room', roomId)
             );
+          } else if (room.partecipantIds.length < 2) {
+            return Promise.reject(badReq('Unable to start game with less then 2 players'));
           }
 
           // freezo la stanza
@@ -206,6 +211,7 @@ module.exports = {
             // creo il prossimo round
             const nextRound = await this.broker.call('round.create', {
               gameId: game.id,
+              language: 'it',
               // incomincia chi aveva perso il round precedente o se non c'è più
               // il primo
               currentPartecipantId:
@@ -264,7 +270,9 @@ module.exports = {
 
           // recupero statistiche per giocatore
           const rounds = await this.broker.call('round.find', {
-            gameId: id
+            query: {
+              gameId: id
+            }
           });
 
           let statistics = [];

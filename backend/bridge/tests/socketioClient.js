@@ -1,10 +1,10 @@
 const API_URL = 'http://localhost:3001';
-const SOCKETIO_ROOMID = '57e18c21-f9ea-4a1b-97b4-3723b7ffc667';
+const SOCKETIO_ROOMID = '20794b3b-9560-4509-9fff-125c52cb7927';
 const PARTECIPANT_ID = 1;
 const NAMESPACE = 'multiplayer';
 
 const
-  io = require("socket.io-client"),
+  io = require('socket.io-client'),
   ioClient = io.connect(API_URL + '/' + NAMESPACE, {
     transports: ['websocket', 'polling'],
     query: {
@@ -40,6 +40,15 @@ ioClient.on('game-ended', (payload) => {
 
 ioClient.on('round-started', (payload) => {
   console.log('Round partito!', payload);
+  ioClient.emit('turn-check', {
+    partecipantId: 1,
+    roundId: payload.round.id,
+    response: 'aereo'
+  });
+});
+
+ioClient.on('turn-checked', (payload) => {
+  console.log('Check ok. NEXT.', payload);
 });
 
 ioClient.on('round-ended', (payload) => {

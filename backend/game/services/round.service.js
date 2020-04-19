@@ -131,8 +131,9 @@ module.exports = {
           round = round[0];
 
           let game = await this.broker.call('game.find', {
-            id: round.gameId,
-            ended: false
+            query: {
+              id: round.gameId
+            }
           });
 
           if (!game || !game.length) {
@@ -142,8 +143,10 @@ module.exports = {
           game = game[0];
 
           let room = await this.broker.call('room.find', {
-            id: game.roomId,
-            locked: true
+            query: {
+              id: game.roomId,
+              locked: true
+            }
           });
 
           if (!room || !room.length) {
@@ -165,7 +168,7 @@ module.exports = {
 
             // aggiorno il round
             const updatedRound = await this._update(ctx, {
-              ...round,
+              id: round.id,
               currentPartecipantId: room.partecipantIds[nextPartecipantIdx]
             });
 

@@ -133,13 +133,12 @@ class SocketIoMultiplayerNamespace {
         });
 
       // mi registro per eventuali eventi dal client
-      socketioRoom.on(events.fromClient.turnCheck, async (payload) => {
+      client.on(events.fromClient.turnCheck, async (payload) => {
         try {
-          await this.service.broker.call('game.turnCheck', {
-            payload
-          });
+          console.log(payload);
+          await this.service.broker.call('round.turnCheck', payload);
         } catch (e) {
-          this.logger.error(e);
+          this.service.logger.error(e);
         }
       });
 

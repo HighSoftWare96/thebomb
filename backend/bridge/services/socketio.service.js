@@ -3,7 +3,7 @@ const { socketio: socketioConfig } = require('config');
 const events = require('socketio/events');
 
 module.exports = {
-  name: "socketio",
+  name: 'socketio',
   mixins: [],
   settings: {
   },

@@ -133,9 +133,11 @@ module.exports = {
           const { id, partecipantId } = ctx.params;
 
           // recupero la stanza
-          let room = this._find(ctx, {
-            id,
-            locked: false
+          let room = await this._find(ctx, {
+            query: {
+              id,
+              locked: false
+            }
           });
 
           if (!room || !room.length) {
@@ -178,7 +180,7 @@ module.exports = {
           // aggiungo il partecipante alla stanza su db
           return this._update(ctx, {
             id,
-            ...room,
+            socketioRoom: room.socketioRoom,
             partecipantIds: [
               ...(room.partecipantIds || []),
               partecipantId
