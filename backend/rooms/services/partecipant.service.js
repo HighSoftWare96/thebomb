@@ -28,10 +28,6 @@ module.exports = {
         type: Sequelize.STRING(30),
         allowNull: false
       },
-      secret: {
-        type: Sequelize.STRING(),
-        allowNull: false
-      },
       // seed per la generazione univoca dell'avatar
       // lato UI
       avatarSeed: {
@@ -60,70 +56,39 @@ module.exports = {
       params: {
         ...DbActions.create.params
       },
-      handler(ctx) {
-        const secret = crypto.randomBytes(30).toString('hex');
-        const params = this.sanitizeParams(ctx, ctx.params);
-        return this._create(ctx, {
-          ...params,
-          secret
-        })
-          .then((partecipant) => {
-            this.createCookieHeader(ctx, partecipant);
-            delete partecipant.secret;
-            return partecipant;
-          })
-          .catch(e => {
-            this.logger.error(e);
-            return Promise.reject(e);
-          });
-      }
-    },
-    renew: {
       async handler(ctx) {
         try {
-          const { partecipant_auth } = ctx.meta.$cookies;
-          if (!partecipant_auth) {
-            return Promise.reject(unauth('INVALID_SESSION'));
-          }
-          const {
-            secret, issuer, audience
-          } = jwtConfig;
+          const params = this.sanitizeParams(ctx, ctx.params);
+          const partecipant = await this._create(ctx, params);
+          const jwt = this.createJWT(partecipant);
+          delete partecipant.secret;
 
-          // verifico il JWT anche se scaduto
-          const decodedUser = jwt.verify(partecipant_auth, secret, {
-            ignoreExpiration: true,
-            audience,
-            issuer
+          await this.broker.call('session.createOrUpdate', {
+            partecipant
           });
 
-          const { id, secret: partecipantSecret } = decodedUser;
-
-          let actualUser = await this._find(ctx, { id, secret: partecipantSecret });
-
-          if (!actualUser || !actualUser[0]) {
-            return Promise.reject(unauth('PARTECIPANT_NOT_FOUND'));
-          }
-
-          actualUser = actualUser[0];
-
-          this.createCookieHeader(ctx, actualUser);
-          delete actualUser.secret;
-          return actualUser;
+          return {
+            partecipant,
+            jwt
+          };
         } catch (e) {
           this.logger.error(e);
           return Promise.reject(e);
         }
       }
+    },
+    renew: {
+      handler() {
+        return this.broker.call('session.update');
+      }
     }
   },
   methods: {
-    createCookieHeader(ctx, partecipant) {
+    createJWT(partecipant) {
 
       const {
-        secret, notBefore, expiresInMinutes, issuer, audience, secure
+        secret, notBefore, expiresInMinutes, issuer, audience
       } = jwtConfig;
-
-      const willExpireAt = moment().add(expiresInMinutes, 'minutes');
 
       const encoded = jwt.sign(partecipant, secret, {
         algorithm: 'HS256',
@@ -133,11 +98,8 @@ module.exports = {
         audience: audience,
         jwtid: uuid.v4()
       });
-      const cookie =
-        `partecipant_auth=${encoded};Expires=${willExpireAt.toDate().toUTCString()};Max-Age:${expiresInMinutes * 60};Domain=localhost;Path=/;${secure ? 'Secure;' : ''}HttpOnly;`;
-      ctx.meta.$responseHeaders = {
-        'Set-Cookie': cookie
-      };
+
+      return encoded;
 
     }
   }

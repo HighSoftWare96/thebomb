@@ -30,7 +30,7 @@ module.exports = {
           secret, notBefore, expiresInMinutes, issuer, audience
         } = jwtConfig;
 
-        const cookieSession = req.cookies.partecipant_auth;
+        const cookieSession = req.cookies.session_auth;
 
         const decoded = jwt.verify(cookieSession, secret, {
           algorithm: 'HS256',

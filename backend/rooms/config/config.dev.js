@@ -19,6 +19,13 @@ module.exports = {
     notBefore: 0,
     audience: 'DEV_dabomb:authentication',
     issuer: 'partecipant.service',
+  },
+  refreshJwt: {
+    secret: 'tW(@&aX4D;Hòoixhfiushdliufghsiudfisluyove7tyor87v6t39b?2`;"D,;:jqg?k;[4jHa(',
+    expiresInMinutes: 10080,
+    notBefore: 0,
+    audience: 'DEV_dabomb:session',
+    issuer: 'session.service',
     secure: false
   }
 };

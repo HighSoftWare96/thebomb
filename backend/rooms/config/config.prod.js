@@ -13,11 +13,18 @@ module.exports = {
     port: process.env.SOCKETIO_PORT || 3001
   },
   jwt: {
-    secret: 'C-qn35=J!$=k*G)NzKxkbV2v@KWZ[Ga(',
+    secret: 'tW(@&aX4D;a.ksjhdlauisgdliuagsdaH?2`;"D,;:jqg?k;[4jHa(',
     expiresInMinutes: 1440,
     notBefore: 0,
     audience: 'dabomb:authentication',
     issuer: 'partecipant.service',
+  },
+  refreshJwt: {
+    secret: 'tW(@&aX4D;Hàgpihjfòpoguushdliufghsiudfisluyove7tyor87v6t39b?2`;"D,;:jqg?k;[4jHa(',
+    expiresInMinutes: 10080,
+    notBefore: 0,
+    audience: 'dabomb:session',
+    issuer: 'session.service',
     secure: true
   }
 };

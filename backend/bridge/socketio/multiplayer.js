@@ -22,6 +22,10 @@ class SocketIoMultiplayerNamespace {
     );
   }
 
+  async authMiddleware(client, next) {
+
+  }
+
   async _handleClientHandshake(client, next) {
     const {
       socketioRoom,
