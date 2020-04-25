@@ -72,12 +72,6 @@ module.exports = {
   actions: {
     create: {
       params: {
-        adminPartecipantId: {
-          type: 'number',
-          integer: true,
-          positive: true,
-          convert: true
-        },
         maxPartecipants: {
           type: 'number',
           integer: true,
@@ -89,17 +83,10 @@ module.exports = {
       async handler(ctx) {
         try {
           let { params } = ctx;
-          const { adminPartecipantId } = params;
+          const { id: adminPartecipantId } = ctx.meta.user;
+          const partecipant = ctx.meta.user;
 
-          // verifico il partecipante che non sia connesso ad altro
-          const foundPartecipants = await this.broker.call('partecipant.find', {
-            query: {
-              id: adminPartecipantId,
-              socketId: null
-            }
-          });
-
-          if (!foundPartecipants || !foundPartecipants.length || !foundPartecipants[0]) {
+          if (partecipant.socketId !== null) {
             return Promise.reject(
               notFound('partecipant', adminPartecipantId)
             );
@@ -120,17 +107,13 @@ module.exports = {
           integer: true,
           positive: true,
           convert: true
-        },
-        partecipantId: {
-          type: 'number',
-          integer: true,
-          positive: true,
-          convert: true
         }
       },
       async handler(ctx) {
         try {
-          const { id, partecipantId } = ctx.params;
+          const { id } = ctx.params;
+          const { id: partecipantId } = ctx.meta.user;
+          const partecipant = ctx.meta.user;
 
           // recupero la stanza
           let room = await this._find(ctx, {
@@ -148,15 +131,7 @@ module.exports = {
 
           room = room[0];
 
-          // cerco il partecipante e verifico sia libero
-          const foundPartecipants = await this.broker.call('partecipant.find', {
-            query: {
-              id: partecipantId,
-              socketId: null
-            }
-          });
-
-          if (!foundPartecipants || !foundPartecipants.length || !foundPartecipants[0]) {
+          if (!partecipant.socketId !== null) {
             return Promise.reject(
               notFound('partecipant', partecipantId)
             );
@@ -201,17 +176,13 @@ module.exports = {
           integer: true,
           positive: true,
           convert: true
-        },
-        partecipantId: {
-          type: 'number',
-          integer: true,
-          positive: true,
-          convert: true
         }
       },
       async handler(ctx) {
         try {
-          const { id, partecipantId } = ctx.params;
+          const { id } = ctx.params;
+          const { id: partecipantId } = ctx.meta.user;
+          const partecipant = ctx.meta.user;
 
           // cerco la stanza con quel partecipante
           const foundRooms = await this._find(ctx, {
@@ -229,22 +200,6 @@ module.exports = {
             );
           }
           const room = foundRooms[0];
-
-          // recupero il partecipante
-          const foundPartecipants = await this.broker.call('partecipant.find', {
-            query: {
-              id: partecipantId
-            }
-          });
-
-
-          if (!foundPartecipants || !foundPartecipants[0]) {
-            return Promise.reject(
-              notFound('partecipant', partecipantId)
-            );
-          }
-
-          const partecipant = foundPartecipants[0];
 
           // disconnetto il client dal socket
           await this.broker.call('socketio.disconnectClient', {

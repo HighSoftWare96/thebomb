@@ -1,18 +1,19 @@
-const DbService = require("moleculer-db/index");
+const DbService = require('moleculer-db/index');
 const { actions: DbActions } = DbService;
-const SqlAdapter = require("moleculer-db-adapter-sequelize");
-const Sequelize = require("sequelize");
+const SqlAdapter = require('moleculer-db-adapter-sequelize');
+const Sequelize = require('sequelize');
 const { db, jwt: jwtConfig } = require('config');
 const uuid = require('uuid');
 const jwt = require('jsonwebtoken');
 const moment = require('moment');
+const { unauth } = require('helpers/errors');
 
 module.exports = {
-  name: "partecipant",
+  name: 'partecipant',
   mixins: [DbService],
   adapter: new SqlAdapter(db.connectionString),
   model: {
-    name: "partecipant",
+    name: 'partecipant',
     define: {
       id: {
         type: Sequelize.INTEGER,
@@ -65,6 +66,40 @@ module.exports = {
             this.logger.error(e);
             return Promise.reject(e);
           });
+      }
+    },
+    renew: {
+      async handler(ctx) {
+        try {
+          const { partecipant_auth } = ctx.meta.$cookies;
+          if (!partecipant_auth) {
+            return Promise.reject(unauth('INVALID_SESSION'));
+          }
+          const {
+            secret, issuer, audience
+          } = jwtConfig;
+
+          // verifico il JWT anche se scaduto
+          const decodedUser = jwt.verify(partecipant_auth, secret, {
+            ignoreExpiration: true,
+            audience,
+            issuer
+          });
+
+          const { id } = decodedUser;
+
+          const actualUser = await this._get(ctx, { id });
+
+          if (!actualUser) {
+            return Promise.reject(unauth('PARTECIPANT_NOT_FOUND'));
+          }
+
+          this.createCookieHeader(ctx, actualUser);
+          return actualUser;
+        } catch (e) {
+          this.logger.error(e);
+          return Promise.reject(e);
+        }
       }
     }
   },
