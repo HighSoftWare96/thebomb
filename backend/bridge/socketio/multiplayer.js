@@ -1,6 +1,4 @@
-const http = require('http');
 const { socketio: socketioConfig } = require('config');
-const socketio = require('socket.io');
 const events = require('./events');
 
 class SocketIoMultiplayerNamespace {

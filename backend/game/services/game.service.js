@@ -127,7 +127,7 @@ module.exports = {
             return Promise.reject(
               entityNotFound('room', roomId)
             );
-          } else if (room.partecipantIds.length < 2) {
+          } else if (room[0].partecipantIds.length < 2) {
             return Promise.reject(badReq('Unable to start game with less then 2 players'));
           }
 

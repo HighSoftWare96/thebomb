@@ -85,6 +85,7 @@ module.exports = {
           let { params } = ctx;
           const { id: adminPartecipantId } = ctx.meta.user;
           const partecipant = ctx.meta.user;
+          console.log(partecipant);
 
           if (partecipant.socketId !== null) {
             return Promise.reject(
@@ -93,7 +94,10 @@ module.exports = {
           }
 
           params = this.sanitizeParams(ctx, params);
-          return this._create(ctx, params);
+          return this._create(ctx, {
+            ...params,
+            adminPartecipantId
+          });
         } catch (e) {
           this.logger.error(e);
           return Promise.reject(e);
@@ -119,7 +123,12 @@ module.exports = {
           let room = await this._find(ctx, {
             query: {
               id,
-              locked: false
+              locked: false,
+              [Op.not]: {
+                partecipantIds: {
+                  [Op.contains]: [partecipantId]
+                }
+              }
             }
           });
 
@@ -131,7 +140,7 @@ module.exports = {
 
           room = room[0];
 
-          if (!partecipant.socketId !== null) {
+          if (partecipant.socketId !== null) {
             return Promise.reject(
               notFound('partecipant', partecipantId)
             );

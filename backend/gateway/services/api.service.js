@@ -52,7 +52,6 @@ module.exports = {
     async authorize(ctx, route, req) {
       const { user } = ctx.meta;
       const endpointPath = req.$endpoint.action.name;
-
       if (!user && freeRoutes[endpointPath]) {
         return Promise.resolve(true);
       } else if (user) {

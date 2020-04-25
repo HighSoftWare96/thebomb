@@ -7,6 +7,7 @@ const uuid = require('uuid');
 const jwt = require('jsonwebtoken');
 const moment = require('moment');
 const { unauth } = require('helpers/errors');
+const crypto = require('crypto');
 
 module.exports = {
   name: 'partecipant',
@@ -25,6 +26,10 @@ module.exports = {
       // alias nome del giocatore
       name: {
         type: Sequelize.STRING(30),
+        allowNull: false
+      },
+      secret: {
+        type: Sequelize.STRING(),
         allowNull: false
       },
       // seed per la generazione univoca dell'avatar
@@ -56,10 +61,15 @@ module.exports = {
         ...DbActions.create.params
       },
       handler(ctx) {
+        const secret = crypto.randomBytes(30).toString('hex');
         const params = this.sanitizeParams(ctx, ctx.params);
-        return this._create(ctx, params)
+        return this._create(ctx, {
+          ...params,
+          secret
+        })
           .then((partecipant) => {
             this.createCookieHeader(ctx, partecipant);
+            delete partecipant.secret;
             return partecipant;
           })
           .catch(e => {
@@ -86,15 +96,18 @@ module.exports = {
             issuer
           });
 
-          const { id } = decodedUser;
+          const { id, secret: partecipantSecret } = decodedUser;
 
-          const actualUser = await this._get(ctx, { id });
+          let actualUser = await this._find(ctx, { id, secret: partecipantSecret });
 
-          if (!actualUser) {
+          if (!actualUser || !actualUser[0]) {
             return Promise.reject(unauth('PARTECIPANT_NOT_FOUND'));
           }
 
+          actualUser = actualUser[0];
+
           this.createCookieHeader(ctx, actualUser);
+          delete actualUser.secret;
           return actualUser;
         } catch (e) {
           this.logger.error(e);
