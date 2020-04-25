@@ -11,7 +11,6 @@ module.exports = {
     turnChecked: 'turn-checked',
   },
   fromClient: {
-    joinRoom: 'join-room',
     turnCheck: 'turn-check',
   }
 };

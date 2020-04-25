@@ -48,8 +48,10 @@ module.exports = {
       visibility: 'public',
       params: {
         partecipantId: {
-          type: 'object',
-          optional: true
+          type: 'number',
+          positive: true,
+          integer: true,
+          convert: true
         }
       },
       async handler(ctx) {
@@ -57,13 +59,14 @@ module.exports = {
           const { partecipantId } = ctx.params;
           // creo nuova sessione
           const sessionId = crypto.randomBytes(64).toString('hex');
+
           const session = await this._create(ctx, {
             sessionId,
             partecipantId
           });
 
           this.createRefreshCookie(ctx, session);
-          return Promise.resolve(true);
+          return Promise.resolve(ctx.meta.$responseHeaders);
         } catch (e) {
           this.logger.error(e);
           return Promise.reject(e);
@@ -75,6 +78,7 @@ module.exports = {
         try {
           // verifico che la sessione sia valida
           const { session_auth } = ctx.meta.$cookies;
+
           if (!session_auth) {
             return Promise.reject(unauth('NO_SESSION'));
           }
@@ -116,7 +120,10 @@ module.exports = {
           });
 
           this.createRefreshCookie(ctx, renewedSession);
-          return Promise.resolve(partecipant);
+          return Promise.resolve({
+            responseHeaders: ctx.meta.$responseHeaders,
+            partecipant
+          });
         } catch (e) {
           this.logger.error(e);
           return Promise.reject(e);

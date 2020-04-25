@@ -25,6 +25,7 @@
   "dependencies": {
     "app-module-path": "^2.2.0",
     "ioredis": "^4.14.1",
+    "jsonwebtoken": "^8.5.1",
     "moleculer": "^0.14.0",
     "moleculer-db": "^0.8.7",
     "moleculer-db-adapter-sequelize": "^0.2.6",

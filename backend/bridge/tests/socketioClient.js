@@ -1,6 +1,6 @@
 const API_URL = 'http://localhost:3001';
 const SOCKETIO_ROOMID = process.argv[2] || '20794b3b-9560-4509-9fff-125c52cb7927';
-const PARTECIPANT_ID = process.argv[3] || 1;
+const JWT = process.argv[3] || '';
 const NAMESPACE = 'multiplayer';
 
 const
@@ -9,17 +9,12 @@ const
     transports: ['websocket', 'polling'],
     query: {
       socketioRoom: SOCKETIO_ROOMID,
-      partecipantId: PARTECIPANT_ID
+      accessToken: JWT
     }
   });
 
 ioClient.on('connect', () => {
   console.log('Client connected');
-});
-
-ioClient.emit('join-room', {
-  socketioRoom: SOCKETIO_ROOMID,
-  partecipantId: PARTECIPANT_ID
 });
 
 ioClient.on('room-joined', (payload) => {

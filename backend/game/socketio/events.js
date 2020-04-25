@@ -8,8 +8,5 @@ module.exports = {
     gameEnded: 'game-ended',
     roundStarted: 'round-started',
     roundEnded: 'round-ended'
-  },
-  fromClient: {
-    joinRoom: 'join-room'
   }
 };

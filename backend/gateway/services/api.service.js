@@ -27,17 +27,15 @@ module.exports = {
     async authenticate(ctx, route, req) {
       try {
         const {
-          secret, notBefore, expiresInMinutes, issuer, audience
+          secret, issuer, audience
         } = jwtConfig;
 
-        const cookieSession = req.cookies.session_auth;
+        const { authorization } = req.headers;
+        const encoded = RegExp(/Bearer (.*)/gi).exec(authorization)[1];
 
-        const decoded = jwt.verify(cookieSession, secret, {
-          algorithm: 'HS256',
-          expiresIn: expiresInMinutes * 60,
-          notBefore: notBefore,
-          issuer: issuer,
-          audience: audience
+        const decoded = jwt.verify(encoded, secret, {
+          issuer,
+          audience
         });
 
         const partecipant = await ctx.broker.call('partecipant.get', {

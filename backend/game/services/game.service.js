@@ -109,16 +109,19 @@ module.exports = {
       async handler(ctx) {
         try {
           const { rounds, roomId, minTimeS = 30, maxTimeS = 80 } = ctx.params;
+          const { user } = ctx.meta;
 
           if (minTimeS >= maxTimeS) {
             return Promise.reject(badReq());
           }
 
           // recupero la stanza: almeno 2 giocatori presenti
+          // solo l'admin può far partire il gioco
           let room = await this.broker.call('room.find', {
             query: {
               id: roomId,
-              locked: false
+              locked: false,
+              adminPartecipantId: user.id
             }
           });
 
@@ -341,21 +344,33 @@ module.exports = {
       // creo la cache per questo game
       this.metadata.timeoutsCache[game.id] = setTimeout(
         async () => {
-          // blocco il round
-          const roundEnded = await this.broker.call('round.update', {
-            id: currentRound.id,
-            ended: true
-          });
-          // evento di fine round
-          await this.broker.call('socketio.endRound', {
-            socketioRoom: room.socketioRoom,
-            round: roundEnded
-          });
-          // parto con il prossimo round
-          await this.broker.call('game.nextRound', {
-            id: game.id,
-            previousRoundId: currentRound.id
-          });
+          try {
+            // blocco il round
+            const roundEnded = await this.broker.call('round.update', {
+              id: currentRound.id,
+              ended: true
+            });
+            // evento di fine round
+            await this.broker.call('socketio.endRound', {
+              socketioRoom: room.socketioRoom,
+              round: roundEnded
+            });
+
+            setTimeout(async () => {
+              try {
+                // parto con il prossimo round tra 5 secondi
+                await this.broker.call('game.nextRound', {
+                  id: game.id,
+                  previousRoundId: currentRound.id
+                });
+              } catch (e) {
+                this.logger.error('Issue starting new round', e, game);
+              }
+            }, 5500);
+
+          } catch (e) {
+            this.logger.error('Issue ending round', e, game);
+          }
         },
         Math.floor(Math.random() * (game.maxTimeS - game.minTimeS + 1) + game.minTimeS) * 1000
       );

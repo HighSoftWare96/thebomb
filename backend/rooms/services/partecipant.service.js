@@ -5,9 +5,6 @@ const Sequelize = require('sequelize');
 const { db, jwt: jwtConfig } = require('config');
 const uuid = require('uuid');
 const jwt = require('jsonwebtoken');
-const moment = require('moment');
-const { unauth } = require('helpers/errors');
-const crypto = require('crypto');
 
 module.exports = {
   name: 'partecipant',
@@ -36,7 +33,6 @@ module.exports = {
       },
       // id della socket di socketio a cui il giocatore è collegato
       socketId: {
-        // TODO: ? stringa o numero
         type: Sequelize.STRING,
         allowNull: true
       }
@@ -61,11 +57,11 @@ module.exports = {
           const params = this.sanitizeParams(ctx, ctx.params);
           const partecipant = await this._create(ctx, params);
           const jwt = this.createJWT(partecipant);
-          delete partecipant.secret;
 
-          await this.broker.call('session.createOrUpdate', {
-            partecipant
-          });
+          ctx.meta.$responseHeaders =
+            await this.broker.call('session.create', {
+              partecipantId: partecipant.id
+            });
 
           return {
             partecipant,
@@ -78,8 +74,20 @@ module.exports = {
       }
     },
     renew: {
-      handler() {
-        return this.broker.call('session.update');
+      handler(ctx) {
+        return this.broker.call(
+          'session.update',
+          {},
+          { meta: ctx.meta }
+        ).then(({ responseHeaders, partecipant }) => {
+          const jwt = this.createJWT(partecipant);
+          ctx.meta.$responseHeaders = responseHeaders;
+
+          return Promise.resolve({
+            partecipant,
+            jwt
+          });
+        });
       }
     }
   },

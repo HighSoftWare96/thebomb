@@ -1,5 +1,8 @@
 const { socketio: socketioConfig } = require('config');
 const events = require('./events');
+const { jwt: jwtConfig } = require('config');
+const jwt = require('jsonwebtoken');
+const { Op } = require('sequelize');
 
 class SocketIoMultiplayerNamespace {
 
@@ -22,15 +25,17 @@ class SocketIoMultiplayerNamespace {
     );
   }
 
-  async authMiddleware(client, next) {
-
-  }
 
   async _handleClientHandshake(client, next) {
     const {
       socketioRoom,
-      partecipantId
+      accessToken
     } = client.handshake.query;
+
+    // controllo paramtri connessione
+    if (!socketioRoom || !accessToken) {
+      return next(new Error('MISSING_PARAMS'));
+    }
 
     // disconnessione automatica entro 10 minuti
     const disconnectUser = setTimeout(() => {
@@ -38,35 +43,48 @@ class SocketIoMultiplayerNamespace {
     }, 10000);
 
     try {
+      const {
+        secret, issuer, audience
+      } = jwtConfig;
 
-      // controllo paramtri connessione
-      if (!socketioRoom || !partecipantId) {
-        return next(new Error('MISSING_PARAMS'));
+      const decoded = jwt.verify(accessToken, secret, {
+        issuer: issuer,
+        audience: audience
+      });
+
+      // cerco un partecipante con quell'ID e che sia libero
+      const foundPartecipants = await this.service.broker.call('partecipant.find', {
+        query: {
+          id: decoded.id,
+          socketId: null
+        }
+      });
+
+      if (!foundPartecipants || !foundPartecipants.length) {
+        return next(new Error('PARTECIPANT_NOT_FOUND'));
       }
 
-      // cerco una stanza corrispondente, non bloccata
+      // cerco una stanza corrispondente, non bloccata, contenente quel partecipante
       const foundRoom = await this.service.broker.call('room.count', {
-        query: { socketioRoom, locked: false }
+        query: {
+          socketioRoom,
+          locked: false,
+          [Op.contains]: {
+            partecipantIds: [decoded.id]
+          }
+        }
       });
 
       if (!foundRoom) {
         return next(new Error('ROOM_NOT_FOUND'));
       }
 
-      // cerco un partecipante con quell'ID e che sia libero
-      const foundPartecipants = await this.service.broker.call('partecipant.count', {
-        query: {
-          id: partecipantId,
-          socketId: null
-        }
-      });
-
-      if (!foundPartecipants) {
-        return next(new Error('PARTECIPANT_NOT_FOUND'));
-      }
-
       // evito la disconnessione automatica
       clearTimeout(disconnectUser);
+
+      // dati aggiuntivi alla socket
+      client.partecipant = foundPartecipants[0];
+
       // ok tutto a posto
       next();
 
@@ -78,15 +96,17 @@ class SocketIoMultiplayerNamespace {
 
   async _handleClientConnection(client) {
     try {
-      const { id: socketId } = client;
       const {
-        socketioRoom,
-        partecipantId
+        id: socketId,
+        partecipant
+      } = client;
+      const {
+        socketioRoom
       } = client.handshake.query;
 
       // mi salvo il client id di socketio per questo partecipante
       const updatedPartecipant = await this.service.broker.call('partecipant.update', {
-        id: partecipantId,
+        id: partecipant.id,
         socketId
       });
 
@@ -97,15 +117,19 @@ class SocketIoMultiplayerNamespace {
 
 
       // alla disconnessione mi assicuro che il partecipante lasci la stanza
-      client.on('disconnect', () => {
-        this.service.broker.call('room.leave', {
-          id: foundRoom[0].id,
-          partecipantId: partecipantId
-        })
-          .then()
-          .catch(e => {
-            this.service.logger.error('Client disconnection: unable to leave room.', e);
+      client.on('disconnect', async () => {
+        try {
+          const updatedPartecipant = await this.service.broker.call('partecipant.get', {
+            id: partecipant.id
           });
+
+          await this.service.broker.call('room.leave',
+            { id: foundRoom[0].id },
+            { meta: { user: updatedPartecipant } }
+          );
+        } catch (e) {
+          this.service.logger.error('Client disconnection: unable to leave room.', e);
+        }
       });
 
       // join  socketio room
@@ -113,7 +137,7 @@ class SocketIoMultiplayerNamespace {
 
       this.service.logger.info(
         'New client connected @'
-        + ' PARTECIPANT_ID: ' + partecipantId
+        + ' PARTECIPANT_ID: ' + partecipant.id
         + ' ROOM_ID:' + foundRoom[0].id
         + ' SOCKETIO_ROOM:' + socketioRoom
       );
@@ -137,7 +161,6 @@ class SocketIoMultiplayerNamespace {
       // mi registro per eventuali eventi dal client
       client.on(events.fromClient.turnCheck, async (payload) => {
         try {
-          console.log(payload);
           await this.service.broker.call('round.turnCheck', payload);
         } catch (e) {
           this.service.logger.error(e);
