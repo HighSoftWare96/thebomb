@@ -161,7 +161,9 @@ class SocketIoMultiplayerNamespace {
       // mi registro per eventuali eventi dal client
       client.on(events.fromClient.turnCheck, async (payload) => {
         try {
-          await this.service.broker.call('round.turnCheck', payload);
+          await this.service.broker.call('round.turnCheck', payload, {
+            meta: { user: partecipant }
+          });
         } catch (e) {
           this.service.logger.error(e);
         }

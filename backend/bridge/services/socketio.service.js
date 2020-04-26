@@ -109,6 +109,29 @@ module.exports = {
         return Promise.resolve();
       }
     },
+    turnWrong: {
+      params: {
+        socketioRoom: {
+          type: 'string'
+        },
+        round: 'object'
+      },
+      handler(ctx) {
+        const {
+          round,
+          socketioRoom
+        } = ctx.params;
+
+        socketIoManager.emit(
+          socketioConfig.namespaces.multiplayer,
+          socketioRoom,
+          events.fromServer.turnWrong,
+          { round }
+        );
+
+        return Promise.resolve();
+      }
+    },
     disconnectClient: {
       params: {
         socketId: {

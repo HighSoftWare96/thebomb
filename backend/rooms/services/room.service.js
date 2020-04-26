@@ -240,7 +240,9 @@ module.exports = {
 
           // in caso normale aggiorno la stanza
           return this._update(ctx, {
-            ...room
+            id: room.id,
+            partecipantIds: room.partecipantIds,
+            adminPartecipantId: room.adminPartecipantId
           });
 
         } catch (e) {

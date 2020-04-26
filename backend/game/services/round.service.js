@@ -71,6 +71,14 @@ module.exports = {
         language: {
           type: 'string'
         },
+        difficulty: {
+          type: 'number',
+          integer: true,
+          convert: true,
+          positive: true,
+          min: 0,
+          max: 5
+        },
         currentPartecipantId: {
           type: 'number',
           integer: true,
@@ -78,34 +86,37 @@ module.exports = {
           convert: true
         }
       },
-      handler(ctx) {
+      async handler(ctx) {
+        try {
+          const {
+            language,
+            gameId,
+            currentPartecipantId,
+            difficulty
+          } = ctx.params;
 
-        const {
-          language,
-          gameId,
-          currentPartecipantId
-        } = ctx.params;
+          const syllableService = `${language}Syllables`;
+          const randSyllable = await this.broker.call(`${syllableService}.getRandom`, {
+            difficulty
+          });
 
-        // TODO: random syllable per language??
-        const round = {
-          dice: this.throwDice(),
-          gameId,
-          currentPartecipantId,
-          ended: false,
-          syllable: 'AE'
-        };
+          const round = {
+            dice: this.throwDice(),
+            gameId,
+            currentPartecipantId,
+            ended: false,
+            syllable: randSyllable.syllable
+          };
 
-        return this._create(ctx, round);
+          return this._create(ctx, round);
+        } catch (e) {
+          this.logger.error(e);
+          return Promise.reject(e);
+        }
       }
     },
     turnCheck: {
       params: {
-        partecipantId: {
-          type: 'number',
-          convert: true,
-          integer: true,
-          positive: true
-        },
         roundId: {
           type: 'number',
           convert: true,
@@ -116,7 +127,8 @@ module.exports = {
       },
       async handler(ctx) {
         try {
-          const { partecipantId, roundId, response } = ctx.params;
+          const { roundId, response } = ctx.params;
+          const { id: partecipantId } = ctx.meta.user;
 
           let round = await this._find(ctx, {
             id: roundId,
@@ -160,7 +172,7 @@ module.exports = {
           }
 
           // se la risposta è giusta
-          if (this.isResponseRight(round, response)) {
+          if (await this.isResponseRight(round, game, response)) {
             const currentPartecipantIdx = room.partecipantIds.indexOf(
               partecipantId
             );
@@ -177,8 +189,13 @@ module.exports = {
               round: updatedRound,
               socketioRoom: room.socketioRoom
             });
+          } else {
+            // passo al prossimo giocatore
+            return this.broker.call('socketio.turnWrong', {
+              round,
+              socketioRoom: room.socketioRoom
+            });
           }
-          return Promise.reject('WRONG_RESPONSE');
         } catch (e) {
           this.logger.error(e);
           return Promise.reject(e);
@@ -218,29 +235,38 @@ module.exports = {
     throwDice() {
       return Math.floor(Math.random() * 3);
     },
-    isResponseRight(round, response) {
+    async isResponseRight(round, game, response) {
+      const { language } = game;
+      const wordService = `${language}Words`;
+
       const responseLowerCase =
         response.toLowerCase();
       const syllableLowerCase =
         round.syllable.toLowerCase();
+
       let responseIsRight = false;
 
-      switch (round.dice) {
+      if (round.dice === 0) {
         // non all'inizio
-        case 0:
-          responseIsRight = responseLowerCase.endsWith(syllableLowerCase) ||
-            (responseLowerCase.includes(syllableLowerCase) && !responseLowerCase.startsWith(syllableLowerCase));
-          break;
+        responseIsRight = responseLowerCase.endsWith(syllableLowerCase) ||
+          (responseLowerCase.includes(syllableLowerCase) && !responseLowerCase.startsWith(syllableLowerCase));
+      } else if (round.dice === 1) {
         // non alla fine
-        case 1:
-          responseIsRight = responseLowerCase.startsWith(syllableLowerCase) ||
-            (responseLowerCase.includes(syllableLowerCase) || !responseLowerCase.endsWith(syllableLowerCase));
-          break;
-        default:
-          responseIsRight = responseLowerCase.includes(syllableLowerCase);
-          break;
+        responseIsRight = responseLowerCase.startsWith(syllableLowerCase) ||
+          (responseLowerCase.includes(syllableLowerCase) || !responseLowerCase.endsWith(syllableLowerCase));
+      } else {
+        responseIsRight = responseLowerCase.includes(syllableLowerCase);
       }
-      return responseIsRight;
+
+      if (!responseIsRight) {
+        return false;
+      } else {
+        // verifico che la parola esista
+        return (await this.broker.call(`${wordService}.find`, {
+          limit: 1,
+          query: { word: response }
+        })).length > 0;
+      }
     }
   }
 };

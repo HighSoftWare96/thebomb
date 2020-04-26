@@ -58,6 +58,20 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
         defaultValue: 80
+      },
+      language: {
+        type: Sequelize.ENUM('it', 'en'),
+        defaultValue: 'it',
+        allowNull: null
+      },
+      difficulty: {
+        type: Sequelize.INTEGER,
+        defaultValue: 2,
+        allowNull: false,
+        validate: {
+          min: 0,
+          max: 5
+        }
       }
     },
     options: {
@@ -105,10 +119,24 @@ module.exports = {
           positive: true,
           convert: true
         },
+        language: {
+          type: 'string',
+          enum: ['it', 'en'],
+          optional: true
+        },
+        difficulty: {
+          optional: true,
+          type: 'number',
+          integer: true,
+          positive: true,
+          convert: true,
+          min: 0,
+          max: 5
+        }
       },
       async handler(ctx) {
         try {
-          const { rounds, roomId, minTimeS = 30, maxTimeS = 80 } = ctx.params;
+          const { rounds, roomId, minTimeS = 30, maxTimeS = 80, difficulty, language } = ctx.params;
           const { user } = ctx.meta;
 
           if (minTimeS >= maxTimeS) {
@@ -146,7 +174,9 @@ module.exports = {
             roomId,
             minTimeS,
             maxTimeS,
-            currentRounds: 0
+            currentRounds: 0,
+            difficulty,
+            language
           });
 
           // start game event
@@ -214,7 +244,8 @@ module.exports = {
             // creo il prossimo round
             const nextRound = await this.broker.call('round.create', {
               gameId: game.id,
-              language: 'it',
+              language: game.language,
+              difficulty: game.difficulty,
               // incomincia chi aveva perso il round precedente o se non c'è più
               // il primo
               currentPartecipantId:

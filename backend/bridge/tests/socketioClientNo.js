@@ -1,6 +1,6 @@
 const API_URL = 'http://localhost:3001';
 const SOCKETIO_ROOMID = process.argv[2] || '30839b9f-a79b-4981-88ef-f494d1d2ebef';
-const JWT = process.argv[3] || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6ImdpbyIsImF2YXRhclNlZWQiOiIwMC4wMC4wMCIsInVwZGF0ZWRBdCI6IjIwMjAtMDQtMjZUMTk6MjA6MDkuNzQ2WiIsImNyZWF0ZWRBdCI6IjIwMjAtMDQtMjZUMTk6MjA6MDkuNzQ2WiIsInNvY2tldElkIjpudWxsLCJpYXQiOjE1ODc5Mjg4MDksIm5iZiI6MTU4NzkyODgwOSwiZXhwIjoxNTg4MDE1MjA5LCJhdWQiOiJERVZfZGFib21iOmF1dGhlbnRpY2F0aW9uIiwiaXNzIjoicGFydGVjaXBhbnQuc2VydmljZSIsImp0aSI6ImQzZjM0MmMxLTExNTEtNDc4ZC1hZTJmLWIwZjAzNDA4NmRkZiJ9.mj441V_odchU9lWQvRxMmZrtAcW5ez4FkKuhwy7sHq8';
+const JWT = process.argv[3] || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwibmFtZSI6ImdpbyIsImF2YXRhclNlZWQiOiIwMC4wMC4wMCIsInVwZGF0ZWRBdCI6IjIwMjAtMDQtMjZUMTk6MjA6MzkuMDI1WiIsImNyZWF0ZWRBdCI6IjIwMjAtMDQtMjZUMTk6MjA6MzkuMDI1WiIsInNvY2tldElkIjpudWxsLCJpYXQiOjE1ODc5Mjg4MzksIm5iZiI6MTU4NzkyODgzOSwiZXhwIjoxNTg4MDE1MjM5LCJhdWQiOiJERVZfZGFib21iOmF1dGhlbnRpY2F0aW9uIiwiaXNzIjoicGFydGVjaXBhbnQuc2VydmljZSIsImp0aSI6IjU5NDMzOWM4LWNjNjUtNGYwZC05ZGJkLTQ4Y2U1NGQ5OTgwMyJ9.n9SSTNIFZWgZ4dI1LZTPl3CRyUzxF1dS7XDa9c0fLdQ';
 const NAMESPACE = 'multiplayer';
 
 const
@@ -35,11 +35,6 @@ ioClient.on('game-ended', (payload) => {
 
 ioClient.on('round-started', (payload) => {
   console.log('Round partito!', payload);
-  ioClient.emit('turn-check', {
-    partecipantId: 1,
-    roundId: payload.round.id,
-    response: 'aereo'
-  });
 });
 
 ioClient.on('turn-checked', (payload) => {

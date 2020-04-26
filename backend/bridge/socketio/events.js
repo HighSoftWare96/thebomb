@@ -9,6 +9,7 @@ module.exports = {
     roundStarted: 'round-started',
     roundEnded: 'round-ended',
     turnChecked: 'turn-checked',
+    turnWrong: 'turn-wrong'
   },
   fromClient: {
     turnCheck: 'turn-check',
