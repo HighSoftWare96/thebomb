@@ -11,6 +11,12 @@
 		},
 		{
 			"path": "backend/game"
+		},
+		{
+			"path": "python"
+		},
+		{
+			"path": "backend/words"
 		}
 	],
 	"settings": {}

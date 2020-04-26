@@ -23,7 +23,8 @@ module.exports = [{
     'POST /partecipants': 'partecipant.create',
     'POST /partecipants/renew': 'partecipant.renew',
     'GET /partecipants/:id': 'partecipant.get',
-    'POST /game/start': 'game.start'
+    'POST /game/start': 'game.start',
+    'GET /syllable/random': 'itSyllables.getRandom'
   },
 
   callingOptions: {},
