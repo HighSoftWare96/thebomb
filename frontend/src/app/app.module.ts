@@ -13,10 +13,12 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { EffectsModule } from '@ngrx/effects';
 import { CustomStoreRouteSerializer } from './store/utils/CustomRouterStoreSerializer';
-import { reducers } from './store/root.reducers';
+import { reducers } from './store/root.reducer';
 import { RootEffects } from './store/root.effects';
 import { RootFacadeService } from './store/rootFacade.service';
 import { SharedModule } from './shared/shared.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HomeComponent } from './pages/home/home.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -24,7 +26,8 @@ export function createTranslateLoader(http: HttpClient) {
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
@@ -50,7 +53,8 @@ export function createTranslateLoader(http: HttpClient) {
     StoreRouterConnectingModule.forRoot({
       serializer: CustomStoreRouteSerializer
     }),
-    SharedModule.forRoot()
+    SharedModule.forRoot(),
+    BrowserAnimationsModule
   ],
   providers: [
     RootFacadeService

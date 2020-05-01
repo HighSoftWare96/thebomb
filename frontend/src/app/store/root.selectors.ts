@@ -1,4 +1,4 @@
-import { CustomRouterState, RootState } from './root.reducers';
+import { CustomRouterState, RootState, AuthState } from './root.reducer';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 export const getRouterFeature = createFeatureSelector<{ state: CustomRouterState }>('router');
@@ -31,4 +31,11 @@ export const getRootFeature = createFeatureSelector('root');
 export const getLockedNavigation = createSelector(
     getRootFeature,
     (state: RootState) => state ? state.navigationLocked : false
+);
+
+export const getAuthFeature = createFeatureSelector('auth');
+
+export const getLoggedPartecipant = createSelector(
+    getRootFeature,
+    (state: AuthState) => state ? state.partecipant : undefined
 );

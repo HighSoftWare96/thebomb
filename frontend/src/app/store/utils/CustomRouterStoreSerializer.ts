@@ -3,7 +3,7 @@ import { merge } from 'lodash';
 import { RouterStateSnapshot } from '@angular/router';
 import { RouterStateSerializer } from '@ngrx/router-store';
 
-import { CustomRouterState } from '../root.reducers';
+import { CustomRouterState } from '../root.reducer';
 
 export class CustomStoreRouteSerializer implements RouterStateSerializer<CustomRouterState> {
   serialize(routeParams: RouterStateSnapshot): CustomRouterState {

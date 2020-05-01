@@ -1,3 +1,4 @@
+import { Partecipant } from './../shared/interfaces/Partecipant';
 import * as rootActions from 'src/app/store/root.actions';
 import * as rootSelectors from 'src/app/store/root.selectors';
 
@@ -8,9 +9,11 @@ import { Store } from '@ngrx/store';
 @Injectable()
 export class RootFacadeService {
   navigationLocked$: Observable<boolean>;
+  loggedPartecipant$: Observable<Partecipant>;
 
   constructor(private store: Store<any>) {
     this.navigationLocked$ = this.store.select(rootSelectors.getLockedNavigation);
+    this.loggedPartecipant$ = this.store.select(rootSelectors.getLoggedPartecipant);
   }
 
   resetStores() {
