@@ -24,6 +24,6 @@ export const loadRefreshPartecipantSuccess = createAction(
 );
 
 export const loadRefreshPartecipantFailure = createAction(
-  '[Auth] Try refresh partecipant',
+  '[Auth] Try refresh partecipant failure',
   props<{ error: any }>()
 );

@@ -1,7 +1,7 @@
 import { environment } from './../environments/environment';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app.routing';
 import { AppComponent } from './app.component';
@@ -16,6 +16,7 @@ import { CustomStoreRouteSerializer } from './store/utils/CustomRouterStoreSeria
 import { reducers } from './store/root.reducers';
 import { RootEffects } from './store/root.effects';
 import { RootFacadeService } from './store/rootFacade.service';
+import { SharedModule } from './shared/shared.module';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -28,6 +29,7 @@ export function createTranslateLoader(http: HttpClient) {
   imports: [
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -48,6 +50,7 @@ export function createTranslateLoader(http: HttpClient) {
     StoreRouterConnectingModule.forRoot({
       serializer: CustomStoreRouteSerializer
     }),
+    SharedModule.forRoot()
   ],
   providers: [
     RootFacadeService

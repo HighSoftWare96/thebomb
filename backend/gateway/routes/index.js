@@ -47,5 +47,12 @@ module.exports = [{
 
   mappingPolicy: 'all', // Available values: 'all', 'restrict'
 
-  logging: true
+  logging: true,
+  cors: {
+    // Configures the Access-Control-Allow-Origin CORS header.
+    origin: 'http://localhost:4200',
+    // Configures the Access-Control-Allow-Methods CORS header. 
+    methods: ['GET', 'OPTIONS', 'POST', 'PUT', 'DELETE'],
+    credentials: true,
+  },
 }];

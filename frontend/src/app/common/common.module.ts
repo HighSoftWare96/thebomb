@@ -15,8 +15,7 @@ import { BearerInterceptor } from './interceptors/bearer.interceptor';
   exports: [
     FlexLayoutModule,
     TranslateModule
-  ],
-  providers: [],
+  ]
 })
 export class AppCommonModule {
   static forRoot(): ModuleWithProviders {

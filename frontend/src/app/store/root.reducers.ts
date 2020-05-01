@@ -5,10 +5,11 @@ import {
   getRouterQueryParam,
   getRouterUrl
 } from 'src/app/store/root.selectors';
-import { loadSetLockedNavigation } from './root.actions';
 
 import { Params } from '@angular/router';
 import { environment } from 'src/environments/environment';
+import { Partecipant } from '../shared/interfaces/Partecipant';
+import * as rootActions from './root.actions';
 
 export interface CustomRouterState {
   url: string;
@@ -20,19 +21,40 @@ export interface RootState {
   navigationLocked: boolean;
 }
 
-const initialBreadcrumbState: RootState = {
+const initialRootState: RootState = {
   navigationLocked: false
 };
 
-const rootReducerFun = createReducer(initialBreadcrumbState);
+const rootReducerFun = createReducer(initialRootState);
 
 export function rootReducer(state, action) {
   return rootReducerFun(state, action);
 }
 
+
+export interface AuthState {
+  partecipant: Partecipant;
+}
+
+const initialAuthState: AuthState = {
+  partecipant: null
+};
+
+const authReducerFun = createReducer(initialAuthState,
+  on(rootActions.loadRefreshPartecipantSuccess, (state, { partecipant }) => ({
+    ...state,
+    partecipant
+  }))
+);
+
+export function authReducer(state, action) {
+  return authReducerFun(state, action);
+}
+
 export const reducers = {
   router: routerReducer,
-  root: rootReducer
+  root: rootReducer,
+  auth: authReducer
 };
 
 
