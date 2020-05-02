@@ -8,8 +8,9 @@
       <input id="username" type="text" class="form-control" formControlName="name">
     </div>
   </form>
-  <div class="d-flex flex-row">
-    <button class="btn btn-primary" [disabled]="!form.valid" (click)="createPartecipant()">Nuova stanza</button>
-    <button class="btn btn-primary ml-2" [disabled]="!form.valid">Unisciti</button>
-  </div>
+  <button class="btn btn-primary" [disabled]="!form.valid" (click)="joinRoom()">
+    <span *ngIf="(joiningRoom$ | async) as room">Unisciti a {{room.name}}</span>
+    <span *ngIf="!(joiningRoom$ | async)">Unisciti</span>
+  </button>
+  <button class="btn btn-secondary mt-2" [disabled]="!form.valid" (click)="createPartecipant()">Nuova stanza</button>
 </div>

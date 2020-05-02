@@ -36,6 +36,16 @@ export const getLockedNavigation = createSelector(
 export const getAuthFeature = createFeatureSelector('auth');
 
 export const getLoggedPartecipant = createSelector(
-    getRootFeature,
+    getAuthFeature,
     (state: AuthState) => state ? state.partecipant : undefined
+);
+
+export const getCurrentRoom = createSelector(
+    getAuthFeature,
+    (state: AuthState) => state ? state.room : undefined
+);
+
+export const getRoomates = createSelector(
+    getAuthFeature,
+    (state: AuthState) => state ? state.roomates : []
 );

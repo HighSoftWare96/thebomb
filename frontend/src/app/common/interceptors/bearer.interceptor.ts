@@ -13,6 +13,10 @@ export class BearerInterceptor implements HttpInterceptor {
     this.jwt = jwt;
   }
 
+  getJwt(): string {
+    return this.jwt;
+  }
+
   unSetJwt() {
     this.jwt = '';
   }

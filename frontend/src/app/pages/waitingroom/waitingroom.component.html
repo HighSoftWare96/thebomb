@@ -1,0 +1,52 @@
+<div class="container d-flex flex-column align-items-center justify-content-center">
+  <h1>The Bomb</h1>
+  <h3>La tua squadra</h3>
+  <a *ngIf="getLink(room$ | async) as link" class="bg-dark text-center text-white p-2 rounded link"
+    (click)="copyLink(link)">
+    {{link}} 📋
+  </a>
+  <div class="d-flex flex-row flex-wrap">
+    <div *ngFor="let roomate of (roomates$ | async)">
+      <img [src]="'https://avatars.dicebear.com/v2/avataaars/' + roomate.avatarSeed + '.svg'" class="avatar my-2" />
+      <p class="text-muted">
+        <span *ngIf="roomate.id === (currentPartecipant$ | async).id" tooltip="Sei tu!">🤚</span>
+        <span *ngIf="roomate.id === (room$ | async).adminPartecipantId" tooltip="Amministri questa stanza">👑</span>
+        {{roomate.name}}
+      </p>
+    </div>
+  </div>
+  <ng-container *ngIf="(room$ | async).adminPartecipantId === (currentPartecipant$ | async).id">
+    <h3>Crea nuova partita</h3>
+    <form [formGroup]="form" (submit)="false">
+      <div class="row">
+        <div class="form-group col-md">
+          <label for="rounds">Rounds</label>
+          <input type="number" class="form-control" id="rounds" formControlName="rounds" />
+        </div>
+        <div class="form-group col-md">
+          <label for="language">Lingua</label>
+          <select id="language" id="language" class="form-control" formControlName="language">
+            <option *ngFor="let i of languages" [value]="i">{{i}}</option>
+          </select>
+        </div>
+        <div class="form-group col-md">
+          <label for="difficulty">Difficoltà</label>
+          <select id="difficulty" id="difficulty" class="form-control" formControlName="difficulty">
+            <option *ngFor="let i of difficulties" [value]="i">{{i}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group col-md">
+          <label for="minTimeS">Durata minima round</label>
+          <input type="number" class="form-control" id="minTimeS" formControlName="minTimeS" />
+        </div>
+        <div class="form-group col-md">
+          <label for="maxTimeS">Durata massima round</label>
+          <input type="number" class="form-control" id="maxTimeS" formControlName="maxTimeS" />
+        </div>
+      </div>
+      <button class="btn btn-primary" type="submit">Nuova partita</button>
+    </form>
+  </ng-container>
+</div>

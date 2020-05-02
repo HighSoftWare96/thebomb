@@ -16,10 +16,8 @@ module.exports = [{
 
   aliases: {
     'POST /rooms': 'room.create',
-    'POST /rooms/join/:id': 'room.join',
-    // TODO: remove
-    'POST /rooms/leave/:id': 'room.leave',
-    'GET /rooms/:id': 'room.get',
+    'GET /rooms/:inviteId': 'room.getByInviteId',
+    'POST /rooms/join/:inviteId': 'room.join',
     'POST /partecipants': 'partecipant.create',
     'POST /partecipants/renew': 'partecipant.renew',
     'GET /partecipants/:id': 'partecipant.get',

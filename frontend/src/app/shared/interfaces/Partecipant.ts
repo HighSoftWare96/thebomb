@@ -1,5 +1,5 @@
 export interface Partecipant {
-  id: number;
+  id?: number;
   name: string;
   avatarSeed: string;
   socketId?: string;

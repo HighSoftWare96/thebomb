@@ -6,6 +6,7 @@ const { Op } = Sequelize;
 const { db } = require('config');
 const { notFound, roomFull } = require('helpers/errors');
 const uuid = require('uuid');
+const crypto = require('crypto');
 
 module.exports = {
   name: 'room',
@@ -20,6 +21,15 @@ module.exports = {
         autoIncrement: true,
         allowNull: false,
         unique: true
+      },
+      inviteId: {
+        type: Sequelize.STRING(10),
+        unique: true,
+        allowNull: false
+      },
+      name: {
+        type: Sequelize.STRING,
+        allowNull: false
       },
       // id del partecipante admin
       adminPartecipantId: Sequelize.INTEGER,
@@ -36,6 +46,7 @@ module.exports = {
         allowNull: true,
         unique: true
       },
+      // TODO: aggiornare?
       // id delle partite precedenti
       playedGameIds: Sequelize.ARRAY(Sequelize.INTEGER),
       // stanza bloccata in gioco
@@ -72,6 +83,9 @@ module.exports = {
   actions: {
     create: {
       params: {
+        name: {
+          type: 'string'
+        },
         maxPartecipants: {
           type: 'number',
           integer: true,
@@ -85,7 +99,6 @@ module.exports = {
           let { params } = ctx;
           const { id: adminPartecipantId } = ctx.meta.user;
           const partecipant = ctx.meta.user;
-          console.log(partecipant);
 
           if (partecipant.socketId !== null) {
             return Promise.reject(
@@ -93,10 +106,16 @@ module.exports = {
             );
           }
 
+          const inviteId = crypto.randomBytes(10)
+            .toString('base64')
+            .slice(0, 10)
+            .replace(/\//g, '_');
+
           params = this.sanitizeParams(ctx, params);
           return this._create(ctx, {
             ...params,
-            adminPartecipantId
+            adminPartecipantId,
+            inviteId
           });
         } catch (e) {
           this.logger.error(e);
@@ -106,23 +125,18 @@ module.exports = {
     },
     join: {
       params: {
-        id: {
-          type: 'number',
-          integer: true,
-          positive: true,
-          convert: true
-        }
+        inviteId: 'string'
       },
       async handler(ctx) {
         try {
-          const { id } = ctx.params;
+          const { inviteId } = ctx.params;
           const { id: partecipantId } = ctx.meta.user;
           const partecipant = ctx.meta.user;
 
           // recupero la stanza
           let room = await this._find(ctx, {
             query: {
-              id,
+              inviteId,
               locked: false,
               [Op.not]: {
                 partecipantIds: {
@@ -134,7 +148,7 @@ module.exports = {
 
           if (!room || !room.length) {
             return Promise.reject(
-              notFound('room', id)
+              notFound('room', inviteId)
             );
           }
 
@@ -152,7 +166,7 @@ module.exports = {
             room.partecipantIds.length >= room.maxPartecipants
           ) {
             return Promise.reject(
-              roomFull(id)
+              roomFull(inviteId)
             );
           }
 
@@ -163,7 +177,7 @@ module.exports = {
 
           // aggiungo il partecipante alla stanza su db
           return this._update(ctx, {
-            id,
+            id: room.id,
             socketioRoom: room.socketioRoom,
             partecipantIds: [
               ...(room.partecipantIds || []),
@@ -251,5 +265,34 @@ module.exports = {
         }
       }
     },
+    getByInviteId: {
+      params: {
+        inviteId: 'string'
+      },
+      async handler(ctx) {
+        try {
+          const { inviteId } = ctx.params;
+          const rooms = await this._find(ctx, {
+            query: { inviteId, locked: false }
+          });
+          if (!rooms || !rooms.length || rooms.length !== 1) {
+            return notFound('room', inviteId);
+          }
+          const room = rooms[0];
+
+          delete room.adminPartecipantId;
+          delete room.partecipantIds;
+          delete room.socketioRoom;
+          delete room.currentGameId;
+          delete room.playedGameIds;
+          delete room.locked;
+
+          return room;
+        } catch (e) {
+          this.logger.error(e);
+          return Promise.reject(e);
+        }
+      }
+    }
   }
 };

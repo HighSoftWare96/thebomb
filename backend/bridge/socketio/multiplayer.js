@@ -150,12 +150,21 @@ class SocketIoMultiplayerNamespace {
           partecipant: updatedPartecipant
         });
 
+      const partecipants = [];
+
+      for (const id of foundRoom[0].partecipantIds) {
+        const currentP = await this.service.broker.call('partecipant.get', {
+          id
+        });
+        partecipants.push(currentP);
+      }
+
       // comunico a tutti l'arrivo del nuovo utente
       this.io.to(socketioRoom).emit(
         events.fromServer.newRoomate,
         {
           room: foundRoom[0],
-          partecipant: updatedPartecipant
+          partecipants
         });
 
       // mi registro per eventuali eventi dal client

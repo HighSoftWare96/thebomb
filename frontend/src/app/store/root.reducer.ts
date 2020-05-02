@@ -10,6 +10,7 @@ import { Params } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { Partecipant } from '../shared/interfaces/Partecipant';
 import * as rootActions from './root.actions';
+import { Room } from '../shared/interfaces/Room';
 
 export interface CustomRouterState {
   url: string;
@@ -31,18 +32,43 @@ export function rootReducer(state, action) {
   return rootReducerFun(state, action);
 }
 
-
 export interface AuthState {
   partecipant: Partecipant;
+  room: Room;
+  roomates: Partecipant[];
 }
 
 const initialAuthState: AuthState = {
-  partecipant: null
+  partecipant: null,
+  room: null,
+  roomates: []
 };
 
 const authReducerFun = createReducer(initialAuthState,
   on(rootActions.loadRefreshPartecipantSuccess, (state, { partecipant }) => ({
     ...state,
+    partecipant
+  })),
+  on(rootActions.loadTryCreatePartecipantSuccess, (state, { partecipant }) => ({
+    ...state,
+    partecipant
+  })),
+  on(rootActions.loadCreateRoomSuccess, (state, { room }) => ({
+    ...state,
+    room
+  })),
+  on(rootActions.loadNewRoomate, (state, { room, partecipants }) => ({
+    ...state,
+    room,
+    roomates: partecipants
+  })),
+  on(rootActions.loadJoiningRoomSuccess, (state, { room }) => ({
+    ...state,
+    room
+  })),
+  on(rootActions.loadJoinRoomSuccess, (state, { room, partecipant }) => ({
+    ...state,
+    room,
     partecipant
   }))
 );
