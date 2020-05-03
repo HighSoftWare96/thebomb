@@ -1,5 +1,5 @@
 module.exports = {
-  namespace: process.env.MOLECULER_NAMESPACE || 'dabomb',
+  namespace: process.env.MOLECULER_NAMESPACE || 'thebomb',
   nodeName: process.env.NODE_NAME || 'bridge',
   gateway: {
     ip: process.env.IP_ADDRESS || '127.0.0.1',
@@ -7,7 +7,7 @@ module.exports = {
   },
   db: {
     connectionString: process.env.DB_CONNECTION_STRING ||
-      'postgresql://local:12345678@127.0.0.1:5432/dabomb'
+      'postgresql://local:12345678@127.0.0.1:5432/thebomb'
   },
   socketio: {
     ip: process.env.SOCKETIO_IP_ADDRESS || '127.0.0.1',
@@ -21,7 +21,7 @@ module.exports = {
     secret: 'tW(@&aX4D;H?2`;"D,;:jqg?k;[4jHa(',
     expiresInMinutes: 1440,
     notBefore: 0,
-    audience: 'DEV_dabomb:authentication',
+    audience: 'DEV_thebomb:authentication',
     issuer: 'partecipant.service',
   }
 };

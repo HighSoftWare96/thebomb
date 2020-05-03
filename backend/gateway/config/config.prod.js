@@ -1,5 +1,5 @@
 module.exports = {
-  namespace: process.env.MOLECULER_NAMESPACE || 'dabomb',
+  namespace: process.env.MOLECULER_NAMESPACE || 'thebomb',
   nodeName: process.env.NODE_NAME || 'gateway',
   gateway: {
     ip: process.env.IP_ADDRESS || '0.0.0.0',
@@ -9,7 +9,7 @@ module.exports = {
     secret: 'C-qn35=J!$=k*G)NzKxkbV2v@KWZ[Ga(',
     expiresInMinutes: 1440,
     notBefore: 0,
-    audience: 'dabomb:authentication',
+    audience: 'thebomb:authentication',
     issuer: 'partecipant.service',
     secure: true
   }

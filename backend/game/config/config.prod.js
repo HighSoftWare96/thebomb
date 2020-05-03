@@ -1,5 +1,5 @@
 module.exports = {
-    namespace: process.env.MOLECULER_NAMESPACE || 'dabomb',
+    namespace: process.env.MOLECULER_NAMESPACE || 'thebomb',
     nodeName: process.env.NODE_NAME || 'game',
     gateway: {
         ip: process.env.IP_ADDRESS || '0.0.0.0',

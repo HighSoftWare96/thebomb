@@ -1,5 +1,5 @@
 module.exports = {
-  namespace: process.env.MOLECULER_NAMESPACE || 'dabomb',
+  namespace: process.env.MOLECULER_NAMESPACE || 'thebomb',
   nodeName: process.env.NODE_NAME || 'rooms',
   gateway: {
     ip: process.env.IP_ADDRESS || '0.0.0.0',
@@ -16,14 +16,14 @@ module.exports = {
     secret: 'tW(@&aX4D;a.ksjhdlauisgdliuagsdaH?2`;"D,;:jqg?k;[4jHa(',
     expiresInMinutes: 1440,
     notBefore: 0,
-    audience: 'dabomb:authentication',
+    audience: 'thebomb:authentication',
     issuer: 'partecipant.service',
   },
   refreshJwt: {
     secret: 'tW(@&aX4D;Hàgpihjfòpoguushdliufghsiudfisluyove7tyor87v6t39b?2`;"D,;:jqg?k;[4jHa(',
     expiresInMinutes: 10080,
     notBefore: 0,
-    audience: 'dabomb:session',
+    audience: 'thebomb:session',
     issuer: 'session.service',
     secure: true
   }
