@@ -14,7 +14,6 @@ export class StartFacadeService {
   currentRoom$: Observable<Room>;
   currentRoomates$: Observable<Partecipant[]>;
 
-
   constructor(
     private store: Store<any>
   ) {
