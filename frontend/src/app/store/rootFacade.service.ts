@@ -53,7 +53,7 @@ export class RootFacadeService {
     this.store.dispatch(rootActions.loadCreateRoom({ room }));
   }
 
-  registerNewRoomates(room: Room, partecipants: Partecipant[]) {
+  registerRoomatesChange(room: Room, partecipants: Partecipant[]) {
     this.store.dispatch(rootActions.loadNewRoomate({ room, partecipants }));
   }
 

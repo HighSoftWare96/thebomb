@@ -1,5 +1,4 @@
 const DbService = require('moleculer-db');
-const { actions: DbActions } = DbService;
 const SqlAdapter = require('moleculer-db-adapter-sequelize');
 const Sequelize = require('sequelize');
 const { Op } = Sequelize;
@@ -236,10 +235,12 @@ module.exports = {
           });
 
           const foundIndex =
-            room.partecipantIds.findIndex(i => i.id === partecipantId);
+            room.partecipantIds.findIndex(i => i === partecipantId);
 
-          // rimuovo il giocatore dalla stanza
-          room.partecipantIds.splice(foundIndex, 1);
+          if (foundIndex >= 0) {
+            // rimuovo il giocatore dalla stanza
+            room.partecipantIds.splice(foundIndex, 1);
+          }
 
           // non ci sono più partecipanti: elimino la stanza
           if (room.partecipantIds.length === 0) {

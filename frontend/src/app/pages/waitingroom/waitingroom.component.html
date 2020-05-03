@@ -7,10 +7,11 @@
   </a>
   <div class="d-flex flex-row flex-wrap">
     <div *ngFor="let roomate of (roomates$ | async)">
-      <img [src]="'https://avatars.dicebear.com/v2/avataaars/' + roomate.avatarSeed + '.svg'" class="avatar my-2" />
+      <img [src]="'https://avatars.dicebear.com/v2/avataaars/' + roomate.avatarSeed + '.svg'" class="avatar my-2 mx-2"
+        width="100" />
       <p class="text-muted">
         <span *ngIf="roomate.id === (currentPartecipant$ | async).id" tooltip="Sei tu!">🤚</span>
-        <span *ngIf="roomate.id === (room$ | async).adminPartecipantId" tooltip="Amministri questa stanza">👑</span>
+        <span *ngIf="roomate.id === (room$ | async).adminPartecipantId" tooltip="Amministra questa stanza">👑</span>
         {{roomate.name}}
       </p>
     </div>

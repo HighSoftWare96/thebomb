@@ -123,10 +123,26 @@ class SocketIoMultiplayerNamespace {
             id: partecipant.id
           });
 
-          await this.service.broker.call('room.leave',
+          const updatedRoom = await this.service.broker.call('room.leave',
             { id: foundRoom[0].id },
             { meta: { user: updatedPartecipant } }
           );
+
+          const partecipants = [];
+
+          for (const id of updatedRoom.partecipantIds) {
+            const currentP = await this.service.broker.call('partecipant.get', {
+              id
+            });
+            partecipants.push(currentP);
+          }
+
+          this.io.to(socketioRoom).emit(
+            events.fromServer.roomateLeft,
+            {
+              room: updatedRoom,
+              partecipants
+            });
         } catch (e) {
           this.service.logger.error('Client disconnection: unable to leave room.', e);
         }

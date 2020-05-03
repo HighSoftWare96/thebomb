@@ -36,7 +36,10 @@ export class SocketioService {
 
   private registerListeners() {
     this.ioClient.on('new-roomate', ({ room, partecipants }) => {
-      this.rootFacade.registerNewRoomates(room, partecipants);
+      this.rootFacade.registerRoomatesChange(room, partecipants);
+    });
+    this.ioClient.on('roomate-left', ({ room, partecipants }) => {
+      this.rootFacade.registerRoomatesChange(room, partecipants);
     });
   }
 

@@ -2,6 +2,7 @@ module.exports = {
   fromServer: {
     roomJoined: 'room-joined',
     newRoomate: 'new-roomate',
+    roomateLeft: 'roomate-left',
     clientError: 'client-error',
     serverError: 'server-error',
     gameStarted: 'game-started',
