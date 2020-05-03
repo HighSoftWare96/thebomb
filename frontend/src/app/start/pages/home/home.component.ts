@@ -28,7 +28,6 @@ export class HomeComponent implements OnInit, OnDestroy {
       avatarSeed: ['']
     });
     this.generateRandomAvatar();
-    debugger
     this.subs.push(
       startFacade.loggedPartecipant$.subscribe((s) => {
         this.form.patchValue({ ...s }, {

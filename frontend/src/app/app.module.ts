@@ -32,7 +32,6 @@ export function createTranslateLoader(http: HttpClient) {
   imports: [
     BrowserModule,
     HttpClientModule,
-    AppCommonModule.forRoot(),
     StoreModule.forRoot(
       reducers
     ),
@@ -47,6 +46,7 @@ export function createTranslateLoader(http: HttpClient) {
     }),
     StartModule,
     AppRoutingModule,
+    AppCommonModule.forRoot(),
     FormsModule,
     ReactiveFormsModule,
     TranslateModule.forRoot({

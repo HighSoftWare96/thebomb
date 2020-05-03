@@ -6,13 +6,17 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BearerInterceptor } from './interceptors/bearer.interceptor';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { Page404Component } from './pages/404/404.component';
+import { MainLayoutComponent } from './layouts/main/main.layout';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
-    Page404Component
+    Page404Component,
+    MainLayoutComponent
   ],
   imports: [
     CommonModule,
+    RouterModule,
     TranslateModule.forChild(),
     TooltipModule.forRoot(),
     SharedModule.forRoot()
@@ -21,7 +25,8 @@ import { Page404Component } from './pages/404/404.component';
     TranslateModule,
     TooltipModule,
     SharedModule,
-    Page404Component
+    Page404Component,
+    MainLayoutComponent
   ]
 })
 export class AppCommonModule {

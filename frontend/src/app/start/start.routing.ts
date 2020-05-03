@@ -5,23 +5,30 @@ import { HomeComponent } from './pages/home/home.component';
 import { JoinComponent } from './pages/join/join.component';
 import { RoomComponent } from './pages/room/room.component';
 import { WaitingRoomComponent } from './pages/waitingroom/waitingroom.component';
+import { MainLayoutComponent } from '../common/layouts/main/main.layout';
 
 const routes: Routes = [
   {
-    path: 'home',
-    component: HomeComponent
-  },
-  {
-    path: 'join/:inviteId',
-    component: JoinComponent
-  },
-  {
-    path: 'rooms/new',
-    component: RoomComponent
-  },
-  {
-    path: 'waitingroom',
-    component: WaitingRoomComponent
+    path: '',
+    component: MainLayoutComponent,
+    children: [
+      {
+        path: 'home',
+        component: HomeComponent
+      },
+      {
+        path: 'join/:inviteId',
+        component: JoinComponent
+      },
+      {
+        path: 'rooms/new',
+        component: RoomComponent
+      },
+      {
+        path: 'waitingroom',
+        component: WaitingRoomComponent
+      }
+    ]
   }
 ];
 

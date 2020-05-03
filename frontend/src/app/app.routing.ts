@@ -1,10 +1,6 @@
-import { HomeComponent } from './start/pages/home/home.component';
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { Page404Component } from './common/pages/404/404.component';
-import { RoomComponent } from './start/pages/room/room.component';
-import { JoinComponent } from './start/pages/join/join.component';
-import { WaitingRoomComponent } from './start/pages/waitingroom/waitingroom.component';
 
 
 const routes: Routes = [
