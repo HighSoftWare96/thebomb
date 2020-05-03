@@ -8,12 +8,9 @@ import { RootFacadeService } from './store/rootFacade.service';
 })
 export class AppComponent implements OnInit {
 
-  constructor(
-    private rootFacade: RootFacadeService
-  ) { }
+  constructor() { }
 
   ngOnInit() {
-    this.rootFacade.refreshPartecipant();
   }
 
 }

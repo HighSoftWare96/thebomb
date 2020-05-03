@@ -5,6 +5,7 @@ import io from 'socket.io-client';
 import { BearerInterceptor } from 'src/app/common/interceptors/bearer.interceptor';
 import { Observable } from 'rxjs';
 import { Room } from '../interfaces/Room';
+import { StartFacadeService } from 'src/app/start/store/startFacade.service';
 
 @Injectable()
 export class SocketioService {
@@ -12,7 +13,7 @@ export class SocketioService {
 
   constructor(
     private bearerInterceptor: BearerInterceptor,
-    private rootFacade: RootFacadeService
+    private startFacade: StartFacadeService
   ) { }
 
   initialize(socketioRoom: string): Observable<Room> {
@@ -36,10 +37,10 @@ export class SocketioService {
 
   private registerListeners() {
     this.ioClient.on('new-roomate', ({ room, partecipants }) => {
-      this.rootFacade.registerRoomatesChange(room, partecipants);
+      this.startFacade.registerRoomatesChange(room, partecipants);
     });
     this.ioClient.on('roomate-left', ({ room, partecipants }) => {
-      this.rootFacade.registerRoomatesChange(room, partecipants);
+      this.startFacade.registerRoomatesChange(room, partecipants);
     });
   }
 

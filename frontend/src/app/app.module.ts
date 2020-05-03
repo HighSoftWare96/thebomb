@@ -1,4 +1,4 @@
-import { WaitingRoomComponent } from './pages/waitingroom/waitingroom.component';
+import { WaitingRoomComponent } from './start/pages/waitingroom/waitingroom.component';
 import { environment } from './../environments/environment';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -18,12 +18,8 @@ import { CustomStoreRouteSerializer } from './store/utils/CustomRouterStoreSeria
 import { reducers } from './store/root.reducer';
 import { RootEffects } from './store/root.effects';
 import { RootFacadeService } from './store/rootFacade.service';
-import { SharedModule } from './shared/shared.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HomeComponent } from './pages/home/home.component';
-import { Page404Component } from './pages/404/404.component';
-import { RoomComponent } from './pages/room/room.component';
-import { JoinComponent } from './pages/join/join.component';
+import { StartModule } from './start/start.module';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -31,26 +27,11 @@ export function createTranslateLoader(http: HttpClient) {
 
 @NgModule({
   declarations: [
-    AppComponent,
-    HomeComponent,
-    Page404Component,
-    RoomComponent,
-    WaitingRoomComponent,
-    JoinComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     HttpClientModule,
-    FormsModule,
-    ReactiveFormsModule,
-    TranslateModule.forRoot({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: (createTranslateLoader),
-        deps: [HttpClient]
-      }
-    }),
     AppCommonModule.forRoot(),
     StoreModule.forRoot(
       reducers
@@ -64,7 +45,17 @@ export function createTranslateLoader(http: HttpClient) {
     StoreRouterConnectingModule.forRoot({
       serializer: CustomStoreRouteSerializer
     }),
-    SharedModule.forRoot(),
+    StartModule,
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: (createTranslateLoader),
+        deps: [HttpClient]
+      }
+    }),
     BrowserAnimationsModule
   ],
   providers: [

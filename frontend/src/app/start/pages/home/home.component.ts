@@ -1,40 +1,36 @@
-import { Room } from 'src/app/shared/interfaces/Room';
-import { Partecipant } from '../../shared/interfaces/Partecipant';
+import { Partecipant } from '../../../shared/interfaces/Partecipant';
 import { Observable, Subscription } from 'rxjs';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { RootFacadeService } from 'src/app/store/rootFacade.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import rug from 'random-username-generator';
+import { StartFacadeService } from '../../store/startFacade.service';
 
 @Component({
-  selector: 'app-join',
-  templateUrl: './join.component.html',
-  styleUrls: ['./join.component.scss']
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.scss']
 })
-export class JoinComponent implements OnInit, OnDestroy {
+export class HomeComponent implements OnInit, OnDestroy {
 
   loggedPartecipant$: Observable<Partecipant>;
-  joiningRoom$: Observable<Room>;
 
   form: FormGroup;
   subs: Subscription[] = [];
 
   constructor(
-    private rootFacade: RootFacadeService,
+    private startFacade: StartFacadeService,
     private formBuilder: FormBuilder
   ) {
-    this.loggedPartecipant$ = rootFacade.loggedPartecipant$;
-    this.joiningRoom$ = rootFacade.currentRoom$;
-
+    this.loggedPartecipant$ = startFacade.loggedPartecipant$;
     this.form = formBuilder.group({
       name: [rug.generate(), [Validators.required]],
       avatarSeed: ['']
     });
-
     this.generateRandomAvatar();
-
+    debugger
     this.subs.push(
-      rootFacade.loggedPartecipant$.subscribe((s) => {
+      startFacade.loggedPartecipant$.subscribe((s) => {
         this.form.patchValue({ ...s }, {
           emitEvent: false
         });
@@ -47,7 +43,7 @@ export class JoinComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.rootFacade.loadJoiningRoom()
+    this.startFacade.refreshPartecipant();
   }
 
   ngOnDestroy() {
@@ -65,12 +61,7 @@ export class JoinComponent implements OnInit, OnDestroy {
 
   createPartecipant() {
     const { name, avatarSeed } = this.form.value;
-    this.rootFacade.createPartecipant(name, avatarSeed);
-  }
-
-  joinRoom() {
-    const { name, avatarSeed } = this.form.value;
-    this.rootFacade.joinRoom(name, avatarSeed);
+    this.startFacade.createPartecipant(name, avatarSeed);
   }
 
 }

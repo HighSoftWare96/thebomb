@@ -1,10 +1,10 @@
-import { HomeComponent } from './pages/home/home.component';
+import { HomeComponent } from './start/pages/home/home.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { Page404Component } from './pages/404/404.component';
-import { RoomComponent } from './pages/room/room.component';
-import { JoinComponent } from './pages/join/join.component';
-import { WaitingRoomComponent } from './pages/waitingroom/waitingroom.component';
+import { Page404Component } from './common/pages/404/404.component';
+import { RoomComponent } from './start/pages/room/room.component';
+import { JoinComponent } from './start/pages/join/join.component';
+import { WaitingRoomComponent } from './start/pages/waitingroom/waitingroom.component';
 
 
 const routes: Routes = [
@@ -12,22 +12,6 @@ const routes: Routes = [
     path: '',
     pathMatch: 'full',
     redirectTo: 'home'
-  },
-  {
-    path: 'home',
-    component: HomeComponent
-  },
-  {
-    path: 'join/:inviteId',
-    component: JoinComponent
-  },
-  {
-    path: 'rooms/new',
-    component: RoomComponent
-  },
-  {
-    path: 'waitingroom',
-    component: WaitingRoomComponent
   },
   {
     path: 'play',

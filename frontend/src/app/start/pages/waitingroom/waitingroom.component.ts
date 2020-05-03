@@ -1,9 +1,10 @@
-import { Partecipant } from '../../shared/interfaces/Partecipant';
+import { Partecipant } from '../../../shared/interfaces/Partecipant';
 import { Observable, Subscription } from 'rxjs';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { RootFacadeService } from 'src/app/store/rootFacade.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Room } from 'src/app/shared/interfaces/Room';
+import { StartFacadeService } from '../../store/startFacade.service';
 
 @Component({
   selector: 'app-waitingroom',
@@ -22,12 +23,12 @@ export class WaitingRoomComponent implements OnInit, OnDestroy {
   difficulties = [0, 1, 2, 3, 4];
 
   constructor(
-    private rootFacade: RootFacadeService,
+    private startFacade: StartFacadeService,
     private formBuilder: FormBuilder
   ) {
-    this.roomates$ = rootFacade.currentRoomates$;
-    this.currentPartecipant$ = rootFacade.loggedPartecipant$;
-    this.room$ = rootFacade.currentRoom$;
+    this.roomates$ = startFacade.currentRoomates$;
+    this.currentPartecipant$ = startFacade.loggedPartecipant$;
+    this.room$ = startFacade.currentRoom$;
 
     this.form = formBuilder.group({
       rounds: [5],
