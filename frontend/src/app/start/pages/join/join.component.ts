@@ -48,6 +48,7 @@ export class JoinComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.startFacade.refreshPartecipant();
     this.startFacade.loadJoiningRoom()
   }
 

@@ -5,13 +5,8 @@ import { Page404Component } from './common/pages/404/404.component';
 
 const routes: Routes = [
   {
-    path: '',
-    pathMatch: 'full',
-    redirectTo: 'home'
-  },
-  {
     path: 'play',
-    loadChildren: () => import('./game/game.module').then(m => m.GameModule)
+    loadChildren: () => import('./play/play.module').then(m => m.PlayModule)
   },
   {
     path: '404',

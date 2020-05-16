@@ -5,6 +5,8 @@ import { RootFacadeService } from 'src/app/store/rootFacade.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Room } from 'src/app/shared/interfaces/Room';
 import { StartFacadeService } from '../../store/startFacade.service';
+import { GameApi } from 'src/app/shared/apis/game.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-waitingroom',
@@ -24,7 +26,9 @@ export class WaitingRoomComponent implements OnInit, OnDestroy {
 
   constructor(
     private startFacade: StartFacadeService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private gameApi: GameApi,
+    private router: Router
   ) {
     this.roomates$ = startFacade.currentRoomates$;
     this.currentPartecipant$ = startFacade.loggedPartecipant$;
@@ -59,6 +63,14 @@ export class WaitingRoomComponent implements OnInit, OnDestroy {
     }
     const { protocol, hostname } = window.location;
     return `${protocol}//${hostname}/join/${room.inviteId}`;
+  }
+
+  newGame() {
+    const { value } = this.form;
+    this.router.navigate(
+      ['play', 'game'],
+      { queryParams: value }
+    );
   }
 
 }

@@ -6,6 +6,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { Room } from '../shared/interfaces/Room';
+import { RouterState } from '@ngrx/router-store';
+import { CustomRouterState } from './root.reducer';
 
 @Injectable()
 export class RootFacadeService {
@@ -17,6 +19,10 @@ export class RootFacadeService {
 
   resetStores() {
     this.store.dispatch(rootActions.loadResetStore());
+  }
+
+  getRouterState(): Observable<CustomRouterState> {
+    return this.store.select(state => rootSelectors.getRouterStateData(state));
   }
 
   getRouterParam(paramName): Observable<string> {

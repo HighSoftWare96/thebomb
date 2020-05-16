@@ -1,0 +1,31 @@
+<ng-container [ngSwitch]="(status$ | async)">
+  <ng-container *ngSwitchCase="'LOADING'">
+    <p>Attesa caricamento gioco...</p>
+  </ng-container>
+  <ng-container *ngSwitchCase="'PLAYING'">
+    <p>Gioco partito!</p>
+  </ng-container>
+  <ng-container *ngSwitchCase="'ROUND_STARTED'">
+    <p>Sillaba: <strong>{{(currentRound$ | async).syllable}}</strong></p>
+    <p>Posizione: <strong>{{(currentRound$ | async).dice}}</strong></p>
+    <div *ngIf="(currentPartecipant$ | async).id === (currentRound$ | async).currentPartecipantId else notPlaying">
+      <form (submit)="sendResponse()" [formGroup]="form" class="form-group">
+        <p>Tuo turno! Inserisci la parola corrispondente</p>
+        <input type="text" formControlName="response" class="form-control" />
+        <button type="submit" class="btn btn-primary">Invia</button>
+      </form>
+    </div>
+    <ng-template #notPlaying>
+      <p>Sta giocando {{getRoomate(roomates$ | async, (currentRound$ | async).currentPartecipantId).name}}...</p>
+    </ng-template>
+  </ng-container>
+  <ng-container *ngSwitchCase="'ROUND_ENDED'">
+    <p>Round concluso</p>
+    <p>Ha perso: <strong>{{getRoomate(roomates$ | async, (currentRound$ | async).currentPartecipantId).name}}</strong>
+    </p>
+  </ng-container>
+  <ng-container *ngSwitchCase="'END'">
+    <p>Partita finita!</p>
+    <p>Statistiche...</p>
+  </ng-container>
+</ng-container>

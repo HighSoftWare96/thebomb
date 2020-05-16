@@ -18,7 +18,7 @@
   </div>
   <ng-container *ngIf="(room$ | async).adminPartecipantId === (currentPartecipant$ | async).id">
     <h3>Crea nuova partita</h3>
-    <form [formGroup]="form" (submit)="false">
+    <form [formGroup]="form" (submit)="newGame()">
       <div class="row">
         <div class="form-group col-md">
           <label for="rounds">Rounds</label>
@@ -47,7 +47,7 @@
           <input type="number" class="form-control" id="maxTimeS" formControlName="maxTimeS" />
         </div>
       </div>
-      <button class="btn btn-primary" type="submit">Nuova partita</button>
+      <button class="btn btn-primary" type="submit" [disabled]="(roomates$ | async).length < 2">Nuova partita</button>
     </form>
   </ng-container>
 </div>

@@ -13,6 +13,11 @@ const routes: Routes = [
     component: MainLayoutComponent,
     children: [
       {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'home'
+      },
+      {
         path: 'home',
         component: HomeComponent
       },

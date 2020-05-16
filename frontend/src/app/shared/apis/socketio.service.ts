@@ -1,3 +1,4 @@
+import { events } from './../interfaces/socketioEvents';
 import { RootFacadeService } from 'src/app/store/rootFacade.service';
 import { environment } from 'src/environments/environment';
 import { Injectable } from '@angular/core';
@@ -6,6 +7,8 @@ import { BearerInterceptor } from 'src/app/common/interceptors/bearer.intercepto
 import { Observable } from 'rxjs';
 import { Room } from '../interfaces/Room';
 import { StartFacadeService } from 'src/app/start/store/startFacade.service';
+import { Store } from '@ngrx/store';
+import * as playActions from '../../play/store/play.actions';
 
 @Injectable()
 export class SocketioService {
@@ -13,7 +16,8 @@ export class SocketioService {
 
   constructor(
     private bearerInterceptor: BearerInterceptor,
-    private startFacade: StartFacadeService
+    private startFacade: StartFacadeService,
+    private store: Store<any>
   ) { }
 
   initialize(socketioRoom: string): Observable<Room> {
@@ -35,51 +39,45 @@ export class SocketioService {
     });
   }
 
+  stop() {
+    this.ioClient.disconnect();
+    this.ioClient = undefined;
+  }
+
   private registerListeners() {
-    this.ioClient.on('new-roomate', ({ room, partecipants }) => {
+    this.ioClient.on(events.fromServer.newRoomate, ({ room, partecipants }) => {
       this.startFacade.registerRoomatesChange(room, partecipants);
     });
-    this.ioClient.on('roomate-left', ({ room, partecipants }) => {
+    this.ioClient.on(events.fromServer.roomateLeft, ({ room, partecipants }) => {
       this.startFacade.registerRoomatesChange(room, partecipants);
+    });
+    this.ioClient.on(events.fromServer.gameStarted, ({ game }) => {
+      this.store.dispatch(playActions.loadGameStarted({ game }));
+    });
+    this.ioClient.on(events.fromServer.gameEnded, ({ game, statistics }) => {
+      this.store.dispatch(playActions.loadGameEnded({ game, statistics }));
+    });
+    this.ioClient.on(events.fromServer.roundStarted, ({ round }) => {
+      this.store.dispatch(playActions.loadRoundStarted({ round }));
+    });
+    this.ioClient.on(events.fromServer.turnChecked, ({ round }) => {
+      this.store.dispatch(playActions.loadTurnChecked({ round }));
+    });
+    this.ioClient.on(events.fromServer.turnWrong, ({ round }) => {
+      this.store.dispatch(playActions.loadTurnWrong({ round }));
+    });
+    this.ioClient.on(events.fromServer.roundEnded, ({ round }) => {
+      this.store.dispatch(playActions.loadRoundEnded({ round }));
     });
   }
 
-  //   ioClient.on('room-joined', (payload) => {
-  //     console.log('⛺️Joined room!', payload);
-  //   });
-
-  // ioClient.on('new-roomate', (payload) => {
-  //   console.log('🙇🏻‍♂️New partecipant!', payload);
-  // });
-
-  // ioClient.on('game-started', (payload) => {
-  //   console.log('Gioco partito!', payload);
-  // });
-
-  // ioClient.on('game-ended', (payload) => {
-  //   console.log('Gioco finito!', payload);
-  // });
-
-  // ioClient.on('round-started', (payload) => {
-  //   console.log('Round partito!', payload);
-  //   ioClient.emit('turn-check', {
-  //     partecipantId: 1,
-  //     roundId: payload.round.id,
-  //     response: 'aereo'
-  //   });
-  // });
-
-  // ioClient.on('turn-checked', (payload) => {
-  //   console.log('Check ok. NEXT.', payload);
-  // });
-
-  // ioClient.on('turn-wrong', (error) => {
-  //   console.log('Turno errato', error);
-  // });
-
-  // ioClient.on('round-ended', (payload) => {
-  //   console.log('Round finito!', payload);
-  // });
+  checkTurn(partecipantId: number, roundId: number, response: string) {
+    this.ioClient.emit(events.fromClient.turnCheck, {
+      partecipantId,
+      roundId,
+      response
+    });
+  }
 
   // ioClient.on('error', (error) => {
   //   console.log('System error', error);
@@ -92,6 +90,5 @@ export class SocketioService {
   // ioClient.on('server-error', (error) => {
   //   console.log('Server error', error);
   // });
-
 
 }
