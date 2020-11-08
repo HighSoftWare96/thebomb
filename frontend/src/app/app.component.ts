@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { RootFacadeService } from './store/rootFacade.service';
 
 @Component({
@@ -8,9 +9,12 @@ import { RootFacadeService } from './store/rootFacade.service';
 })
 export class AppComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private translate: TranslateService
+  ) { }
 
   ngOnInit() {
+    this.translate.setDefaultLang('it');
   }
 
 }
