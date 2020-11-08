@@ -49,6 +49,7 @@ Soon I'll file a docker-compose or something like that...
 - Ensure to have a Postgres database running in local (you can try it with [the Docker image](https://hub.docker.com/_/postgres))
 - Ensure to have a proper Redis server running ([here](https://hub.docker.com/_/redis) for docker)
 - Tweak the `config.dev.js` for the local configuration
+- Run `npm i` on each folder.
 
 #### Backend
 
