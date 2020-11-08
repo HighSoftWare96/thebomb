@@ -54,9 +54,8 @@ export class PlayEffects {
     withLatestFrom(this.startFacade.loggedPartecipant$),
     tap(([[{ response }, currentRound], partecipant]) => {
       this.socketioService.checkTurn(partecipant.id, currentRound.id, response);
-    }))
-
-
+    })
+  );
 
   constructor(
     private actions$: Actions,

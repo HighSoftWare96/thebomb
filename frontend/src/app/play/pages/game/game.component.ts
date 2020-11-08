@@ -55,5 +55,6 @@ export class GameComponent implements OnInit {
   sendResponse() {
     const { response } = this.form.value;
     this.playFacade.sendResponse(response);
+    this.form.get('response').setValue('');
   }
 }
