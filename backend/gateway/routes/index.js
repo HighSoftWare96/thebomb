@@ -12,7 +12,7 @@ module.exports = [{
   authentication: true,
   authorization: true,
 
-  autoAliases: true,
+  autoAliases: false,
 
   aliases: {
     'POST /rooms': 'room.create',

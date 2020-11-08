@@ -41,7 +41,7 @@ export class PlayEffects {
   loadStartGameSuccess$ = this.actions$.pipe(
     ofType(playActions.loadStartGameSuccess),
     tap(() => {
-      this.router.navigate(['..', 'play'], { relativeTo: this.activatedRoute })
+      this.router.navigateByUrl('play/game');
     })
   );
 
@@ -55,16 +55,6 @@ export class PlayEffects {
     tap(([[{ response }, currentRound], partecipant]) => {
       this.socketioService.checkTurn(partecipant.id, currentRound.id, response);
     }))
-
-  @Effect({
-    dispatch: false
-  })
-  loadGameStartedEffect$ = this.actions$.pipe(
-    ofType(playActions.loadGameStarted),
-    tap(() => {
-      this.router.navigateByUrl('play/game');
-    })
-  )
 
 
 

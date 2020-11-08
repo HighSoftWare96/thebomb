@@ -61,8 +61,8 @@ export class WaitingRoomComponent implements OnInit, OnDestroy {
     if (!room || !room.inviteId) {
       return undefined;
     }
-    const { protocol, hostname } = window.location;
-    return `${protocol}//${hostname}/join/${room.inviteId}`;
+    const { origin } = window.location;
+    return `${origin}/join/${room.inviteId}`;
   }
 
   newGame() {

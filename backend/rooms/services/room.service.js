@@ -114,7 +114,7 @@ module.exports = {
           return this._create(ctx, {
             ...params,
             adminPartecipantId,
-            inviteId
+            inviteId,
           });
         } catch (e) {
           this.logger.error(e);

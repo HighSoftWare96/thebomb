@@ -12,7 +12,7 @@ import * as playActions from '../../play/store/play.actions';
 
 @Injectable()
 export class SocketioService {
-  ioClient;
+  private ioClient;
 
   constructor(
     private bearerInterceptor: BearerInterceptor,
@@ -44,6 +44,14 @@ export class SocketioService {
     this.ioClient = undefined;
   }
 
+  checkTurn(partecipantId: number, roundId: number, response: string) {
+    this.ioClient.emit(events.fromClient.turnCheck, {
+      partecipantId,
+      roundId,
+      response
+    });
+  }
+
   private registerListeners() {
     this.ioClient.on(events.fromServer.newRoomate, ({ room, partecipants }) => {
       this.startFacade.registerRoomatesChange(room, partecipants);
@@ -68,14 +76,6 @@ export class SocketioService {
     });
     this.ioClient.on(events.fromServer.roundEnded, ({ round }) => {
       this.store.dispatch(playActions.loadRoundEnded({ round }));
-    });
-  }
-
-  checkTurn(partecipantId: number, roundId: number, response: string) {
-    this.ioClient.emit(events.fromClient.turnCheck, {
-      partecipantId,
-      roundId,
-      response
     });
   }
 

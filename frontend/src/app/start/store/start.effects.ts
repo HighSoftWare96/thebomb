@@ -10,6 +10,7 @@ import { switchMap, map, catchError, tap, withLatestFrom, concatMap } from 'rxjs
 import { of } from 'rxjs';
 import { Injectable } from '@angular/core';
 import * as startActions from './start.actions';
+import { loadGameStarted } from 'src/app/play/store/play.actions';
 
 @Injectable()
 export class StartEffects {
@@ -166,6 +167,17 @@ export class StartEffects {
     ofType(startActions.loadJoinRoomSuccess),
     tap(({ partecipant, room }) => {
       this.router.navigateByUrl('/waitingroom');
+    })
+  )
+
+  @Effect({
+    dispatch: false
+  })
+  loadGameStartedEffect$ = this.action$.pipe(
+    ofType(loadGameStarted),
+    tap(() => {
+      debugger
+      this.router.navigateByUrl('play/game');
     })
   )
 

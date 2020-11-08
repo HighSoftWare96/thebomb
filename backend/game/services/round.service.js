@@ -47,6 +47,11 @@ module.exports = {
       currentPartecipantId: {
         type: Sequelize.INTEGER,
         allowNull: true
+      },
+      usedWords: {
+        type: Sequelize.ARRAY(Sequelize.STRING),
+        allowNull: false,
+        defaultValue: []
       }
     },
     options: {
@@ -130,13 +135,17 @@ module.exports = {
           const { roundId, response } = ctx.params;
           const { id: partecipantId } = ctx.meta.user;
 
-          let round = await this._find(ctx, {
-            id: roundId,
-            currentPartecipantId: partecipantId,
-            ended: false
-          });
+          let round = await this._find(ctx, 
+            {
+              query: {
+                id: roundId,
+                currentPartecipantId: partecipantId,
+                ended: false
+              }
+            }
+          );
 
-          if (!round || !round.length) {
+          if (!round || !round.length || !round[0]) {
             return Promise.reject('ROUND_NOT_FOUND');
           }
 
@@ -148,7 +157,7 @@ module.exports = {
             }
           });
 
-          if (!game || !game.length) {
+          if (!game || !game.length || !game[0]) {
             return Promise.reject('GAME_NOT_FOUND');
           }
 
@@ -161,7 +170,7 @@ module.exports = {
             }
           });
 
-          if (!room || !room.length) {
+          if (!room || !room.length || !room[0]) {
             return Promise.reject('ROOM_NOT_FOUND');
           }
 
@@ -181,7 +190,9 @@ module.exports = {
             // aggiorno il round
             const updatedRound = await this._update(ctx, {
               id: round.id,
-              currentPartecipantId: room.partecipantIds[nextPartecipantIdx]
+              currentPartecipantId: room.partecipantIds[nextPartecipantIdx],
+              // adding used words to round
+              usedWords: [...round.usedWords, response.toLowerCase()]
             });
 
             // passo al prossimo giocatore
@@ -189,13 +200,12 @@ module.exports = {
               round: updatedRound,
               socketioRoom: room.socketioRoom
             });
-          } else {
-            // passo al prossimo giocatore
-            return this.broker.call('socketio.turnWrong', {
-              round,
-              socketioRoom: room.socketioRoom
-            });
           }
+          // wrong turn.. signal to socketio
+          return this.broker.call('socketio.turnWrong', {
+            round,
+            socketioRoom: room.socketioRoom
+          });
         } catch (e) {
           this.logger.error(e);
           return Promise.reject(e);
@@ -236,13 +246,20 @@ module.exports = {
       return Math.floor(Math.random() * 3);
     },
     async isResponseRight(round, game, response) {
+      const { usedWords } = round;
       const { language } = game;
+
       const wordService = `${language}Words`;
 
       const responseLowerCase =
         response.toLowerCase();
       const syllableLowerCase =
         round.syllable.toLowerCase();
+
+      // already used word!
+      if (usedWords.includes(responseLowerCase)) {
+        return false;
+      }
 
       let responseIsRight = false;
 
@@ -261,11 +278,13 @@ module.exports = {
       if (!responseIsRight) {
         return false;
       } else {
-        // verifico che la parola esista
-        return (await this.broker.call(`${wordService}.find`, {
+        const fromdb = await this.broker.call(`${wordService}.find`, {
           limit: 1,
           query: { word: response }
-        })).length > 0;
+        });
+        console.log(fromdb);
+        // verifico che la parola esista
+        return fromdb.length > 0;
       }
     }
   }

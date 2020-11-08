@@ -1,3 +1,4 @@
+<p>{{status$ | async}}</p>
 <ng-container [ngSwitch]="(status$ | async)">
   <ng-container *ngSwitchCase="'LOADING'">
     <p>Attesa caricamento gioco...</p>
@@ -7,7 +8,8 @@
   </ng-container>
   <ng-container *ngSwitchCase="'ROUND_STARTED'">
     <p>Sillaba: <strong>{{(currentRound$ | async).syllable}}</strong></p>
-    <p>Posizione: <strong>{{(currentRound$ | async).dice}}</strong></p>
+    <p>Posizione: <strong>{{(currentRound$ | async).dice}}
+        {{('position' + (currentRound$ | async).dice | translate)}}</strong></p>
     <div *ngIf="(currentPartecipant$ | async).id === (currentRound$ | async).currentPartecipantId else notPlaying">
       <form (submit)="sendResponse()" [formGroup]="form" class="form-group">
         <p>Tuo turno! Inserisci la parola corrispondente</p>
