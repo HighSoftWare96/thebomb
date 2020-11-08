@@ -1,3 +1,4 @@
+import { AuthGuard } from './common/guards/auth.guard';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { Page404Component } from './common/pages/404/404.component';

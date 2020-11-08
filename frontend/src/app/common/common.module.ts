@@ -1,3 +1,5 @@
+import { RoomGuard } from './guards/room.guard';
+import { AuthGuard } from './guards/auth.guard';
 import { CommonModule } from '@angular/common';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ModuleWithProviders, NgModule } from '@angular/core';
@@ -36,7 +38,9 @@ export class AppCommonModule {
           provide: HTTP_INTERCEPTORS,
           useExisting: BearerInterceptor,
           multi: true
-        }
+        },
+        AuthGuard,
+        RoomGuard
       ]
     }
   }

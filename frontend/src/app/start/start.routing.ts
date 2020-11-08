@@ -1,3 +1,5 @@
+import { RoomGuard } from './../common/guards/room.guard';
+import { AuthGuard } from './../common/guards/auth.guard';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -27,11 +29,13 @@ const routes: Routes = [
       },
       {
         path: 'rooms/new',
-        component: RoomComponent
+        component: RoomComponent,
+        canActivate: [AuthGuard]
       },
       {
         path: 'waitingroom',
-        component: WaitingRoomComponent
+        component: WaitingRoomComponent,
+        canActivate: [AuthGuard, RoomGuard]
       }
     ]
   }
