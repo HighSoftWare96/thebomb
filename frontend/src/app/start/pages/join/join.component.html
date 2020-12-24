@@ -1,16 +1,15 @@
 <div class="container d-flex flex-column align-items-center justify-content-center">
-  <h1>The Bomb</h1>
-  <form [formGroup]="form" class="d-flex flex-column align-items-center justify-content-center">
+  <form [formGroup]="form" class="d-flex flex-column align-items-center justify-content-center" (submit)="joinRoom()">
     <img (click)="generateRandomAvatar()"
       [src]="'https://avatars.dicebear.com/v2/avataaars/' + f['avatarSeed'].value + '.svg'" class="avatar my-4" />
-    <div class="form-group">
-      <label for="username">Nome giocatore</label>
-      <input id="username" type="text" class="form-control" formControlName="name">
+    <game-input id="username" type="text" formControlName="name">Nome</game-input>
+    <game-input id="inviteId" type="text" formControlName="inviteId">Codice stanza</game-input>
+    <div class="d-flex flex-row text-center flex-wrap">
+      <game-button type="submit" [disabled]="!form.valid">
+        <span *ngIf="(joiningRoom$ | async) as room">Unisciti a {{room.name}}</span>
+        <span *ngIf="!(joiningRoom$ | async)">Unisciti</span>
+      </game-button>
+      <game-button [disabled]="!form.valid" (click)="createPartecipant()">Nuova stanza</game-button>
     </div>
   </form>
-  <button class="btn btn-primary" [disabled]="!form.valid" (click)="joinRoom()">
-    <span *ngIf="(joiningRoom$ | async) as room">Unisciti a {{room.name}}</span>
-    <span *ngIf="!(joiningRoom$ | async)">Unisciti</span>
-  </button>
-  <button class="btn btn-secondary mt-2" [disabled]="!form.valid" (click)="createPartecipant()">Nuova stanza</button>
 </div>

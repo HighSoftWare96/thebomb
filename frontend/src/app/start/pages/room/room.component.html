@@ -1,15 +1,8 @@
 <div class="container d-flex flex-column align-items-center justify-content-center">
-  <h1>The Bomb</h1>
   <h3>Crea nuova stanza</h3>
-  <form [formGroup]="form">
-    <div class="form-group">
-      <label for="name">Nome stanza</label>
-      <input type="text" class="form-control" id="name" formControlName="name" />
-    </div>
-    <div class="form-group">
-      <label for="maxParts">Numero massimo di partecipanti</label>
-      <input type="number" class="form-control" id="maxParts" formControlName="maxPartecipants" />
-    </div>
+  <form [formGroup]="form" class="d-flex flex-column align-items-center justify-content-center" (submit)="createRoom()">
+    <game-input id="name" formControlName="name">Nome stanza</game-input>
+    <game-input id="maxParts" formControlName="maxPartecipants" type="number">Max giocatori</game-input>
+    <game-button type="submit" [disabled]="!form.valid">Nuova partita</game-button>
   </form>
-  <button class="btn btn-primary" (click)="createRoom()">Nuova partita</button>
 </div>

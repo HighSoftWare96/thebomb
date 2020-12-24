@@ -1,15 +1,13 @@
 <div class="container d-flex flex-column align-items-center justify-content-center">
-  <h1>The Bomb</h1>
-  <form [formGroup]="form" class="d-flex flex-column align-items-center justify-content-center">
+  <form [formGroup]="form" class="d-flex flex-column align-items-center justify-content-center" (submit)="createPartecipant()">
     <img (click)="generateRandomAvatar()"
       [src]="'https://avatars.dicebear.com/v2/avataaars/' + f['avatarSeed'].value + '.svg'" class="avatar my-4" />
-    <div class="form-group">
-      <label for="username">Nome giocatore</label>
-      <input id="username" type="text" class="form-control" formControlName="name">
+    <game-input id="username" formControlName="name">
+      Nome giocatore
+    </game-input>
+    <div class="d-flex flex-row text-center flex-wrap">
+      <game-button [disabled]="!form.valid" type="submit">Nuova stanza</game-button>
+      <game-button [disabled]="!form.valid">Unisciti</game-button>
     </div>
   </form>
-  <div class="d-flex flex-row">
-    <button class="btn btn-primary" [disabled]="!form.valid" (click)="createPartecipant()">Nuova stanza</button>
-    <button class="btn btn-primary ml-2" [disabled]="!form.valid">Unisciti</button>
-  </div>
 </div>

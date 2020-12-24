@@ -1,6 +1,40 @@
+@import './assets/styles/variables';
+
 html,
 body {
   width: 100%;
   height: 100%;
   position: relative;
+}
+
+::-moz-selection { /* Code for Firefox */
+  color: black;
+  background: rgba($accent, .3);
+}
+
+::selection {
+  color: black;
+  background: rgba($accent, .3);
+}
+
+.font-game-1 {
+  font-family: "Kanit", sans-serif;
+}
+
+.font-game-2 {
+  font-family: "Skirk";
+}
+
+h3 {
+  color: white;
+  font-weight: 200;
+}
+
+
+.link {
+  cursor: pointer;
+}
+
+p {
+  color: white;
 }

@@ -1,0 +1,8 @@
+<div class="container font-game-1 text-left">
+  <label for="gameInput">
+    <ng-content></ng-content>
+  </label>
+  <select id="gameInput" [(ngModel)]="_value">
+    <option *ngFor="let i of options" [value]="i.value">{{i.label}}</option>
+  </select>
+</div>

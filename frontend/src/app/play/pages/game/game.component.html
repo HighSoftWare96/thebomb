@@ -16,8 +16,8 @@
       <div *ngIf="(currentPartecipant$ | async).id === (currentRound$ | async).currentPartecipantId else notPlaying">
         <form (submit)="sendResponse()" [formGroup]="form" class="form-group">
           <p>Tuo turno! Inserisci la parola corrispondente</p>
-          <input type="text" formControlName="response" class="form-control" /><br />
-          <button type="submit" class="btn btn-primary">Invia</button>
+          <game-input type="text" formControlName="response"></game-input>
+          <game-button type="submit">Invia</game-button>
         </form>
       </div>
       <ng-template #notPlaying>

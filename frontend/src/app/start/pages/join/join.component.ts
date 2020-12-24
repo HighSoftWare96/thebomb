@@ -29,16 +29,29 @@ export class JoinComponent implements OnInit, OnDestroy {
 
     this.form = formBuilder.group({
       name: [rug.generate(), [Validators.required]],
-      avatarSeed: ['']
+      avatarSeed: [''],
+      inviteId: ['', [Validators.required]]
     });
 
     this.generateRandomAvatar();
 
     this.subs.push(
+      startFacade.currentRoom$.subscribe(r => {
+        if (!r || !r.inviteId) {
+          return;
+        }
+        console.log(r);
+        this.form.get('inviteId').patchValue(r.inviteId, { emitEvent: false });
+      })
+    );
+
+    this.subs.push(
       startFacade.loggedPartecipant$.subscribe((s) => {
-        this.form.patchValue({ ...s }, {
-          emitEvent: false
-        });
+        if (!s || !s.name) {
+          return;
+        }
+        console.log(s);
+        this.form.get('name').patchValue(s.name, { emitEvent: false });
       })
     );
   }

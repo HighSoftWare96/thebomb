@@ -1,0 +1,32 @@
+@import "../../../../assets/styles/variables";
+
+.container {
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  margin: 15px 0;
+  width: 100%;
+}
+
+label {
+  margin: 0;
+  margin-left: 30px;
+  margin-bottom: -12px;
+  color: $accent;
+  font-size: 20px;
+  z-index: 20;
+}
+
+input {
+  width: 100%;
+  outline: none;
+  border: 5px solid rgba(218, 218, 218, 0.15);
+  border-radius: 50px;
+  font-size: 18px;
+  padding: 15px 25px;
+  background-color: rgb(236, 236, 236);
+  background-clip: padding-box;
+  caret-color: $accent;
+  font-weight: 200;
+}

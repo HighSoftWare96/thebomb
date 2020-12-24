@@ -1,0 +1,27 @@
+@import "../../../../assets/styles/variables";
+
+.container {
+  padding: 5px;
+}
+
+button {
+  border: 5px solid rgba($accent, .3);
+  background: $accent;
+  padding: 15px 25px;
+  transition: all ease-in-out 120ms;
+  border-radius: 50px;
+  color: white;
+  font-size: 18px;
+  outline: none;
+  position: relative;
+  background-clip: padding-box;
+}
+
+button:hover {
+  transform: scale(0.95);
+  z-index: 10;
+}
+
+button:active {
+  transform: scale(0.7);
+}

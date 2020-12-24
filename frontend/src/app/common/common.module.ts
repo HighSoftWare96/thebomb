@@ -1,3 +1,5 @@
+import { GameSelectComponent } from './components/gameSelect/gameSelect.component';
+import { GameButtonComponent } from './components/gameButton/gameButton.component';
 import { RoomGuard } from './guards/room.guard';
 import { AuthGuard } from './guards/auth.guard';
 import { CommonModule } from '@angular/common';
@@ -9,15 +11,22 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { BearerInterceptor } from './interceptors/bearer.interceptor';
 import { MainLayoutComponent } from './layouts/main/main.layout';
 import { Page404Component } from './pages/404/404.component';
+import { SoundEffectsService } from './services/soundEffects.service';
+import { GameInputComponent } from './components/gameInput/gameInput.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     Page404Component,
-    MainLayoutComponent
+    GameButtonComponent,
+    MainLayoutComponent,
+    GameInputComponent,
+    GameSelectComponent
   ],
   imports: [
     CommonModule,
     RouterModule,
+    FormsModule,
     TranslateModule.forChild(),
     TooltipModule.forRoot()
   ],
@@ -25,7 +34,10 @@ import { Page404Component } from './pages/404/404.component';
     TranslateModule,
     TooltipModule,
     Page404Component,
-    MainLayoutComponent
+    GameButtonComponent,
+    MainLayoutComponent,
+    GameInputComponent,
+    GameSelectComponent
   ]
 })
 export class AppCommonModule {
@@ -40,7 +52,8 @@ export class AppCommonModule {
           multi: true
         },
         AuthGuard,
-        RoomGuard
+        RoomGuard,
+        SoundEffectsService
       ]
     }
   }

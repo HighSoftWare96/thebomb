@@ -21,8 +21,14 @@ export class WaitingRoomComponent implements OnInit, OnDestroy {
 
   form: FormGroup;
   subs: Subscription[] = [];
-  languages = ['it'];
-  difficulties = [0, 1, 2, 3, 4];
+  languages = [{ label: 'it', value: 'it' }];
+  difficulties = [
+    { value: 0, label: 'facile' },
+    { value: 1, label: 'normale' },
+    { value: 2, label: 'difficile' },
+    { value: 3, label: 'molto difficile' },
+    { value: 4, label: 'pazzo!' }
+  ];
 
   constructor(
     private startFacade: StartFacadeService,
