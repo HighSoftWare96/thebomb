@@ -21,7 +21,7 @@ import { FormsModule } from '@angular/forms';
     GameButtonComponent,
     MainLayoutComponent,
     GameInputComponent,
-    GameSelectComponent
+    GameSelectComponent,
   ],
   imports: [
     CommonModule,
@@ -37,7 +37,7 @@ import { FormsModule } from '@angular/forms';
     GameButtonComponent,
     MainLayoutComponent,
     GameInputComponent,
-    GameSelectComponent
+    GameSelectComponent,
   ]
 })
 export class AppCommonModule {

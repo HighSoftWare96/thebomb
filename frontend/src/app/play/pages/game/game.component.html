@@ -10,18 +10,20 @@
     </ng-container>
 
     <ng-container *ngSwitchCase="'ROUND_STARTED'">
-      <p>Sillaba: <strong>{{(currentRound$ | async).syllable}}</strong></p>
-      <p>Posizione: <strong>{{(currentRound$ | async).dice}}
-          {{('position' + (currentRound$ | async).dice | translate)}}</strong></p>
+      <div class="syllable-container">
+        <p class="syllable game-font-1">{{(currentRound$ | async).syllable}}</p>
+        <p class="position">
+          {{('position' + (currentRound$ | async).dice | translate)}}</p>
+      </div>
       <div *ngIf="(currentPartecipant$ | async).id === (currentRound$ | async).currentPartecipantId else notPlaying">
         <form (submit)="sendResponse()" [formGroup]="form" class="form-group">
-          <p>Tuo turno! Inserisci la parola corrispondente</p>
-          <game-input type="text" formControlName="response"></game-input>
+          <game-input type="text" formControlName="response">Tuo turno!</game-input>
           <game-button type="submit">Invia</game-button>
         </form>
       </div>
       <ng-template #notPlaying>
-        <p>Sta giocando {{getRoomate(roomates$ | async, (currentRound$ | async).currentPartecipantId).name}}...</p>
+        <p class="not-playing">Sta giocando {{getRoomate(roomates$ | async, (currentRound$ |
+          async).currentPartecipantId).name}}...</p>
       </ng-template>
     </ng-container>
 
@@ -37,9 +39,4 @@
     </ng-container>
 
   </ng-container>
-</div>
-
-<div class="position-absolute top-0 right-0">
-  Debug info:
-  <code>{{(currentRound$ | async | json)}}</code>
 </div>

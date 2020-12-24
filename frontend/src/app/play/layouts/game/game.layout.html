@@ -1,0 +1,10 @@
+<div class="container page-content font-game-1">
+  <h1 class="font-game-1 text-3d">The Bomb</h1>
+  <img *ngIf="!(isExploded$ | async)" src="../../../../assets/images/bomb.png"
+    class="bomb animate__animated animate__heartBeat animate__infinite" />
+  <img *ngIf="(isExploded$ | async)" src="../../../../assets/images/explosion.png"
+    class="exp animate__animated animate__zoomIn" />
+  <div class="game-box" [ngClass]="{playing: (isMyTurn$ | async)}">
+    <router-outlet></router-outlet>
+  </div>
+</div>

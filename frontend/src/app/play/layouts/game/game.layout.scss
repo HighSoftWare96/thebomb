@@ -10,7 +10,7 @@ h1 {
 
 @media screen and (min-width: 900px) {
   h1 {
-     font-size: 72px;
+    font-size: 72px;
   }
 }
 
@@ -30,7 +30,7 @@ h1 {
 }
 
 .game-box {
-  border: 5px solid rgba($background-secondary, .3);
+  border: 5px solid rgba($background-secondary, 0.3);
   background: $background-secondary;
   background-clip: padding-box;
   border-radius: 20px;
@@ -43,18 +43,40 @@ h1 {
 }
 
 .playing {
-  box-shadow: 0 0 17px rgb(255, 0, 0);
+  box-shadow: 0 0 17px $accent;
   animation: pulsate 1s ease-out infinite;
 }
 
 @-webkit-keyframes pulsate {
   0% {
-    box-shadow: 0 0 0 rgb(247, 0, 0);
+    box-shadow: 0 0 0 $accent;
   }
   50% {
-    box-shadow: 0 0 17px rgb(255, 0, 0);
+    box-shadow: 0 0 17px $accent;
   }
   100% {
-    box-shadow: 0 0 0 rgb(255, 0, 0);
+    box-shadow: 0 0 0 $accent;
   }
+}
+
+.bomb {
+  position: absolute;
+  right: 180px;
+  width: 300px;
+  height: 300px;
+  top: 120px;
+}
+
+.animate__animated.animate__heartBeat {
+  --animate-duration: 2s;
+}
+
+.exp {
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
 }

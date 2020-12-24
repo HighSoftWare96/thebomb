@@ -11,6 +11,8 @@ import { GameStats } from 'src/app/shared/interfaces/GameStats';
 
 @Injectable()
 export class PlayFacadeService {
+  isMyTurn$: Observable<boolean>;
+  isExploded$: Observable<boolean>;
   currentGame$: Observable<Game>;
   currentStatus$: Observable<GameStatus>;
   currentRound$: Observable<Round>;
@@ -23,6 +25,8 @@ export class PlayFacadeService {
     this.currentStatus$ = this.store.select(playSelectors.getStatus);
     this.currentRound$ = this.store.select(playSelectors.getCurrentRound);
     this.gameResults$ = this.store.select(playSelectors.getGameResult);
+    this.isMyTurn$ = this.store.select(playSelectors.isMyTurn);
+    this.isExploded$ = this.store.select(playSelectors.isExploded);
   }
 
   start() {

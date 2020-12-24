@@ -9,10 +9,12 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PlayRoutingModule } from './play.routing';
 import { reducer } from './store/play.reducer';
+import { GameLayoutComponent } from './layouts/game/game.layout';
 
 @NgModule({
   declarations: [
-    GameComponent
+    GameComponent,
+    GameLayoutComponent
   ],
   imports: [
     CommonModule,
