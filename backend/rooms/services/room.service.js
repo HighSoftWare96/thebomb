@@ -5,7 +5,7 @@ const { Op } = Sequelize;
 const { db } = require('config');
 const { notFound, roomFull } = require('helpers/errors');
 const uuid = require('uuid');
-const crypto = require('crypto');
+const { createInviteId } = require('../helpers/random');
 
 module.exports = {
   name: 'room',
@@ -22,7 +22,7 @@ module.exports = {
         unique: true
       },
       inviteId: {
-        type: Sequelize.STRING(10),
+        type: Sequelize.STRING(255),
         unique: true,
         allowNull: false
       },
@@ -105,10 +105,7 @@ module.exports = {
             );
           }
 
-          const inviteId = crypto.randomBytes(10)
-            .toString('base64')
-            .slice(0, 10)
-            .replace(/\//g, '_');
+          const inviteId = createInviteId();
 
           params = this.sanitizeParams(ctx, params);
           return this._create(ctx, {
