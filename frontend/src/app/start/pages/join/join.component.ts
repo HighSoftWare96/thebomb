@@ -40,7 +40,6 @@ export class JoinComponent implements OnInit, OnDestroy {
         if (!r || !r.inviteId) {
           return;
         }
-        console.log(r);
         this.form.get('inviteId').patchValue(r.inviteId, { emitEvent: false });
       })
     );
@@ -50,7 +49,6 @@ export class JoinComponent implements OnInit, OnDestroy {
         if (!s || !s.name) {
           return;
         }
-        console.log(s);
         this.form.get('name').patchValue(s.name, { emitEvent: false });
       })
     );

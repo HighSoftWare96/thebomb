@@ -61,7 +61,6 @@ export class SocketioService {
       this.startFacade.registerRoomatesChange(room, partecipants);
     });
     this.ioClient.on(events.fromServer.gameStarted, ({ game }) => {
-      debugger
       this.store.dispatch(startActions.loadGameStarted({ game }));
     });
     this.ioClient.on(events.fromServer.gameEnded, ({ game, statistics }) => {

@@ -175,7 +175,6 @@ export class StartEffects {
   loadGameStartedEffect$ = this.action$.pipe(
     ofType(startActions.loadGameStarted),
     tap(() => {
-      debugger;
       this.router.navigateByUrl('play/game');
     })
   )

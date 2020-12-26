@@ -29,7 +29,6 @@ const gameStateReducer = createReducer(
     game
   })),
   on(startActions.loadGameStarted, (state, { game }) => {
-    debugger;
     return {
       ...state,
       game,
