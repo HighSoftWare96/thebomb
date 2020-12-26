@@ -1,3 +1,4 @@
+import { SoundEffectsService } from './../../common/services/soundEffects.service';
 import { PlayFacadeService } from './playFacade.service';
 import { SocketioService } from 'src/app/shared/apis/socketio.service';
 import { StartFacadeService } from './../../start/store/startFacade.service';
@@ -17,17 +18,15 @@ export class PlayEffects {
   @Effect()
   loadStartGame$ = this.actions$.pipe(
     ofType(playActions.loadStartGame),
-    withLatestFrom(this.rootFacade.getRouterState()),
     withLatestFrom(this.startFacade.currentRoom$),
-    switchMap(([[_, routerState], currentRoom]) => {
-      const { queryParams } = routerState;
+    switchMap(([{ gameSettings }, currentRoom]) => {
       return this.gameApi.start({
-        difficulty: queryParams.difficulty,
-        language: queryParams.language,
-        maxTimeS: queryParams.maxTimeS,
-        minTimeS: queryParams.minTimeS,
+        difficulty: gameSettings.difficulty,
+        language: gameSettings.language,
+        maxTimeS: gameSettings.maxTimeS,
+        minTimeS: gameSettings.minTimeS,
         roomId: currentRoom.id,
-        rounds: queryParams.rounds
+        rounds: gameSettings.rounds
       }).pipe(
         map((game) => playActions.loadStartGameSuccess({ game })),
         catchError((error) => of(playActions.loadStartGameFailure({ error })))
@@ -40,9 +39,7 @@ export class PlayEffects {
   })
   loadStartGameSuccess$ = this.actions$.pipe(
     ofType(playActions.loadStartGameSuccess),
-    tap(() => {
-      this.router.navigateByUrl('play/game');
-    })
+    tap(() => { })
   );
 
   @Effect({
@@ -57,6 +54,37 @@ export class PlayEffects {
     })
   );
 
+  @Effect({
+    dispatch: false
+  })
+  loadRoundStarted$ = this.actions$.pipe(
+    ofType(playActions.loadRoundStarted),
+    tap(() => {
+      this.soundEffects.playMusic('clock');
+    })
+  );
+
+
+  @Effect({
+    dispatch: false
+  })
+  loadRoundEnded$ = this.actions$.pipe(
+    ofType(playActions.loadRoundEnded),
+    tap(() => {
+      this.soundEffects.stopMusic('clock');
+    })
+  );
+
+  @Effect()
+  leaveGameEffect$ = this.actions$.pipe(
+    ofType(playActions.leaveGame),
+    map(() => {
+      this.soundEffects.stopMusic('clock');
+      this.socketioService.stop();
+      return playActions.loadResetGame();
+    })
+  );
+
   constructor(
     private actions$: Actions,
     private rootFacade: RootFacadeService,
@@ -65,7 +93,8 @@ export class PlayEffects {
     private activatedRoute: ActivatedRoute,
     private startFacade: StartFacadeService,
     private socketioService: SocketioService,
-    private playFacade: PlayFacadeService
+    private playFacade: PlayFacadeService,
+    private soundEffects: SoundEffectsService
   ) { }
 
 }

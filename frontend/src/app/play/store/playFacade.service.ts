@@ -17,6 +17,7 @@ export class PlayFacadeService {
   currentStatus$: Observable<GameStatus>;
   currentRound$: Observable<Round>;
   gameResults$: Observable<GameStats>;
+  isPlaying$: Observable<boolean>;
 
   constructor(
     private store: Store
@@ -27,10 +28,11 @@ export class PlayFacadeService {
     this.gameResults$ = this.store.select(playSelectors.getGameResult);
     this.isMyTurn$ = this.store.select(playSelectors.isMyTurn);
     this.isExploded$ = this.store.select(playSelectors.isExploded);
+    this.isPlaying$ = this.store.select(playSelectors.isPlaying);
   }
 
-  start() {
-    this.store.dispatch(playActions.loadStartGame());
+  start(gameSettings: any) {
+    this.store.dispatch(playActions.loadStartGame({ gameSettings }));
   }
 
   reset() {
@@ -39,6 +41,10 @@ export class PlayFacadeService {
 
   sendResponse(response: string) {
     this.store.dispatch(playActions.loadSendResponse({ response }))
+  }
+
+  leaveGame() {
+    this.store.dispatch(playActions.leaveGame());
   }
 
 }

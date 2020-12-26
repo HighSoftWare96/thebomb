@@ -35,3 +35,8 @@ export const isExploded = createSelector(
   getStatus,
   s => s && s === 'ROUND_ENDED'
 )
+
+export const isPlaying = createSelector(
+  getPlayFeature,
+  (state) => state && state.round && !state.round.ended && state.status !== 'END'
+)

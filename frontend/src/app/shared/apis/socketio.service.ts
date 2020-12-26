@@ -9,6 +9,7 @@ import { Room } from '../interfaces/Room';
 import { StartFacadeService } from 'src/app/start/store/startFacade.service';
 import { Store } from '@ngrx/store';
 import * as playActions from '../../play/store/play.actions';
+import * as startActions from '../../start/store/start.actions';
 
 @Injectable()
 export class SocketioService {
@@ -60,7 +61,8 @@ export class SocketioService {
       this.startFacade.registerRoomatesChange(room, partecipants);
     });
     this.ioClient.on(events.fromServer.gameStarted, ({ game }) => {
-      this.store.dispatch(playActions.loadGameStarted({ game }));
+      debugger
+      this.store.dispatch(startActions.loadGameStarted({ game }));
     });
     this.ioClient.on(events.fromServer.gameEnded, ({ game, statistics }) => {
       this.store.dispatch(playActions.loadGameEnded({ game, statistics }));

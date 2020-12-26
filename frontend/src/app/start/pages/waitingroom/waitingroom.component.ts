@@ -1,7 +1,7 @@
+import { PlayFacadeService } from 'src/app/play/store/playFacade.service';
 import { Partecipant } from '../../../shared/interfaces/Partecipant';
 import { Observable, Subscription } from 'rxjs';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { RootFacadeService } from 'src/app/store/rootFacade.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Room } from 'src/app/shared/interfaces/Room';
 import { StartFacadeService } from '../../store/startFacade.service';
@@ -33,6 +33,7 @@ export class WaitingRoomComponent implements OnInit, OnDestroy {
   constructor(
     private startFacade: StartFacadeService,
     private formBuilder: FormBuilder,
+    private playFacade: PlayFacadeService,
     private gameApi: GameApi,
     private router: Router
   ) {
@@ -73,10 +74,7 @@ export class WaitingRoomComponent implements OnInit, OnDestroy {
 
   newGame() {
     const { value } = this.form;
-    this.router.navigate(
-      ['play', 'game'],
-      { queryParams: value }
-    );
+    this.playFacade.start(value);
   }
 
 }

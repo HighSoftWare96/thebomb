@@ -1,4 +1,5 @@
 import { createAction, props } from '@ngrx/store';
+import { Game } from 'src/app/shared/interfaces/Game';
 import { Partecipant } from 'src/app/shared/interfaces/Partecipant';
 import { Room } from 'src/app/shared/interfaces/Room';
 
@@ -78,4 +79,9 @@ export const loadJoinRoomSuccess = createAction(
 export const loadJoinRoomFailure = createAction(
   '[Start] new partecipant, join room failure',
   props<{ error: any }>()
+);
+
+export const loadGameStarted = createAction(
+  '[Start.socketio] game started',
+  props<{ game: Game }>()
 );

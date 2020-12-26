@@ -1,14 +1,14 @@
-import { Partecipant } from './../../../shared/interfaces/Partecipant';
-import { Observable } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
-import { PlayFacadeService } from '../../store/playFacade.service';
-import { Game } from 'src/app/shared/interfaces/Game';
-import { Round } from 'src/app/shared/interfaces/Round';
-import { GameStatus } from '../../store/play.reducer';
-import { GameStats } from 'src/app/shared/interfaces/GameStats';
-import { StartFacadeService } from 'src/app/start/store/startFacade.service';
-import { Room } from 'src/app/shared/interfaces/Room';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { Game } from 'src/app/shared/interfaces/Game';
+import { GameStats } from 'src/app/shared/interfaces/GameStats';
+import { Room } from 'src/app/shared/interfaces/Room';
+import { Round } from 'src/app/shared/interfaces/Round';
+import { StartFacadeService } from 'src/app/start/store/startFacade.service';
+import { GameStatus } from '../../store/play.reducer';
+import { PlayFacadeService } from '../../store/playFacade.service';
+import { Partecipant } from './../../../shared/interfaces/Partecipant';
 
 @Component({
   selector: 'app-game',
@@ -42,10 +42,10 @@ export class GameComponent implements OnInit {
     this.form = this.formBuilder.group({
       response: ['', [Validators.required]]
     });
+
   }
 
   ngOnInit(): void {
-    this.playFacade.start();
   }
 
   getRoomate(roomates: Partecipant[], partecipantId: number): Partecipant {

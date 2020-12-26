@@ -22,7 +22,7 @@ export class GameButtonComponent implements OnInit {
 
   onClick(event) {
     if (this.sound) {
-      this.soundEffects.play(this.soundKey);
+      this.soundEffects.playEffect(this.soundKey);
     }
     this.click.emit(event);
   }

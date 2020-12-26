@@ -1,3 +1,4 @@
+import { LockableGuard } from '../common/guards/lockable.guard';
 import { GameLayoutComponent } from './layouts/game/game.layout';
 import { RoomGuard } from './../common/guards/room.guard';
 import { AuthGuard } from './../common/guards/auth.guard';
@@ -7,14 +8,15 @@ import { RouterModule, Routes } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
 const routes: Routes = [{
-  path: 'game',
+  path: 'play',
   component: GameLayoutComponent,
   children: [{
-    path: '',
+    path: 'game',
     pathMatch: 'full',
     component: GameComponent
   }],
-  canActivate: [AuthGuard, RoomGuard]
+  canActivate: [AuthGuard, RoomGuard],
+  canDeactivate: [LockableGuard]
 }];
 
 @NgModule({

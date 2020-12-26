@@ -1,3 +1,4 @@
+import { LockableGuard } from './guards/lockable.guard';
 import { GameSelectComponent } from './components/gameSelect/gameSelect.component';
 import { GameButtonComponent } from './components/gameButton/gameButton.component';
 import { RoomGuard } from './guards/room.guard';
@@ -53,7 +54,8 @@ export class AppCommonModule {
         },
         AuthGuard,
         RoomGuard,
-        SoundEffectsService
+        SoundEffectsService,
+        LockableGuard
       ]
     }
   }

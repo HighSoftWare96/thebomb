@@ -2,6 +2,7 @@ import { GameStats } from './../../shared/interfaces/GameStats';
 import { createReducer, on } from '@ngrx/store';
 import { Game } from 'src/app/shared/interfaces/Game';
 import * as playActions from './play.actions';
+import * as startActions from '../../start/store/start.actions';
 import { Round } from 'src/app/shared/interfaces/Round';
 
 export type GameStatus =
@@ -27,11 +28,14 @@ const gameStateReducer = createReducer(
     ...state,
     game
   })),
-  on(playActions.loadGameStarted, (state, { game }) => ({
-    ...state,
-    game,
-    status: 'PLAYING'
-  })),
+  on(startActions.loadGameStarted, (state, { game }) => {
+    debugger;
+    return {
+      ...state,
+      game,
+      status: 'PLAYING'
+    };
+  }),
   on(playActions.loadRoundStarted, (state, { round }) => ({
     ...state,
     round,

@@ -4,7 +4,8 @@ import { Game } from 'src/app/shared/interfaces/Game';
 import { GameStats } from 'src/app/shared/interfaces/GameStats';
 
 export const loadStartGame = createAction(
-  '[Game] Start game'
+  '[Game] Start game',
+  props<{ gameSettings: any }>()
 );
 
 export const loadStartGameSuccess = createAction(
@@ -15,11 +16,6 @@ export const loadStartGameSuccess = createAction(
 export const loadStartGameFailure = createAction(
   '[Game] Start game failure',
   props<{ error: any }>()
-);
-
-export const loadGameStarted = createAction(
-  '[Game.socketio] game started',
-  props<{ game: Game }>()
 );
 
 export const loadGameEnded = createAction(
@@ -54,4 +50,8 @@ export const loadResetGame = createAction(
 export const loadSendResponse = createAction(
   '[Game.send] load send response',
   props<{ response: string }>()
+);
+
+export const leaveGame = createAction(
+  '[Game.end] leave game'
 );

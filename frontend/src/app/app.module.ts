@@ -1,3 +1,4 @@
+import { PlayModule } from './play/play.module';
 import { WaitingRoomComponent } from './start/pages/waitingroom/waitingroom.component';
 import { environment } from './../environments/environment';
 import { BrowserModule } from '@angular/platform-browser';
@@ -18,7 +19,6 @@ import { CustomStoreRouteSerializer } from './store/utils/CustomRouterStoreSeria
 import { reducers } from './store/root.reducer';
 import { RootEffects } from './store/root.effects';
 import { RootFacadeService } from './store/rootFacade.service';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { StartModule } from './start/start.module';
 import { SharedModule } from './shared/shared.module';
 
@@ -46,6 +46,7 @@ export function createTranslateLoader(http: HttpClient) {
       serializer: CustomStoreRouteSerializer
     }),
     StartModule,
+    PlayModule,
     AppRoutingModule,
     AppCommonModule.forRoot(),
     FormsModule,

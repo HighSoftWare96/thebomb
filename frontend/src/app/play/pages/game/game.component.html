@@ -23,7 +23,7 @@
       </div>
       <ng-template #notPlaying>
         <p class="not-playing">Sta giocando {{getRoomate(roomates$ | async, (currentRound$ |
-          async).currentPartecipantId).name}}...</p>
+          async)?.currentPartecipantId)?.name}}...</p>
       </ng-template>
     </ng-container>
 
