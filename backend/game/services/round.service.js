@@ -180,8 +180,10 @@ module.exports = {
             return Promise.reject('PARTECIPANT_NOT_FOUND');
           }
 
+          const result = await this.isResponseRight(round, game, response);
+
           // se la risposta è giusta
-          if (await this.isResponseRight(round, game, response)) {
+          if (result.valid) {
             const currentPartecipantIdx = room.partecipantIds.indexOf(
               partecipantId
             );
@@ -204,7 +206,8 @@ module.exports = {
           // wrong turn.. signal to socketio
           return this.broker.call('socketio.turnWrong', {
             round,
-            socketioRoom: room.socketioRoom
+            socketioRoom: room.socketioRoom,
+            reason: result.reason
           });
         } catch (e) {
           this.logger.error(e);
@@ -246,6 +249,7 @@ module.exports = {
       return Math.floor(Math.random() * 3);
     },
     async isResponseRight(round, game, response) {
+      let reason = '';
       const { usedWords } = round;
       const { language } = game;
 
@@ -258,7 +262,14 @@ module.exports = {
 
       // already used word!
       if (usedWords.includes(responseLowerCase)) {
-        return false;
+        reason = 'ALREADY_USED';
+        return {valid: false, reason};
+      }
+
+      // syllable not present
+      if(!responseLowerCase.includes(syllableLowerCase)) {
+        reason = 'SYLLABLE_NOT_FOUND';
+        return {valid: false, reason};
       }
 
       let responseIsRight = false;
@@ -267,24 +278,30 @@ module.exports = {
         // non all'inizio
         responseIsRight = responseLowerCase.endsWith(syllableLowerCase) ||
           (responseLowerCase.includes(syllableLowerCase) && !responseLowerCase.startsWith(syllableLowerCase));
+        reason = responseIsRight ? '' : 'MUST_NOT_BEGIN_WITH';
       } else if (round.dice === 1) {
         // non alla fine
         responseIsRight = responseLowerCase.startsWith(syllableLowerCase) ||
           (responseLowerCase.includes(syllableLowerCase) || !responseLowerCase.endsWith(syllableLowerCase));
+        reason = responseIsRight ? '' : 'MUST_NOT_END_WITH';
       } else {
-        responseIsRight = responseLowerCase.includes(syllableLowerCase);
+        // syllable already present
+        responseIsRight = true;
       }
 
       if (!responseIsRight) {
-        return false;
+        return {valid: false, reason};
       } else {
         const fromdb = await this.broker.call(`${wordService}.find`, {
           limit: 1,
           query: { word: response }
         });
-        console.log(fromdb);
+        const {length = 0} = fromdb;
         // verifico che la parola esista
-        return fromdb.length > 0;
+        return {
+          valid: length > 0, 
+          reason: length > 0 ? '' : 'INVALID_WORD'
+        };
       }
     }
   }

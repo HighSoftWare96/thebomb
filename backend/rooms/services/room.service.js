@@ -239,12 +239,21 @@ module.exports = {
             room.partecipantIds.splice(foundIndex, 1);
           }
 
+          if (room.partecipantIds.length <= 1) {
+            // rimasto meno di un giocatore: termino eventuale gioco
+            await this.broker.call('game.endGame', {
+              id: room.currentGameId
+            });
+          }
+
           // non ci sono più partecipanti: elimino la stanza
           if (room.partecipantIds.length === 0) {
             return this._remove(ctx, {
               id: room.id
             });
-          } else if (room.adminPartecipantId === partecipant.id) {
+          }
+          
+          if (room.adminPartecipantId === partecipant.id) {
             // la stanza è stata lasciata dall'admin
             // promuovo il prossimo partecipante a admin
             room.adminPartecipantId = room.partecipantIds[0];

@@ -114,19 +114,25 @@ module.exports = {
         socketioRoom: {
           type: 'string'
         },
-        round: 'object'
+        round: 'object',
+        reason: {
+          type: 'enum',
+          optional: true,
+          values: ['ALREADY_USED', 'SYLLABLE_NOT_FOUND', 'MUST_NOT_BEGIN_WITH', 'MUST_NOT_END_WITH', 'INVALID_WORD']
+        }
       },
       handler(ctx) {
         const {
           round,
-          socketioRoom
+          socketioRoom,
+          reason = ''
         } = ctx.params;
 
         socketIoManager.emit(
           socketioConfig.namespaces.multiplayer,
           socketioRoom,
           events.fromServer.turnWrong,
-          { round }
+          { round, reason }
         );
 
         return Promise.resolve();
@@ -152,4 +158,4 @@ module.exports = {
   created() {
     socketIoManager.initialize(this);
   }
-}
+};
