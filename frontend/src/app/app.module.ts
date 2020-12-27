@@ -1,3 +1,4 @@
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { PlayModule } from './play/play.module';
 import { environment } from './../environments/environment';
 import { BrowserModule } from '@angular/platform-browser';
@@ -61,7 +62,8 @@ export function createTranslateLoader(http: HttpClient) {
         deps: [HttpClient]
       }
     }),
-    SharedModule.forRoot()
+    SharedModule.forRoot(),
+    FontAwesomeModule
   ],
   providers: [
     RootFacadeService
