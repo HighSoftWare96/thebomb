@@ -91,19 +91,23 @@ module.exports = {
         socketioRoom: {
           type: 'string'
         },
-        round: 'object'
+        round: 'object',
+        previousRound: 'object',
+        response: 'string'
       },
       handler(ctx) {
         const {
           round,
-          socketioRoom
+          socketioRoom,
+          previousRound,
+          response
         } = ctx.params;
 
         socketIoManager.emit(
           socketioConfig.namespaces.multiplayer,
           socketioRoom,
           events.fromServer.turnChecked,
-          { round }
+          { round, previousRound, response }
         );
 
         return Promise.resolve();
@@ -119,20 +123,22 @@ module.exports = {
           type: 'enum',
           optional: true,
           values: ['ALREADY_USED', 'SYLLABLE_NOT_FOUND', 'MUST_NOT_BEGIN_WITH', 'MUST_NOT_END_WITH', 'INVALID_WORD']
-        }
+        },
+        response: 'string'
       },
       handler(ctx) {
         const {
           round,
           socketioRoom,
-          reason = ''
+          reason = '',
+          response
         } = ctx.params;
 
         socketIoManager.emit(
           socketioConfig.namespaces.multiplayer,
           socketioRoom,
           events.fromServer.turnWrong,
-          { round, reason }
+          { round, reason, response }
         );
 
         return Promise.resolve();
@@ -148,6 +154,23 @@ module.exports = {
         socketIoManager.disconnectClient(
           socketioConfig.namespaces.multiplayer,
           socketId
+        );
+        return Promise.resolve();
+      }
+    },
+    /** recall all partecipants in waiting room! */
+    goWaitingRoomBroadcast: {
+      params: {
+        socketioRoom: {
+          type: 'string'
+        }
+      },
+      handler(ctx) {
+        const {socketioRoom} = ctx.params;
+        socketIoManager.emit(
+          socketioConfig.namespaces.multiplayer,
+          socketioRoom,
+          events.fromServer.goWaitingRoom
         );
         return Promise.resolve();
       }

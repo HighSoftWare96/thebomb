@@ -176,8 +176,8 @@ module.exports = {
             id: room.id,
             socketioRoom: room.socketioRoom,
             partecipantIds: [
-              ...(room.partecipantIds || []),
-              partecipantId
+              partecipantId,
+              ...(room.partecipantIds || [])
             ]
           });
         } catch (e) {
@@ -239,7 +239,7 @@ module.exports = {
             room.partecipantIds.splice(foundIndex, 1);
           }
 
-          if (room.partecipantIds.length <= 1) {
+          if (room.partecipantIds.length <= 1 && room.currentGameId) {
             // rimasto meno di un giocatore: termino eventuale gioco
             await this.broker.call('game.endGame', {
               id: room.currentGameId
@@ -265,7 +265,6 @@ module.exports = {
             partecipantIds: room.partecipantIds,
             adminPartecipantId: room.adminPartecipantId
           });
-
         } catch (e) {
           this.logger.error(e);
           return Promise.reject(e);
@@ -296,6 +295,37 @@ module.exports = {
 
           return room;
         } catch (e) {
+          this.logger.error(e);
+          return Promise.reject(e);
+        }
+      }
+    },
+    goWaitingRoom: {
+      params: {
+        roomId: 'number'
+      },
+      async handler(ctx) {
+        try {
+          const {roomId} = ctx.params;
+
+          // find a room that has no game active
+          const rooms = await this._find(ctx, {
+            query: {
+              id: roomId, 
+              locked: false, 
+              currentGameId: null
+            }
+          });
+          
+          if (!rooms || !rooms.length || rooms.length !== 1) {
+            return notFound('room', roomId);
+          }
+
+          const room = rooms[0];
+          return this.broker.call('socketio.goWaitingRoomBroadcast', {
+            socketioRoom: room.socketioRoom
+          });
+        } catch(e) {
           this.logger.error(e);
           return Promise.reject(e);
         }

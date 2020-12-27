@@ -200,13 +200,16 @@ module.exports = {
             // passo al prossimo giocatore
             return this.broker.call('socketio.turnChecked', {
               round: updatedRound,
-              socketioRoom: room.socketioRoom
+              socketioRoom: room.socketioRoom,
+              response,
+              previousRound: round
             });
           }
           // wrong turn.. signal to socketio
           return this.broker.call('socketio.turnWrong', {
             round,
             socketioRoom: room.socketioRoom,
+            response,
             reason: result.reason
           });
         } catch (e) {

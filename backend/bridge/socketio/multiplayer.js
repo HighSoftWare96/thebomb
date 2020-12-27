@@ -137,11 +137,13 @@ class SocketIoMultiplayerNamespace {
             partecipants.push(currentP);
           }
 
+          // updating other roomates
           this.io.to(socketioRoom).emit(
             events.fromServer.roomateLeft,
             {
               room: updatedRoom,
-              partecipants
+              partecipants,
+              updatedPartecipant: partecipant
             });
         } catch (e) {
           this.service.logger.error('Client disconnection: unable to leave room.', e);
@@ -180,13 +182,23 @@ class SocketIoMultiplayerNamespace {
         events.fromServer.newRoomate,
         {
           room: foundRoom[0],
-          partecipants
+          partecipants,
+          updatedPartecipant
         });
 
       // mi registro per eventuali eventi dal client
       client.on(events.fromClient.turnCheck, async (payload) => {
         try {
           await this.service.broker.call('round.turnCheck', payload, {
+            meta: { user: partecipant }
+          });
+        } catch (e) {
+          this.service.logger.error(e);
+        }
+      });
+      client.on(events.fromClient.goWaitingRoom, async (payload) => {
+        try {
+          await this.service.broker.call('room.goWaitingRoom', payload, {
             meta: { user: partecipant }
           });
         } catch (e) {

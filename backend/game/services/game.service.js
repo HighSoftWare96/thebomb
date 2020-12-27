@@ -162,12 +162,6 @@ module.exports = {
             return Promise.reject(badReq('Unable to start game with less then 2 players'));
           }
 
-          // freezo la stanza
-          room = await this.broker.call('room.update', {
-            id: roomId,
-            locked: true
-          });
-
           // creo nuova partita
           const game = await this._create(ctx, {
             rounds,
@@ -177,6 +171,13 @@ module.exports = {
             currentRounds: 0,
             difficulty,
             language
+          });
+
+          // freezo la stanza
+          room = await this.broker.call('room.update', {
+            id: roomId,
+            locked: true,
+            currentGameId: game.id
           });
 
           // start game event
@@ -333,6 +334,14 @@ module.exports = {
             socketioRoom: room.socketioRoom,
             game,
             statistics
+          });
+
+          // unlock room
+          await this.broker.call('room.update', {
+            id: room.id,
+            locked: false,
+            currentGameId: null,
+            playedGameIds: [...(room.playedGameIds || []), game.id]
           });
 
           return this.broker.call('game.destroy', {

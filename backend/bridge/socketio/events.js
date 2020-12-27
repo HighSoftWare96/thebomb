@@ -1,5 +1,6 @@
 module.exports = {
   fromServer: {
+    goWaitingRoom: 'go-waiting-room',
     roomJoined: 'room-joined',
     newRoomate: 'new-roomate',
     roomateLeft: 'roomate-left',
@@ -14,5 +15,6 @@ module.exports = {
   },
   fromClient: {
     turnCheck: 'turn-check',
+    goWaitingRoom: 'go-waiting-room'
   }
 };
