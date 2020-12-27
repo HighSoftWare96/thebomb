@@ -1,3 +1,4 @@
+import { Partecipant } from 'src/app/shared/interfaces/Partecipant';
 import { SocketioService } from 'src/app/shared/apis/socketio.service';
 import { GameState, GameStatus } from './play.reducer';
 import { Observable } from 'rxjs';
@@ -18,6 +19,7 @@ export class PlayFacadeService {
   currentRound$: Observable<Round>;
   gameResults$: Observable<GameStats>;
   isPlaying$: Observable<boolean>;
+  currentPartecipant$: Observable<Partecipant>;
 
   constructor(
     private store: Store
@@ -29,6 +31,7 @@ export class PlayFacadeService {
     this.isMyTurn$ = this.store.select(playSelectors.isMyTurn);
     this.isExploded$ = this.store.select(playSelectors.isExploded);
     this.isPlaying$ = this.store.select(playSelectors.isPlaying);
+    this.currentPartecipant$ = this.store.select(playSelectors.currentPartecipant);
   }
 
   start(gameSettings: any) {

@@ -1,4 +1,4 @@
-@import './assets/styles/variables';
+@import "./assets/styles/variables";
 
 html,
 body {
@@ -7,14 +7,15 @@ body {
   position: relative;
 }
 
-::-moz-selection { /* Code for Firefox */
+::-moz-selection {
+  /* Code for Firefox */
   color: black;
-  background: rgba($accent, .3);
+  background: rgba($accent, 0.3);
 }
 
 ::selection {
   color: black;
-  background: rgba($accent, .3);
+  background: rgba($accent, 0.3);
 }
 
 .font-game-1 {
@@ -30,11 +31,15 @@ h3 {
   font-weight: 200;
 }
 
-
 .link {
   cursor: pointer;
 }
 
 p {
   color: white;
+}
+
+.scrollable {
+  overflow-x: visible;
+  overflow-y: auto;
 }

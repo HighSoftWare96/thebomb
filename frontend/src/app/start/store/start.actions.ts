@@ -58,7 +58,7 @@ export const loadJoiningRoom = createAction(
 
 export const loadJoiningRoomSuccess = createAction(
   '[Start] load joining room success',
-  props<{ room: Room }>()
+  props<{ room?: Room }>()
 );
 
 export const loadJoiningRoomFailure = createAction(
@@ -68,7 +68,7 @@ export const loadJoiningRoomFailure = createAction(
 
 export const loadJoinRoom = createAction(
   '[Start] new partecipant, join room',
-  props<{ name: string, avatarSeed: string }>()
+  props<{ name: string, avatarSeed: string, inviteId?: string }>()
 );
 
 export const loadJoinRoomSuccess = createAction(

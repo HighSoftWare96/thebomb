@@ -1,9 +1,9 @@
-import { Partecipant } from '../../../shared/interfaces/Partecipant';
-import { Observable, Subscription } from 'rxjs';
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { RootFacadeService } from 'src/app/store/rootFacade.service';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import rug from 'random-username-generator';
+import { Observable, Subscription } from 'rxjs';
+import { generateAvatarSeed } from 'src/app/shared/helpers/random';
+import { Partecipant } from '../../../shared/interfaces/Partecipant';
 import { StartFacadeService } from '../../store/startFacade.service';
 
 @Component({
@@ -25,9 +25,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.loggedPartecipant$ = startFacade.loggedPartecipant$;
     this.form = formBuilder.group({
       name: [rug.generate(), [Validators.required]],
-      avatarSeed: ['']
+      avatarSeed: [generateAvatarSeed()]
     });
-    this.generateRandomAvatar();
     this.subs.push(
       startFacade.loggedPartecipant$.subscribe((s) => {
         this.form.patchValue({ ...s }, {
@@ -51,11 +50,6 @@ export class HomeComponent implements OnInit, OnDestroy {
         s.unsubscribe();
       }
     });
-  }
-
-  generateRandomAvatar() {
-    const randomString = Math.random().toString(36).substring(2, 8);
-    this.form.get('avatarSeed').patchValue(randomString);
   }
 
   createPartecipant() {

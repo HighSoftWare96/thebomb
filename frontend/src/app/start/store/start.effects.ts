@@ -116,6 +116,9 @@ export class StartEffects {
     ofType(startActions.loadJoiningRoom),
     withLatestFrom(this.rootFacade.getRouterParam('inviteId')),
     switchMap(([_, inviteId]) => {
+      if (!inviteId) {
+        return of(startActions.loadJoiningRoomSuccess({}));
+      }
       return this.roomApi.getByInviteId(inviteId).pipe(
         map((room) => startActions.loadJoiningRoomSuccess({ room })),
         catchError(error => of(startActions.loadJoiningRoomFailure({ error })))
@@ -129,7 +132,7 @@ export class StartEffects {
     ofType(startActions.loadJoinRoom),
     withLatestFrom(this.rootFacade.getRouterParam('inviteId')),
     withLatestFrom(this.startFacade.loggedPartecipant$),
-    switchMap(([[{ avatarSeed, name }, inviteId], loggedPartecipant]) => {
+    switchMap(([[{ avatarSeed, name, inviteId: inviteIdForm }, inviteIdQuery], loggedPartecipant]) => {
       let resultObs;
 
       if (loggedPartecipant) {
@@ -147,7 +150,7 @@ export class StartEffects {
       return resultObs.pipe(
         concatMap(({ partecipant, jwt }) => {
           this.bearerInterceptor.setJwt(jwt);
-          return this.roomApi.join(inviteId).pipe(
+          return this.roomApi.join(inviteIdForm || inviteIdQuery).pipe(
             concatMap((updatedRoom) => this.socketIo.initialize(updatedRoom.socketioRoom).pipe(
               map((room) => startActions.loadJoinRoomSuccess({ room, partecipant })),
               catchError((error) => of(startActions.loadJoinRoomFailure({ error })))

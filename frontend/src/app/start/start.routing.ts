@@ -24,6 +24,10 @@ const routes: Routes = [
         component: HomeComponent
       },
       {
+        path: 'join',
+        component: JoinComponent
+      },
+      {
         path: 'join/:inviteId',
         component: JoinComponent
       },

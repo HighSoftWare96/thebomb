@@ -1,13 +1,13 @@
 <div class="container d-flex flex-column align-items-center justify-content-center">
-  <form [formGroup]="form" class="d-flex flex-column align-items-center justify-content-center" (submit)="createPartecipant()">
-    <img (click)="generateRandomAvatar()"
-      [src]="'https://avatars.dicebear.com/v2/avataaars/' + f['avatarSeed'].value + '.svg'" class="avatar my-4" />
+  <form [formGroup]="form" class="d-flex flex-column align-items-center justify-content-center"
+    (submit)="createPartecipant()">
+    <game-avatar formControlName="avatarSeed"></game-avatar>
     <game-input id="username" formControlName="name">
       Nome giocatore
     </game-input>
     <div class="d-flex flex-row text-center flex-wrap">
       <game-button [disabled]="!form.valid" type="submit">Nuova stanza</game-button>
-      <game-button [disabled]="!form.valid">Unisciti</game-button>
+      <game-button routerLink="/join">Unisciti</game-button>
     </div>
   </form>
 </div>

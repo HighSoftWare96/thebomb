@@ -1,11 +1,11 @@
-import { StartFacadeService } from './../../store/startFacade.service';
-import { Room } from 'src/app/shared/interfaces/Room';
-import { Partecipant } from '../../../shared/interfaces/Partecipant';
-import { Observable, Subscription } from 'rxjs';
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { RootFacadeService } from 'src/app/store/rootFacade.service';
+import { generateAvatarSeed } from 'src/app/shared/helpers/random';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import rug from 'random-username-generator';
+import { Observable, Subscription } from 'rxjs';
+import { Room } from 'src/app/shared/interfaces/Room';
+import { Partecipant } from '../../../shared/interfaces/Partecipant';
+import { StartFacadeService } from './../../store/startFacade.service';
 
 @Component({
   selector: 'app-join',
@@ -29,11 +29,10 @@ export class JoinComponent implements OnInit, OnDestroy {
 
     this.form = formBuilder.group({
       name: [rug.generate(), [Validators.required]],
-      avatarSeed: [''],
+      avatarSeed: [generateAvatarSeed()],
       inviteId: ['', [Validators.required]]
     });
 
-    this.generateRandomAvatar();
 
     this.subs.push(
       startFacade.currentRoom$.subscribe(r => {
@@ -50,6 +49,7 @@ export class JoinComponent implements OnInit, OnDestroy {
           return;
         }
         this.form.get('name').patchValue(s.name, { emitEvent: false });
+        this.form.get('avatarSeed').patchValue(s.avatarSeed, { emitEvent: false });
       })
     );
   }
@@ -71,19 +71,14 @@ export class JoinComponent implements OnInit, OnDestroy {
     });
   }
 
-  generateRandomAvatar() {
-    const randomString = Math.random().toString(36).substring(2, 8);
-    this.form.get('avatarSeed').patchValue(randomString);
-  }
-
   createPartecipant() {
     const { name, avatarSeed } = this.form.value;
     this.startFacade.createPartecipant(name, avatarSeed);
   }
 
   joinRoom() {
-    const { name, avatarSeed } = this.form.value;
-    this.startFacade.joinRoom(name, avatarSeed);
+    const { name, avatarSeed, inviteId } = this.form.value;
+    this.startFacade.joinRoom(name, avatarSeed, inviteId);
   }
 
 }

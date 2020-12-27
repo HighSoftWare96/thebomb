@@ -1,3 +1,4 @@
+import { GameAvatarComponent } from './components/gameAvatar/gameAvatar.component';
 import { LockableGuard } from './guards/lockable.guard';
 import { GameSelectComponent } from './components/gameSelect/gameSelect.component';
 import { GameButtonComponent } from './components/gameButton/gameButton.component';
@@ -14,7 +15,7 @@ import { MainLayoutComponent } from './layouts/main/main.layout';
 import { Page404Component } from './pages/404/404.component';
 import { SoundEffectsService } from './services/soundEffects.service';
 import { GameInputComponent } from './components/gameInput/gameInput.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -23,11 +24,13 @@ import { FormsModule } from '@angular/forms';
     MainLayoutComponent,
     GameInputComponent,
     GameSelectComponent,
+    GameAvatarComponent
   ],
   imports: [
     CommonModule,
     RouterModule,
     FormsModule,
+    ReactiveFormsModule,
     TranslateModule.forChild(),
     TooltipModule.forRoot()
   ],
@@ -39,6 +42,7 @@ import { FormsModule } from '@angular/forms';
     MainLayoutComponent,
     GameInputComponent,
     GameSelectComponent,
+    GameAvatarComponent
   ]
 })
 export class AppCommonModule {

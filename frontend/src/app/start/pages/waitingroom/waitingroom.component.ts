@@ -42,12 +42,25 @@ export class WaitingRoomComponent implements OnInit, OnDestroy {
     this.room$ = startFacade.currentRoom$;
 
     this.form = formBuilder.group({
-      rounds: [5],
-      minTimeS: [30],
-      maxTimeS: [80],
-      language: ['it'],
-      difficulty: [1]
+      rounds: [5, [Validators.required, Validators.min(1), Validators.max(10)]],
+      minTimeS: [30, [Validators.min(10), Validators.max(80)]],
+      maxTimeS: [80, [Validators.min(20), Validators.max(180)]],
+      language: ['it', [Validators.required]],
+      difficulty: [1, [Validators.min(0), Validators.max(4), Validators.required]]
+    }, {
+      validators: [this.validateMinMax.bind(this)]
     });
+  }
+
+  validateMinMax(g: FormGroup) {
+    const min = g.get('minTimeS').value;
+    const max = g.get('maxTimeS').value;
+    if (min && max && parseInt(min) >= parseInt(max)) {
+      g.setErrors({ minGtMax: true })
+    } else {
+      g.setErrors(null);
+    }
+    return;
   }
 
   ngOnInit(): void { }

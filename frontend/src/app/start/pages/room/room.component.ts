@@ -18,7 +18,7 @@ export class RoomComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder
   ) {
     this.form = formBuilder.group({
-      name: [''],
+      name: ['', [Validators.required]],
       maxPartecipants: [3, [Validators.min(2), Validators.max(8)]]
     });
   }

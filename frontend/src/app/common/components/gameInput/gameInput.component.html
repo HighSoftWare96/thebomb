@@ -2,5 +2,7 @@
   <label for="gameInput">
     <ng-content></ng-content>
   </label>
-  <input id="gameInput" [type]="type" [(ngModel)]="_value" />
+  <!-- Dynamic type not supported... -->
+  <input *ngIf="type === 'text'" id="gameInput" type="text" [(ngModel)]="value" [disabled]="isDisabled" />
+  <input *ngIf="type === 'number'" id="gameInput" type="number" [(ngModel)]="value" [disabled]="isDisabled" />
 </div>

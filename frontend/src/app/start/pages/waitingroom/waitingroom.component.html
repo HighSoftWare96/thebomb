@@ -8,8 +8,7 @@
         <span *ngIf="roomate.id === (currentPartecipant$ | async).id" tooltip="Sei tu!">🤚</span>
         <span *ngIf="roomate.id === (room$ | async).adminPartecipantId" tooltip="Amministra questa stanza">👑</span>
       </div>
-      <img [src]="'https://avatars.dicebear.com/v2/avataaars/' + roomate.avatarSeed + '.svg'"
-        class="avatar my-2 mx-2" />
+      <game-avatar [size]="8" [ngModel]="roomate.avatarSeed" [changable]="false"></game-avatar>
       <p class="text-muted">
         {{roomate.name}}
       </p>
@@ -18,22 +17,24 @@
   <ng-container *ngIf="(room$ | async).adminPartecipantId === (currentPartecipant$ | async).id">
     <h3>Crea nuova partita</h3>
     <form [formGroup]="form" (submit)="newGame()" class="text-center">
-      <div class="row">
-        <game-input class="col p-0 m-0" type="number" id="rounds" formControlName="rounds">Rounds</game-input>
-        <game-select class="col p-0 m-0" id="language" formControlName="language" [options]="languages">
-          Lingua
-        </game-select>
-        <game-select class="col p-0 m-0" id="difficulty" formControlName="difficulty" [options]="difficulties">
-          Difficoltà
-        </game-select>
+      <div class="scrollable">
+        <div class="row">
+          <game-input class="col p-0 m-0" type="number" id="rounds" formControlName="rounds">Rounds</game-input>
+          <game-select class="col p-0 m-0" id="language" formControlName="language" [options]="languages">
+            Lingua
+          </game-select>
+          <game-select class="col p-0 m-0" id="difficulty" formControlName="difficulty" [options]="difficulties">
+            Difficoltà
+          </game-select>
+        </div>
+        <div class="row">
+          <game-input class="col p-0 m-0" type="number" id="minTimeS" formControlName="minTimeS">Durata minima round
+          </game-input>
+          <game-input class="col p-0 m-0" type="number" id="maxTimeS" formControlName="maxTimeS">Durata massima round
+          </game-input>
+        </div>
       </div>
-      <div class="row">
-        <game-input class="col p-0 m-0" type="number" id="minTimeS" formControlName="minTimeS">Durata minima round
-        </game-input>
-        <game-input class="col p-0 m-0" type="number" id="maxTimeS" formControlName="maxTimeS">Durata massima round
-        </game-input>
-      </div>
-      <game-button type="submit" [disabled]="(roomates$ | async).length < 2">Nuova partita</game-button>
+      <game-button type="submit" [disabled]="(roomates$ | async).length < 2 || !form.valid">Nuova partita</game-button>
     </form>
   </ng-container>
 </div>

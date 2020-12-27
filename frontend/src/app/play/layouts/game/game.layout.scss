@@ -31,6 +31,9 @@ h1 {
 }
 
 .game-box {
+  height: 400px;
+  overflow: auto;
+  max-height: 100vh;
   border: 5px solid rgba($background-secondary, 0.3);
   background: $background-secondary;
   background-clip: padding-box;
@@ -80,4 +83,11 @@ h1 {
   height: 500px;
   top: -160px;
   z-index: -1;
+}
+
+.players {
+  position: absolute;
+  right: 10px;
+  bottom: 0px;
+  z-index: 11;
 }

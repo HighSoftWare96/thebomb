@@ -4,6 +4,10 @@
   z-index: initial;
 }
 
+.container {
+  max-height: 350px;
+}
+
 .syllable-container {
   position: relative;
   text-align: center;
@@ -33,4 +37,17 @@
 .not-playing {
   font-weight: 200;
   margin-top: 20px;
+}
+
+.score {
+  position: absolute;
+  top: 10px;
+  left: 0;
+  background: #D66853;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  color: white;
+  border: 2px solid rgba(214, 104, 83, 0.3);
+  text-align: center;
 }

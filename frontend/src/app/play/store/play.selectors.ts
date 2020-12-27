@@ -1,3 +1,4 @@
+import { getRoomates } from './../../start/store/start.selectors';
 import { Partecipant } from './../../shared/interfaces/Partecipant';
 import { GameState } from './play.reducer';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
@@ -39,4 +40,10 @@ export const isExploded = createSelector(
 export const isPlaying = createSelector(
   getPlayFeature,
   (state) => state && state.round && !state.round.ended && state.status !== 'END'
+)
+
+export const currentPartecipant = createSelector(
+  getPlayFeature,
+  getRoomates,
+  (s, rs) => s && s.round && s.round.currentPartecipantId && rs.find(r => r.id === s.round.currentPartecipantId)
 )
