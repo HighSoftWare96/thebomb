@@ -83,7 +83,7 @@ export class PlayEffects {
   leaveGameEffect$ = this.actions$.pipe(
     ofType(playActions.leaveGame),
     map(() => {
-      this.router.navigateByUrl('/home');
+      this.router.navigateByUrl('/home', { replaceUrl: true });
       this.soundEffects.stopMusic('clock');
       this.socketioService.stop();
       return playActions.loadResetGame();
@@ -130,7 +130,7 @@ export class PlayEffects {
   goWaitingRoomEffect$ = this.actions$.pipe(
     ofType(playActions.goWaitingRoom),
     tap(() => {
-      this.router.navigateByUrl('/waitingroom');
+      this.router.navigateByUrl('/waitingroom', { replaceUrl: true });
     })
   );
 

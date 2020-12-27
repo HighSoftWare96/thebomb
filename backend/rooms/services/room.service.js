@@ -282,7 +282,7 @@ module.exports = {
             query: { inviteId, locked: false }
           });
           if (!rooms || !rooms.length || rooms.length !== 1) {
-            return notFound('room', inviteId);
+            return Promise.reject(notFound('room', inviteId));
           }
           const room = rooms[0];
 
@@ -318,7 +318,7 @@ module.exports = {
           });
           
           if (!rooms || !rooms.length || rooms.length !== 1) {
-            return notFound('room', roomId);
+            return Promise.reject(notFound('room', roomId));
           }
 
           const room = rooms[0];

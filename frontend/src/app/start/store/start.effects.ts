@@ -79,7 +79,7 @@ export class StartEffects {
     ofType(startActions.loadTryCreatePartecipantSuccess),
     tap(({ partecipant, jwt }) => {
       this.bearerInterceptor.setJwt(jwt);
-      this.router.navigateByUrl('/rooms/new');
+      this.router.navigateByUrl('/rooms/new', { replaceUrl: true });
     })
   )
 
@@ -108,7 +108,7 @@ export class StartEffects {
   loadCreateRoomSuccessEffect$ = this.action$.pipe(
     ofType(startActions.loadCreateRoomSuccess),
     tap(({ room }) => {
-      this.router.navigateByUrl('/waitingroom');
+      this.router.navigateByUrl('/waitingroom', { replaceUrl: true });
     })
   )
 
@@ -125,6 +125,16 @@ export class StartEffects {
         map((room) => startActions.loadJoiningRoomSuccess({ room })),
         catchError(error => of(startActions.loadJoiningRoomFailure({ error })))
       );
+    })
+  )
+
+  @Effect({
+    dispatch: false
+  })
+  loadJoiningRoomFailureEffect$ = this.action$.pipe(
+    ofType(startActions.loadJoiningRoomFailure),
+    tap(() => {
+      this.toaster.error('Impossibile trovare la stanza selezionata', 'Stanza non trovata!');
     })
   )
 
@@ -170,7 +180,7 @@ export class StartEffects {
   loadJoinRoomSuccessSuccessEffect$ = this.action$.pipe(
     ofType(startActions.loadJoinRoomSuccess),
     tap(({ partecipant, room }) => {
-      this.router.navigateByUrl('/waitingroom');
+      this.router.navigateByUrl('/waitingroom', { replaceUrl: true });
     })
   )
 
@@ -180,7 +190,7 @@ export class StartEffects {
   loadGameStartedEffect$ = this.action$.pipe(
     ofType(startActions.loadGameStarted),
     tap(() => {
-      this.router.navigateByUrl('play/game');
+      this.router.navigateByUrl('play/game', { replaceUrl: true });
     })
   )
 

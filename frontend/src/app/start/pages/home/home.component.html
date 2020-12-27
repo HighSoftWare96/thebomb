@@ -7,7 +7,7 @@
     </game-input>
     <div class="d-flex flex-row text-center flex-wrap">
       <game-button [disabled]="!form.valid" type="submit">Nuova stanza</game-button>
-      <game-button routerLink="/join">Unisciti</game-button>
+      <game-button routerLink="/join" [replaceUrl]="true">Unisciti</game-button>
     </div>
   </form>
 </div>
