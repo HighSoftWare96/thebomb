@@ -1,3 +1,5 @@
+import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 import { SoundEffectsService } from './../../common/services/soundEffects.service';
 import { PlayFacadeService } from './playFacade.service';
 import { SocketioService } from 'src/app/shared/apis/socketio.service';
@@ -10,7 +12,7 @@ import * as playActions from './play.actions';
 import { RootFacadeService } from 'src/app/store/rootFacade.service';
 import { GameApi } from 'src/app/shared/apis/game.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { withLatestFrom, switchMap, map, catchError, tap } from 'rxjs/operators';
+import { switchMap, map, catchError, tap, withLatestFrom } from 'rxjs/operators';
 
 @Injectable()
 export class PlayEffects {
@@ -60,6 +62,7 @@ export class PlayEffects {
   loadRoundStarted$ = this.actions$.pipe(
     ofType(playActions.loadRoundStarted),
     tap(() => {
+      this.soundEffects.playEffect('newRound');
       this.soundEffects.playMusic('clock');
     })
   );
@@ -71,6 +74,7 @@ export class PlayEffects {
   loadRoundEnded$ = this.actions$.pipe(
     ofType(playActions.loadRoundEnded),
     tap(() => {
+      this.soundEffects.playEffect('explosion');
       this.soundEffects.stopMusic('clock');
     })
   );
@@ -79,11 +83,68 @@ export class PlayEffects {
   leaveGameEffect$ = this.actions$.pipe(
     ofType(playActions.leaveGame),
     map(() => {
+      this.router.navigateByUrl('/home');
       this.soundEffects.stopMusic('clock');
       this.socketioService.stop();
       return playActions.loadResetGame();
     })
   );
+
+  @Effect({
+    dispatch: false
+  })
+  turnCheckedEffect$ = this.actions$.pipe(
+    ofType(playActions.loadTurnChecked),
+    withLatestFrom(this.startFacade.loggedPartecipant$),
+    withLatestFrom(this.startFacade.currentRoomates$),
+    tap(([[{ round, previousRound, response }, logged], roomates]) => {
+      if (previousRound.currentPartecipantId !== logged.id) {
+        const player = roomates.find(i => i.id === previousRound.currentPartecipantId);
+        this.toaster.info(`${player.name} ha vinto con '${response}!'`);
+      }
+      this.soundEffects.playEffect('turnCheck');
+    })
+  );
+
+  @Effect({
+    dispatch: false
+  })
+  turnWrongEffect$ = this.actions$.pipe(
+    ofType(playActions.loadTurnWrong),
+    withLatestFrom(this.startFacade.loggedPartecipant$),
+    withLatestFrom(this.startFacade.currentRoomates$),
+    tap(([[{ reason, round, response }, logged], roomates]) => {
+      if (round.currentPartecipantId !== logged.id) {
+        const player = roomates.find(i => i.id === round.currentPartecipantId);
+        this.toaster.info(`${player.name} ha tentato la fortuna con '${response}!'`);
+      } else {
+        this.soundEffects.playEffect('turnWrong');
+        this.toaster.error(this.translate.instant(`reasons.${reason}`), 'Sbagliato!')
+      }
+    })
+  );
+
+  @Effect({
+    dispatch: false
+  })
+  goWaitingRoomEffect$ = this.actions$.pipe(
+    ofType(playActions.goWaitingRoom),
+    tap(() => {
+      this.router.navigateByUrl('/waitingroom');
+    })
+  );
+
+  @Effect({
+    dispatch: false
+  })
+  recallWaitingRoomEffect$ = this.actions$.pipe(
+    ofType(playActions.recallWaitingRoom),
+    withLatestFrom(this.startFacade.currentRoom$),
+    tap(([_, { id }]) => {
+      this.socketioService.recallWaitingRoom(id);
+    })
+  );
+
 
   constructor(
     private actions$: Actions,
@@ -94,7 +155,9 @@ export class PlayEffects {
     private startFacade: StartFacadeService,
     private socketioService: SocketioService,
     private playFacade: PlayFacadeService,
-    private soundEffects: SoundEffectsService
+    private soundEffects: SoundEffectsService,
+    private toaster: ToastrService,
+    private translate: TranslateService
   ) { }
 
 }

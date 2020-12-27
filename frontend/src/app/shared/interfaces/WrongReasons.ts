@@ -1,0 +1,2 @@
+export type WrongReason =
+  'ALREADY_USED' | 'SYLLABLE_NOT_FOUND' | 'MUST_NOT_BEGIN_WITH' | 'MUST_NOT_END_WITH' | 'INVALID_WORD';

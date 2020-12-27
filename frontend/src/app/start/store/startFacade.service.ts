@@ -34,8 +34,8 @@ export class StartFacadeService {
     this.store.dispatch(startActions.loadCreateRoom({ room }));
   }
 
-  registerRoomatesChange(room: Room, partecipants: Partecipant[]) {
-    this.store.dispatch(startActions.loadNewRoomate({ room, partecipants }));
+  registerRoomatesChange(room: Room, partecipants: Partecipant[], updatedPartecipant: Partecipant, event: 'hasLeft' | 'hasJoined') {
+    this.store.dispatch(startActions.loadRoomatesChanged({ room, partecipants, updatedPartecipant, event }));
   }
 
   loadJoiningRoom() {

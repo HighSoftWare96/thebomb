@@ -1,5 +1,12 @@
 {
   "position0": "Non all'inizio",
   "position1": "Non alla fine",
-  "position2": "Dappertutto"
+  "position2": "Dappertutto",
+  "reasons": {
+    "ALREADY_USED": "Parola già utilizzata!",
+    "SYLLABLE_NOT_FOUND": "La parola deve contenere la sillaba!",
+    "MUST_NOT_BEGIN_WITH": "La parola non deve cominciare con la sillaba!",
+    "MUST_NOT_END_WITH": "La parola non deve finire con la sillaba!",
+    "INVALID_WORD": "Parola sconosciuta!"
+  }
 }

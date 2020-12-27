@@ -50,4 +50,8 @@ export class PlayFacadeService {
     this.store.dispatch(playActions.leaveGame());
   }
 
+  recallWaitingRoom() {
+    this.store.dispatch(playActions.recallWaitingRoom());
+  }
+
 }

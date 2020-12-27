@@ -1,6 +1,6 @@
 <div class="container page-content font-game-1" id="particles-js">
   <h1 class="font-game-1 text-3d">The Bomb</h1>
-  <div class="game-box d-flex align-items-center justify-content-center" [ngClass]="{playing: (isMyTurn$ | async)}">
+  <div class="game-box animate__animated animate__backInDown d-flex align-items-center justify-content-center" [ngClass]="{playingbox: (isMyTurn$ | async)}">
     <div class="players d-flex flex-row justify-content-center align-items-end" *ngIf="(playing$ | async)">
       <game-avatar *ngFor="let player of (roomates$ | async)" [size]="(currentPlayer$ | async)?.id === player.id ? 6: 4"
         [changable]="false" [ngModel]="player.avatarSeed"

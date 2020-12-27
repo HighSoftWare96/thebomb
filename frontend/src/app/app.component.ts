@@ -1,6 +1,7 @@
+import { ToastrService } from 'ngx-toastr';
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { RootFacadeService } from './store/rootFacade.service';
+import { Spinkit } from 'ng-http-loader';
 
 @Component({
   selector: 'app-root',
@@ -8,7 +9,8 @@ import { RootFacadeService } from './store/rootFacade.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-
+  spinkit = Spinkit;
+  
   constructor(
     private translate: TranslateService
   ) { }

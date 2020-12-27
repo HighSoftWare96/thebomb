@@ -28,6 +28,7 @@ h1 {
   flex-direction: column;
   position: relative;
   z-index: 10;
+  overflow: hidden;
 }
 
 .game-box {
@@ -44,9 +45,12 @@ h1 {
   padding: 30px 20px;
   min-width: 380px;
   z-index: initial;
+  box-shadow: 0 0 0 $accent;
+  animation: pulsate 0s ease-out infinite;
 }
 
-.playing {
+
+.playingbox {
   box-shadow: 0 0 17px $accent;
   animation: pulsate 1s ease-out infinite;
 }

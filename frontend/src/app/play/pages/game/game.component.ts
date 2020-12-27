@@ -57,4 +57,13 @@ export class GameComponent implements OnInit {
     this.playFacade.sendResponse(response);
     this.form.get('response').setValue('');
   }
+
+  recallWaitingRoom() {
+    this.playFacade.recallWaitingRoom();
+  }
+
+  backHome() {
+    this.playFacade.leaveGame();
+  }
+
 }

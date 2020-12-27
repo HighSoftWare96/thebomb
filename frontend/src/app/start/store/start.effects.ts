@@ -1,3 +1,4 @@
+import { ToastrService } from 'ngx-toastr';
 import { StartFacadeService } from './startFacade.service';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { PartecipantApi } from 'src/app/shared/apis/partecipant.service';
@@ -22,7 +23,8 @@ export class StartEffects {
     private router: Router,
     private roomApi: RoomApi,
     private socketIo: SocketioService,
-    private rootFacade: RootFacadeService
+    private rootFacade: RootFacadeService,
+    private toaster: ToastrService
   ) { }
 
   // refresh partecipant
@@ -182,4 +184,23 @@ export class StartEffects {
     })
   )
 
+  @Effect({
+    dispatch: false
+  })
+  loadRoomateChangeEffect$ = this.action$.pipe(
+    ofType(startActions.loadRoomatesChanged),
+    withLatestFrom(this.startFacade.loggedPartecipant$),
+    withLatestFrom(this.startFacade.currentRoomates$),
+    tap(([[{ partecipants, updatedPartecipant, event }, loggedUser], roomates]) => {
+      if (updatedPartecipant.id === loggedUser.id) {
+        return;
+      }
+      if (event === 'hasJoined') {
+        this.toaster.success(`È arrivato: ${updatedPartecipant.name}!`, 'Nuovo giocatore!');
+      }
+      if (event === 'hasLeft') {
+        this.toaster.warning(`Il giocatore ${updatedPartecipant.name} ha abbandonato!`, 'Giocatore uscito!');
+      }
+    })
+  )
 }

@@ -56,7 +56,7 @@ export class GameLayoutComponent implements OnInit, OnDestroy, LockableComponent
     this.loggedPlayer$ = startFacade.loggedPartecipant$;
     this.subs.push(
       this.playFacade.currentStatus$.subscribe(s => {
-        this.allowRedirect = (s === 'END');
+        this.allowRedirect = (s === 'END' || s === 'NONE');
       })
     );
   }

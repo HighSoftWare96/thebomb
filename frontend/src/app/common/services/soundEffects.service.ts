@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
 
 const SOUNDS = {
-  button: '../../../assets/sounds/button.mp3'
+  button: '../../../assets/sounds/button.mp3',
+  turnCheck: '../../../assets/sounds/turncheck.mp3',
+  turnWrong: '../../../assets/sounds/turnwrong.mp3',
+  newRound: '../../../assets/sounds/newround.mp3',
+  explosion: '../../../assets/sounds/explosion.mp3',
 };
 
 const MUSICS = {
@@ -33,6 +37,7 @@ export class SoundEffectsService {
       });
     }
 
+    this.soundCache[soundKey].volume = 0.25;
     this.soundCache[soundKey].play();
   }
 
@@ -63,7 +68,7 @@ export class SoundEffectsService {
       return;
     }
 
-    if(this.musicCache[musicKey]) {
+    if (this.musicCache[musicKey]) {
       this.musicCache[musicKey].pause();
     }
   }

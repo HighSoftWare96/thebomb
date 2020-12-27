@@ -47,9 +47,9 @@ export const loadCreateRoomFailure = createAction(
   props<{ error: any }>()
 );
 
-export const loadNewRoomate = createAction(
-  '[Room] new roomate',
-  props<{ room: Room, partecipants: Partecipant[] }>()
+export const loadRoomatesChanged = createAction(
+  '[Room] roomates changed',
+  props<{ room: Room, partecipants: Partecipant[], event: 'hasLeft' | 'hasJoined', updatedPartecipant: Partecipant }>()
 );
 
 export const loadJoiningRoom = createAction(

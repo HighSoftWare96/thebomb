@@ -28,7 +28,7 @@ const startReducerFun = createReducer(initialStartState,
     ...state,
     room
   })),
-  on(startActions.loadNewRoomate, (state, { room, partecipants }) => ({
+  on(startActions.loadRoomatesChanged, (state, { room, partecipants }) => ({
     ...state,
     room,
     roomates: partecipants

@@ -1,6 +1,7 @@
 export const events = {
   fromServer: {
     roomJoined: 'room-joined',
+    goWaitingRoom: 'go-waiting-room',
     newRoomate: 'new-roomate',
     roomateLeft: 'roomate-left',
     clientError: 'client-error',
@@ -14,5 +15,6 @@ export const events = {
   },
   fromClient: {
     turnCheck: 'turn-check',
+    goWaitingRoom: 'go-waiting-room',
   }
 };

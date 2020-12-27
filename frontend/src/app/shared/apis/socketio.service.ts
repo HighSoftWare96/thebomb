@@ -53,12 +53,16 @@ export class SocketioService {
     });
   }
 
+  recallWaitingRoom(roomId: number) {
+    this.ioClient.emit(events.fromClient.goWaitingRoom, { roomId });
+  }
+
   private registerListeners() {
-    this.ioClient.on(events.fromServer.newRoomate, ({ room, partecipants }) => {
-      this.startFacade.registerRoomatesChange(room, partecipants);
+    this.ioClient.on(events.fromServer.newRoomate, ({ room, partecipants, updatedPartecipant }) => {
+      this.startFacade.registerRoomatesChange(room, partecipants, updatedPartecipant, 'hasJoined');
     });
-    this.ioClient.on(events.fromServer.roomateLeft, ({ room, partecipants }) => {
-      this.startFacade.registerRoomatesChange(room, partecipants);
+    this.ioClient.on(events.fromServer.roomateLeft, ({ room, partecipants, updatedPartecipant }) => {
+      this.startFacade.registerRoomatesChange(room, partecipants, updatedPartecipant, 'hasLeft');
     });
     this.ioClient.on(events.fromServer.gameStarted, ({ game }) => {
       this.store.dispatch(startActions.loadGameStarted({ game }));
@@ -69,14 +73,17 @@ export class SocketioService {
     this.ioClient.on(events.fromServer.roundStarted, ({ round }) => {
       this.store.dispatch(playActions.loadRoundStarted({ round }));
     });
-    this.ioClient.on(events.fromServer.turnChecked, ({ round }) => {
-      this.store.dispatch(playActions.loadTurnChecked({ round }));
+    this.ioClient.on(events.fromServer.turnChecked, ({ round, previousRound, response }) => {
+      this.store.dispatch(playActions.loadTurnChecked({ round, previousRound, response }));
     });
-    this.ioClient.on(events.fromServer.turnWrong, ({ round }) => {
-      this.store.dispatch(playActions.loadTurnWrong({ round }));
+    this.ioClient.on(events.fromServer.turnWrong, ({ round, reason, response }) => {
+      this.store.dispatch(playActions.loadTurnWrong({ round, reason, response }));
     });
     this.ioClient.on(events.fromServer.roundEnded, ({ round }) => {
       this.store.dispatch(playActions.loadRoundEnded({ round }));
+    });
+    this.ioClient.on(events.fromServer.goWaitingRoom, () => {
+      this.store.dispatch(playActions.goWaitingRoom());
     });
   }
 

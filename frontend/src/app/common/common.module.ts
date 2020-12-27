@@ -16,6 +16,7 @@ import { Page404Component } from './pages/404/404.component';
 import { SoundEffectsService } from './services/soundEffects.service';
 import { GameInputComponent } from './components/gameInput/gameInput.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     FormsModule,
     ReactiveFormsModule,
     TranslateModule.forChild(),
-    TooltipModule.forRoot()
+    TooltipModule.forRoot(),
+    ToastrModule.forRoot()
   ],
   exports: [
     TranslateModule,
