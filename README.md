@@ -10,6 +10,7 @@
       - [Preconditions](#preconditions)
       - [Backend](#backend)
       - [Frontend](#frontend)
+    - [Screenshots 📸](#screenshots-)
 
 This word game is inspired to the classical board game "Passa la bomba" that in italian means "hand the bomb". 
 
@@ -60,3 +61,10 @@ You can run the backend by running: `npm run dev` on each node folder.
 Simply use the [Angular CLI](https://cli.angular.io/): `ng serve -o`.
 
 ### Screenshots 📸
+
+![Image of Yaktocat](./screens/1.png)
+![Image of Yaktocat](./screens/2.png)
+![Image of Yaktocat](./screens/3.png)
+![Image of Yaktocat](./screens/4.png)
+![Image of Yaktocat](./screens/5.png)
+![Image of Yaktocat](./screens/6.png)
