@@ -1,3 +1,4 @@
+import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { StartFacadeService } from './startFacade.service';
 import { Actions, Effect, ofType } from '@ngrx/effects';
@@ -24,7 +25,8 @@ export class StartEffects {
     private roomApi: RoomApi,
     private socketIo: SocketioService,
     private rootFacade: RootFacadeService,
-    private toaster: ToastrService
+    private toaster: ToastrService,
+    private translate: TranslateService
   ) { }
 
   // refresh partecipant
@@ -137,7 +139,7 @@ export class StartEffects {
   loadJoiningRoomFailureEffect$ = this.action$.pipe(
     ofType(startActions.loadJoiningRoomFailure),
     tap(() => {
-      this.toaster.error('Impossibile trovare la stanza selezionata', 'Stanza non trovata!');
+      this.toaster.error(this.translate.instant('alerts.roomNotFound.body'), this.translate.instant('alerts.roomNotFound.title'));
     })
   )
 
@@ -209,10 +211,10 @@ export class StartEffects {
         return;
       }
       if (event === 'hasJoined') {
-        this.toaster.success(`È arrivato: ${updatedPartecipant.name}!`, 'Nuovo giocatore!');
+        this.toaster.success(`${this.translate.instant('alerts.newPlayer.body')} ${updatedPartecipant.name}!`, this.translate.instant('alerts.newPlayer.title'));
       }
       if (event === 'hasLeft') {
-        this.toaster.warning(`Il giocatore ${updatedPartecipant.name} ha abbandonato!`, 'Giocatore uscito!');
+        this.toaster.warning(`${updatedPartecipant.name} ${this.translate.instant('alerts.playerLeft.body')}`, this.translate.instant('alerts.playerLeft.title'));
       }
     })
   )

@@ -1,14 +1,14 @@
 <div class="container d-flex flex-column align-items-center justify-content-center">
   <form [formGroup]="form" class="d-flex flex-column align-items-center justify-content-center" (submit)="joinRoom()">
     <game-avatar formControlName="avatarSeed"></game-avatar>
-    <game-input id="username" type="text" formControlName="name">Nome</game-input>
-    <game-input id="inviteId" type="text" formControlName="inviteId">Codice stanza</game-input>
+    <game-input id="username" type="text" formControlName="name">{{'join.playerName' | translate}}</game-input>
+    <game-input id="inviteId" type="text" formControlName="inviteId">{{'join.code' | translate}}</game-input>
     <div class="d-flex flex-row text-center flex-wrap">
       <game-button type="submit" [disabled]="!form.valid">
-        <span *ngIf="(joiningRoom$ | async) as room">Unisciti a {{room.name}}</span>
-        <span *ngIf="!(joiningRoom$ | async)">Unisciti</span>
+        <span *ngIf="(joiningRoom$ | async) as room">{{"join.join" | translate}} {{room.name}}</span>
+        <span *ngIf="!(joiningRoom$ | async)">{{"join.joinEmpty" | translate}}</span>
       </game-button>
-      <game-button (click)="createPartecipant()">Nuova stanza</game-button>
+      <game-button (click)="createPartecipant()">{{'join.newRoom' | translate}}</game-button>
     </div>
   </form>
 </div>

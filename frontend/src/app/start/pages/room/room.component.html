@@ -1,8 +1,9 @@
 <div class="container d-flex flex-column align-items-center justify-content-center">
-  <h3>Crea nuova stanza</h3>
+  <h3>{{'room.title' | translate}}</h3>
   <form [formGroup]="form" class="d-flex flex-column align-items-center justify-content-center" (submit)="createRoom()">
-    <game-input id="name" formControlName="name">Nome stanza</game-input>
-    <game-input id="maxParts" formControlName="maxPartecipants" type="number">Max giocatori</game-input>
-    <game-button type="submit" [disabled]="!form.valid">Nuova partita</game-button>
+    <game-input id="name" formControlName="name">{{'room.name' | translate}}</game-input>
+    <game-input id="maxParts" formControlName="maxPartecipants" type="number">{{'room.maxPlayers' | translate}}
+    </game-input>
+    <game-button type="submit" [disabled]="!form.valid">{{'room.newMatch'|translate}}</game-button>
   </form>
 </div>

@@ -1,15 +1,18 @@
 <div class="d-flex flex-row justify-content-center align-items-center control-bar">
-  <button class="shortcut-btn" (click)="goToHome()" tooltip="Esci e torna alla home">
+  <button class="shortcut-btn" (click)="goToHome()" tooltip="{{'shortcuts.home' | translate}}">
     <fa-icon [icon]="faHome"></fa-icon>
   </button>
-  <button class="shortcut-btn" *ngIf="(settings$ | async) as settings" tooltip="Suoni"
+  <button class="shortcut-btn" *ngIf="(settings$ | async) as settings" tooltip="{{'shortcuts.sounds' | translate}}"
     (click)="toggleSetting('sounds', !settings.sounds)">
     <fa-icon [icon]="settings.sounds ? faVolumeOn : faVolumeOff"></fa-icon>
   </button>
-  <button class="shortcut-btn" tooltip="Manuale" (click)="openInfo()">
+  <button class="shortcut-btn" tooltip="{{'shortcuts.share'|translate}}" (click)="copyUrl()">
+    <fa-icon [icon]="faShare"></fa-icon>
+  </button>
+  <button class="shortcut-btn" tooltip="{{'shortcuts.info' | translate}}" (click)="openInfo()">
     <fa-icon [icon]="faInfo"></fa-icon>
   </button>
-  <button class="shortcut-btn" tooltip="Copia e condividi" (click)="copyUrl()">
-    <fa-icon [icon]="faShare"></fa-icon>
+  <button class="shortcut-btn" tooltip="{{'shortcuts.language' | translate}}" (click)="changeLang()">
+    <fa-icon [icon]="faLang"></fa-icon>
   </button>
 </div>

@@ -1,13 +1,18 @@
 <div class="container d-flex flex-column align-items-center justify-content-center">
-  <a *ngIf="getLink(room$ | async) as link" class="game-link" (click)="copyLink(link)">
+  <a *ngIf="getLink(room$ | async) as link" class="game-link" (click)="copyLink(link)"
+    tooltip="{{'waiting.share' | translate}}">
     <fa-icon [icon]="faClipboard"></fa-icon>
     &nbsp;&nbsp;{{link}}
   </a>
   <div class="d-flex flex-row flex-wrap">
     <div *ngFor="let roomate of (roomates$ | async)" class="roomate text-center">
       <div class="info">
-        <span *ngIf="roomate.id === (currentPartecipant$ | async).id" tooltip="Sei tu!">🤚</span>
-        <span *ngIf="roomate.id === (room$ | async).adminPartecipantId" tooltip="Amministra questa stanza">👑</span>
+        <span *ngIf="roomate.id === (currentPartecipant$ | async).id" tooltip="{{'waiting.itsyou' | translate}}">
+          <fa-icon [icon]="faYou"></fa-icon>
+        </span>
+        <span *ngIf="roomate.id === (room$ | async).adminPartecipantId" tooltip="{{'waiting.admin' | translate}}">
+          <fa-icon [icon]="faAdmin"></fa-icon>
+        </span>
       </div>
       <game-avatar [size]="8" [ngModel]="roomate.avatarSeed" [changable]="false"></game-avatar>
       <p class="text-muted">
@@ -16,26 +21,28 @@
     </div>
   </div>
   <ng-container *ngIf="(room$ | async).adminPartecipantId === (currentPartecipant$ | async).id">
-    <h3>Crea nuova partita</h3>
+    <h3>{{'waiting.title' | translate}}</h3>
     <form [formGroup]="form" (submit)="newGame()" class="text-center">
       <div class="scrollable">
         <div class="row">
-          <game-input class="col p-0 m-0" type="number" id="rounds" formControlName="rounds">Rounds</game-input>
+          <game-input class="col p-0 m-0" type="number" id="rounds" formControlName="rounds">{{'waiting.rounds' |
+            translate}}</game-input>
           <game-select class="col p-0 m-0" id="language" formControlName="language" [options]="languages">
-            Lingua
+            {{'waiting.lang' | translate}}
           </game-select>
           <game-select class="col p-0 m-0" id="difficulty" formControlName="difficulty" [options]="difficulties">
-            Difficoltà
+            {{'waiting.hard' | translate}}
           </game-select>
         </div>
         <div class="row">
-          <game-input class="col p-0 m-0" type="number" id="minTimeS" formControlName="minTimeS">Durata minima round
+          <game-input class="col p-0 m-0" type="number" id="minTimeS" formControlName="minTimeS">{{'waiting.minRound'|
+            translate}}
           </game-input>
-          <game-input class="col p-0 m-0" type="number" id="maxTimeS" formControlName="maxTimeS">Durata massima round
+          <game-input class="col p-0 m-0" type="number" id="maxTimeS" formControlName="maxTimeS">{{'waiting.maxRound' | translate}}
           </game-input>
         </div>
       </div>
-      <game-button type="submit" [disabled]="(roomates$ | async).length < 2 || !form.valid">Nuova partita</game-button>
+      <game-button type="submit" [disabled]="(roomates$ | async).length < 2 || !form.valid">{{'waiting.newMatch' | translate}}</game-button>
     </form>
   </ng-container>
 </div>

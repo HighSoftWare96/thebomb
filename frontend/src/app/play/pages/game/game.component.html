@@ -2,54 +2,55 @@
   <ng-container [ngSwitch]="(status$ | async)">
 
     <ng-container *ngSwitchCase="'LOADING'">
-      <p>Attesa caricamento gioco...</p>
+      <p>{{'game.loading' | translate}}</p>
     </ng-container>
 
     <ng-container *ngSwitchCase="'PLAYING'">
-      <p>Gioco partito!</p>
+      <p>{{'game.started' | translate }}</p>
     </ng-container>
 
     <ng-container *ngSwitchCase="'ROUND_STARTED'">
       <div class="syllable-container">
         <p class="syllable game-font-1">{{(currentRound$ | async).syllable}}</p>
         <p class="position">
-          {{('position' + (currentRound$ | async).dice | translate)}}</p>
+          {{('position.' + (currentRound$ | async).dice | translate)}}</p>
       </div>
       <div *ngIf="(currentPartecipant$ | async).id === (currentRound$ | async).currentPartecipantId else notPlaying">
         <form (submit)="sendResponse()" [formGroup]="form" class="form-group">
-          <game-input type="text" formControlName="response">Tuo turno!</game-input>
-          <game-button type="submit">Invia</game-button>
+          <game-input type="text" formControlName="response">{{'game.yourTurn' | translate}}</game-input>
+          <game-button type="submit">{{'game.send' | translate}}</game-button>
         </form>
       </div>
       <ng-template #notPlaying>
-        <p class="not-playing">Sta giocando {{getRoomate(roomates$ | async, (currentRound$ |
+        <p class="not-playing">{{'game.playing' | translate}} {{getRoomate(roomates$ | async, (currentRound$ |
           async)?.currentPartecipantId)?.name}}...</p>
       </ng-template>
     </ng-container>
 
     <ng-container *ngSwitchCase="'ROUND_ENDED'">
-      <p>Round concluso</p>
-      <p>Ha perso: <strong>{{getRoomate(roomates$ | async, (currentRound$ | async).currentPartecipantId).name}}</strong>
+      <p>{{'game.roundEnded' | translate}}</p>
+      <p>{{'game.lost' | translate}} <strong>{{getRoomate(roomates$ | async, (currentRound$ |
+          async).currentPartecipantId).name}}</strong>
       </p>
     </ng-container>
 
     <ng-container *ngSwitchCase="'END'">
-      <p>Partita finita!</p>
-      <div class="text-left scrollable">
-        <p>Risultati:</p>
+      <p>{{'game.end' | translate}}</p>
+      <div class="text-left scrollable w-100 p-2">
+        <p>{{'game.results' | translate}}</p>
         <div class="d-flex flex-row align-items-center justify-content-start position-relative"
           *ngFor="let stat of (stats$ | async); let i = index;">
           <span class="score">{{i+1}}</span>
           <game-avatar size="6" [changable]="false" [ngModel]="stat.avatarSeed" class="my-1"></game-avatar>
           <div class="d-flex flex-column">
             <p class="m-0 p-0">{{stat.name}} {{(currentPartecipant$ | async).id === stat.id ? '(Tu)' : ''}}</p>
-            <p class="m-0 p-0 font-weight-lighter">Round persi: {{stat.lostRounds}}</p>
+            <p class="m-0 p-0 font-weight-lighter">{{'game.lostRounds' | translate}} {{stat.lostRounds}}</p>
           </div>
         </div>
       </div>
       <div class="d-flex flex-wrap flex-row my-2">
-        <game-button (click)="recallWaitingRoom()">Nuova partita</game-button>
-        <game-button (click)="backHome()">Lascia stanza</game-button>
+        <game-button (click)="recallWaitingRoom()">{{'game.newMatch' | translate}}</game-button>
+        <game-button (click)="backHome()">{{'game.leave' | translate }}</game-button>
       </div>
     </ng-container>
 

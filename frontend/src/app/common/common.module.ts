@@ -1,3 +1,4 @@
+import { UpperfirstPipe } from './pipes/upperfirst.pipe';
 import { ModalService } from './services/modal.service';
 import { CommonModule } from '@angular/common';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -32,7 +33,8 @@ import { SoundEffectsService } from './services/soundEffects.service';
     GameSelectComponent,
     GameAvatarComponent,
     ShortcutsBarComponent,
-    ManualComponent
+    ManualComponent,
+    UpperfirstPipe
   ],
   imports: [
     CommonModule,
@@ -55,7 +57,8 @@ import { SoundEffectsService } from './services/soundEffects.service';
     ShortcutsBarComponent,
     GameAvatarComponent,
     FontAwesomeModule,
-    ManualComponent
+    ManualComponent,
+    UpperfirstPipe
   ]
 })
 export class AppCommonModule {

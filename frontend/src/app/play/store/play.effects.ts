@@ -100,7 +100,7 @@ export class PlayEffects {
     tap(([[{ round, previousRound, response }, logged], roomates]) => {
       if (previousRound.currentPartecipantId !== logged.id) {
         const player = roomates.find(i => i.id === previousRound.currentPartecipantId);
-        this.toaster.info(`${player.name} ha vinto con '${response}!'`);
+        this.toaster.info(`${player.name} ${this.translate.instant('alerts.game.won')} '${response}!'`);
       }
       this.soundEffects.playEffect('turnCheck');
     })
@@ -116,10 +116,10 @@ export class PlayEffects {
     tap(([[{ reason, round, response }, logged], roomates]) => {
       if (round.currentPartecipantId !== logged.id) {
         const player = roomates.find(i => i.id === round.currentPartecipantId);
-        this.toaster.info(`${player.name} ha tentato la fortuna con '${response}!'`);
+        this.toaster.info(`${player.name} ${this.translate.instant('alerts.game.tried')} '${response}!'`);
       } else {
         this.soundEffects.playEffect('turnWrong');
-        this.toaster.error(this.translate.instant(`reasons.${reason}`), 'Sbagliato!')
+        this.toaster.error(this.translate.instant(`reasons.${reason}`), this.translate.instant('alerts.game.wrong'))
       }
     })
   );
@@ -150,7 +150,7 @@ export class PlayEffects {
   })
   loadEndGameEffect$ = this.actions$.pipe(
     ofType(playActions.loadGameEnded),
-    tap(() => { 
+    tap(() => {
       this.soundEffects.stopMusic('clock');
     })
   );

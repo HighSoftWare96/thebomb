@@ -1,10 +1,16 @@
+@import "../../../../assets/styles/variables";
+
 :host {
   width: 100%;
-  flex: 1;
   height: 100%;
+  margin: 0;
 }
 
 .container {
   width: 100%;
+  max-width: unset !important;
   height: 100%;
+  margin: 0;
+  background: $background;
+  color: white;
 }

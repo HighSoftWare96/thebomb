@@ -7,7 +7,7 @@ import { Room } from 'src/app/shared/interfaces/Room';
 import { StartFacadeService } from '../../store/startFacade.service';
 import { GameApi } from 'src/app/shared/apis/game.service';
 import { Router } from '@angular/router';
-import { faClipboard } from '@fortawesome/free-solid-svg-icons';
+import { faClipboard, faCrown, faHandPointDown } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-waitingroom',
@@ -16,6 +16,8 @@ import { faClipboard } from '@fortawesome/free-solid-svg-icons';
 })
 export class WaitingRoomComponent implements OnInit, OnDestroy {
   faClipboard = faClipboard;
+  faYou = faHandPointDown;
+  faAdmin = faCrown;
 
   currentPartecipant$: Observable<Partecipant>;
   room$: Observable<Room>;

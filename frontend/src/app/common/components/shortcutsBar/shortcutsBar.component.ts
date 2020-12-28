@@ -1,7 +1,7 @@
 import { ModalService } from './../../services/modal.service';
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { Router } from '@angular/router';
-import { faHome, faInfo, faShareAlt, faVolumeMute, faVolumeUp } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faInfo, faLanguage, faShareAlt, faVolumeMute, faVolumeUp } from '@fortawesome/free-solid-svg-icons';
 import { Observable } from 'rxjs';
 import { SettingsKeys, SettingsService } from './../../services/settings.service';
 import { SoundEffectsService } from './../../services/soundEffects.service';
@@ -19,6 +19,7 @@ export class ShortcutsBarComponent implements OnInit {
   faHome = faHome;
   faInfo = faInfo;
   faShare = faShareAlt;
+  faLang = faLanguage;
 
   constructor(
     private settingsManager: SettingsService,
@@ -46,7 +47,7 @@ export class ShortcutsBarComponent implements OnInit {
   }
 
   goToHome() {
-    this.router.navigateByUrl('/home', {replaceUrl: true});
+    this.router.navigateByUrl('/home', { replaceUrl: true });
     this.playSound();
   }
 
@@ -57,5 +58,7 @@ export class ShortcutsBarComponent implements OnInit {
   openInfo() {
     this.modalService.open(this.viewRef, ManualComponent);
   }
+
+  changeLang() { }
 
 }

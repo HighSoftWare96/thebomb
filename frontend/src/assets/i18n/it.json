@@ -1,7 +1,77 @@
 {
-  "position0": "Non all'inizio",
-  "position1": "Non alla fine",
-  "position2": "Dappertutto",
+  "title": "The Bomb",
+  "position": {
+    "0": "Non all'inizio",
+    "1": "Non alla fine",
+    "2": "Dappertutto"
+  },
+  "home": {
+    "playerName": "Nome giocatore",
+    "newRoom": "Nuova stanza",
+    "join": "Entra"
+  },
+  "waiting": {
+    "itsyou": "Sei tu!",
+    "admin": "Capitano!",
+    "share": "Condividi il link della stanza",
+    "title": "Crea nuova partita",
+    "rounds": "Rounds",
+    "lang": "Lingua",
+    "hard": "Difficoltà",
+    "minRound": "Durata minima round",
+    "maxRound": "Durata massima round",
+    "newMatch":"Nuova partita"
+  },
+  "join": {
+    "join": "Entra in",
+    "joinEmpty": "Entra",
+    "newRoom": "Nuova stanza",
+    "playerName": "Nome giocatore",
+    "code": "Codice invito"
+  },
+  "room": {
+    "title": "Crea nuova stanza",
+    "name": "Nome stanza",
+    "maxPlayers": "Max giocatori",
+    "newMatch": "Nuova partita"
+  },
+  "you": "tu",
+  "404": {
+    "title": "Pagina esplosa!"
+  },
+  "game": {
+    "loading": "Caricamento della partita...",
+    "started": "Si parte!",
+    "yourTurn": "È il tuo turno!",
+    "send": "Invia",
+    "playing": "Sta giocando",
+    "roundEnded": "Round concluso!",
+    "lost": "Ha perso:",
+    "end": "Partita conclusa!",
+    "results": "Risultati:",
+    "lostRounds": "Round persi:",
+    "newMatch": "Nuova partita",
+    "leave": "Lascia stanza"
+  },
+  "alerts": {
+    "newPlayer": {
+      "title": "Nuovo giocatore",
+      "body": "È arrivato:"
+    },
+    "playerLeft": {
+      "title": "Giocatore uscito!",
+      "body": "ha abbandonato!"
+    },
+    "game": {
+      "won": "ha indovinato con",
+      "tried": "ha tentato la fortuna con",
+      "wrong": "Sbagliato!"
+    },
+    "roomNotFound": {
+      "title": "Stanza non trovata!",
+      "body": "Impossibile trovare la stanza!"
+    }
+  },
   "reasons": {
     "ALREADY_USED": "Parola già utilizzata!",
     "SYLLABLE_NOT_FOUND": "La parola deve contenere la sillaba!",
@@ -12,14 +82,21 @@
   "manual": {
     "title": "Benvenuto in The Bomb!",
     "howto": "Come giocare?",
-    "body": "In ogni round riceverai una sillaba e ogni giocatore, a turno, dovrà cercare di comporre in un determinato modo una parola contenente la sillaba. Ma attenzione! Non hai tantissimo tempo per rispondere: se indovinerai una parola passerai la bomba al prossimo giocatore altrimenti se la bomba esploderà prima che tu possa scegliere, perderai il round! Il sistema deciderà quando far esplodere la bomba, la sillaba di ogni round ma anche come potrai comporre le parole: alle volte come vuoi, alle volte non potrai invece mettere la sillaba all'inizio o alla fine della parola! Concentrati: potrai utilizzare solo parole esistenti!",
+    "body": "Ogni round viene sorteggiata una sillaba e inizia la corsa contro il tempo: i giocatori si passano la bomba scrivendo di volta in volta una parola contenente quella sillaba. Dovrai cercare in tutti i modi di non avere l'ordigno in mano quando questo deciderà di esplodere facendoti perdere il round! La lunghezza del timer è casuale, sarà poi il sistema a decidere dove potrai collocare la sillaba nelle parole scelte: ovunque, non all'inizio, non alla fine. Concentrati: potrai utilizzare solo parole realmente esistenti!",
     "infos": "Il progetto",
-    "infoBody": "Il progetto è un progetto open source nato, come hobby, durante e in seguito al lockdown 2020. Nei link sottostanti trovate modi per supportarlo e perfino il codice sorgente! Se ti è piaciuto, condividilo!",
+    "infoBody": "The bomb è un progetto open source nato, come hobby, durante e in seguito al lockdown 2020. Nei link sottostanti trovate modi per supportarlo e perfino il codice sorgente! Se ti è piaciuto, condividilo!",
     "links": "Link utili",
     "github": "Github",
     "support": "Wow, grazie!",
     "supporthint": "Comprami un caffè!",
     "share": "Copia il link e condividi!",
     "link": "Share the love!"
+  },
+  "shortcuts": {
+    "home": "Esci e torna alla home",
+    "sounds": "Suoni",
+    "share": "Copia e condividi",
+    "info": "Di cosa stiamo parlando?",
+    "language": "Cambia lingua"
   }
 }
