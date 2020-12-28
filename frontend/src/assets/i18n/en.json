@@ -1,0 +1,103 @@
+{
+  "title": "The Bomb",
+  "changeAvatar": "Change your avatar",
+  "position": {
+    "0": "Not beginning",
+    "1": "Not ending",
+    "2": "Wherever"
+  },
+  "home": {
+    "playerName": "Player name",
+    "newRoom": "New room",
+    "join": "Join"
+  },
+  "waiting": {
+    "itsyou": "It is you!",
+    "admin": "Captain!",
+    "share": "Share the room link!",
+    "title": "Create new game",
+    "rounds": "Rounds",
+    "lang": "Language",
+    "hard": "Difficulty",
+    "minRound": "Min duration round",
+    "maxRound": "Max duration round",
+    "newMatch": "New game"
+  },
+  "join": {
+    "join": "Join",
+    "joinEmpty": "Join",
+    "newRoom": "New room",
+    "playerName": "Player name",
+    "code": "Room code"
+  },
+  "room": {
+    "title": "Create new room",
+    "name": "Room name",
+    "maxPlayers": "Max players",
+    "newMatch": "New game"
+  },
+  "you": "you",
+  "404": {
+    "title": "This page has exploded!"
+  },
+  "game": {
+    "loading": "Loading game...",
+    "started": "Let's go!",
+    "yourTurn": "It's your turn!",
+    "send": "Send",
+    "playing": "Playing",
+    "roundEnded": "Round ended!",
+    "lost": "Has lost:",
+    "end": "Game ended!",
+    "results": "Results:",
+    "lostRounds": "Lost rounds:",
+    "newMatch": "New game",
+    "leave": "Leave room"
+  },
+  "alerts": {
+    "newPlayer": {
+      "title": "New game",
+      "body": "It's arrived:"
+    },
+    "playerLeft": {
+      "title": "Game ended!",
+      "body": "has left!"
+    },
+    "game": {
+      "won": "has guessed with",
+      "tried": "tried with",
+      "wrong": "Wrong!"
+    },
+    "roomNotFound": {
+      "title": "Room not found!",
+      "body": "This room has been lost!"
+    }
+  },
+  "reasons": {
+    "ALREADY_USED": "Damn! Already used word!",
+    "SYLLABLE_NOT_FOUND": "The word must contain the syllable!",
+    "MUST_NOT_BEGIN_WITH": "The word must not begin with the syllable!",
+    "MUST_NOT_END_WITH": "The word must not end with the syllable!",
+    "INVALID_WORD": "Unknown word!"
+  },
+  "manual": {
+    "title": "Welcome in The Bomb!",
+    "howto": "How to play?",
+    "body": "Each round a syllable gets picked and the rage against time begins: the players hand the bomb each other guessing words containing that syllable. You shall not have the weapon in your hands when it will decide to explode making you lose the round! The explosion time is pretty random and the system will also decide where you must put the syllable inside the chosen words: wherever, not at the beginning, not at the end. Focus: you must choose only real words!",
+    "infos": "The project",
+    "infoBody": "The bomb is an open source project that born, as a hobby, during and after the 2020 quarantine. In the links below you'll find ways to support it and even the link to the codebase! If you liked it, why don't share?",
+    "links": "Useful links",
+    "github": "Github",
+    "support": "Wow, thankz!",
+    "supporthint": "Buy me a coffee!",
+    "share": "Copy the link and share!",
+    "link": "Share the love!"
+  },
+  "shortcuts": {
+    "home": "Leave and back home",
+    "sounds": "Suonds",
+    "share": "Copy and share",
+    "info": "What is this?",
+    "language": "Toggle language"
+  }
+}

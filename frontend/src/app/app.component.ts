@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
+import { Subscription } from 'rxjs';
+import { SettingsService } from './common/services/settings.service';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Spinkit } from 'ng-http-loader';
 
@@ -7,15 +10,29 @@ import { Spinkit } from 'ng-http-loader';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
   spinkit = Spinkit;
 
+  subs: Subscription[] = [];
+
   constructor(
-    private translate: TranslateService
-  ) { }
+    private settings: SettingsService,
+    private translate: TranslateService,
+    private toaster: ToastrService
+  ) { 
+  }
+
+  ngOnDestroy() { }
 
   ngOnInit() {
     this.translate.setDefaultLang('it');
+    this.translate.addLangs(['it', 'en']);
+
+    this.subs.push(
+      this.settings.settings$.subscribe(s => {
+        this.translate.use(s.lang);
+      })
+    );
   }
 
 }

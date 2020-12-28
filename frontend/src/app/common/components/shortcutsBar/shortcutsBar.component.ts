@@ -1,3 +1,4 @@
+import { TranslateService } from '@ngx-translate/core';
 import { ModalService } from './../../services/modal.service';
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { Router } from '@angular/router';
@@ -26,7 +27,8 @@ export class ShortcutsBarComponent implements OnInit {
     private soundEffects: SoundEffectsService,
     private router: Router,
     private modalService: ModalService,
-    private viewRef: ViewContainerRef
+    private viewRef: ViewContainerRef,
+    private translate: TranslateService
   ) {
     this.settings$ = settingsManager.settings$;
   }
@@ -59,6 +61,11 @@ export class ShortcutsBarComponent implements OnInit {
     this.modalService.open(this.viewRef, ManualComponent);
   }
 
-  changeLang() { }
+  changeLang() {
+    const availableLangs = this.translate.langs;
+    const activeLang = this.translate.currentLang;
+    const nextLangIndex = (availableLangs.findIndex(l => l === activeLang) + 1) % availableLangs.length;
+    this.settingsManager.set('lang', availableLangs[nextLangIndex]);
+  }
 
 }

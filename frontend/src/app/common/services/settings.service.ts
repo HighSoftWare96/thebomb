@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 
-export type SettingsKeys = 'sounds';
+export type SettingsKeys = 'sounds' | 'lang';
 
 const DEFAULTS: { [key in SettingsKeys]: any } = {
-  sounds: true
+  sounds: true,
+  lang: 'it'
 };
 
 const SETTINGS_PREFIX = '$settings_';

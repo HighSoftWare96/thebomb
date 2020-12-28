@@ -1,3 +1,4 @@
+import { GameGuard } from './guards/game.guard';
 import { UpperfirstPipe } from './pipes/upperfirst.pipe';
 import { ModalService } from './services/modal.service';
 import { CommonModule } from '@angular/common';
@@ -74,6 +75,7 @@ export class AppCommonModule {
         },
         AuthGuard,
         RoomGuard,
+        GameGuard,
         SoundEffectsService,
         LockableGuard,
         SettingsService,

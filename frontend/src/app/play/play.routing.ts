@@ -1,3 +1,4 @@
+import { GameGuard } from './../common/guards/game.guard';
 import { LockableGuard } from '../common/guards/lockable.guard';
 import { GameLayoutComponent } from './layouts/game/game.layout';
 import { RoomGuard } from './../common/guards/room.guard';
@@ -15,7 +16,7 @@ const routes: Routes = [{
     pathMatch: 'full',
     component: GameComponent
   }],
-  canActivate: [AuthGuard, RoomGuard],
+  canActivate: [AuthGuard, RoomGuard, GameGuard],
   canDeactivate: [LockableGuard]
 }];
 

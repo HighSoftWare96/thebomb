@@ -1,0 +1,23 @@
+@import "./variables";
+
+.toast-container {
+  .ngx-toastr {
+    border-radius: 50px;
+    box-shadow: none;
+    margin: 10px;
+    border: 5px solid rgba(0, 0, 0, 0.3);
+  }
+
+  .toast-success {
+    background-color: $success;
+  }
+  .toast-warning {
+    background-color: $warning;
+  }
+  .toast-error {
+    background-color: $error;
+  }
+  .toast-info {
+    background-color: $background-secondary;
+  }
+}

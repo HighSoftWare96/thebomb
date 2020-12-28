@@ -32,7 +32,8 @@
               "./node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
               "src/styles.scss",
               "node_modules/ngx-toastr/toastr.css",
-              "src/assets/styles/_modals.scss"
+              "src/assets/styles/_modals.scss",
+              "src/assets/styles/_toasts.scss"
             ],
             "scripts": []
           },
@@ -99,6 +100,7 @@
               "./node_modules/bootstrap/dist/css/bootstrap.min.css",
               "./node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
               "src/styles.scss",
+              "src/assets/styles/_toasts.scss",
               "src/assets/styles/_modals.scss"
             ],
             "scripts": []
