@@ -53,19 +53,22 @@ export class StartEffects {
     ofType(startActions.loadTryCreatePartecipant),
     withLatestFrom(this.startFacade.loggedPartecipant$),
     switchMap(([{ avatarSeed, name }, partecipant]) => {
-      if (partecipant) {
-        // recupero il partecipante attuale
-        return of(
-          startActions.loadTryCreatePartecipantSuccess({
-            partecipant,
-            jwt: this.bearerInterceptor.getJwt()
-          })
-        );
-      }
-      return this.partecipantApi.create({
+      let opObs = this.partecipantApi.create({
         avatarSeed,
         name
-      }).pipe(
+      });
+
+      if (partecipant) {
+        // recupero il partecipante attuale
+        opObs = this.partecipantApi.update({
+          avatarSeed,
+          name,
+          id: partecipant.id
+        }).pipe(
+          map((partecipant) => ({ partecipant, jwt: this.bearerInterceptor.getJwt() }))
+        );
+      }
+      return opObs.pipe(
         map(({ partecipant, jwt }) => startActions.loadTryCreatePartecipantSuccess({ partecipant, jwt })),
         catchError(error => of(startActions.loadTryCreatePartecipantFailure({ error })))
       );

@@ -12,5 +12,8 @@ module.exports = {
     audience: 'thebomb:authentication',
     issuer: 'partecipant.service',
     secure: true
+  },
+  cors: {
+    origin: process.env.CORS_ORIGIN || 'http://localhost:4200'
   }
 };

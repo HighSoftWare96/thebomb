@@ -1,4 +1,5 @@
 const cookieParser = require('cookie-parser');
+const {cors} = require('../config');
 
 module.exports = [{
   path: '/api',
@@ -19,6 +20,7 @@ module.exports = [{
     'GET /rooms/:inviteId': 'room.getByInviteId',
     'POST /rooms/join/:inviteId': 'room.join',
     'POST /partecipants': 'partecipant.create',
+    'PATCH /partecipants/:id': 'partecipant.update',
     'POST /partecipants/renew': 'partecipant.renew',
     'GET /partecipants/:id': 'partecipant.get',
     'POST /game/start': 'game.start',
@@ -48,9 +50,9 @@ module.exports = [{
   logging: true,
   cors: {
     // Configures the Access-Control-Allow-Origin CORS header.
-    origin: 'http://localhost:4200',
+    origin: cors.origin,
     // Configures the Access-Control-Allow-Methods CORS header. 
-    methods: ['GET', 'OPTIONS', 'POST', 'PUT', 'DELETE'],
+    methods: ['GET', 'OPTIONS', 'POST', 'PUT', 'DELETE', 'PATCH'],
     credentials: true,
   },
 }];
