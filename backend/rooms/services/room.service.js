@@ -221,9 +221,11 @@ module.exports = {
           const room = foundRooms[0];
 
           // disconnetto il client dal socket
-          await this.broker.call('socketio.disconnectClient', {
-            socketId: partecipant.socketId
-          });
+          if(partecipant.socketId) {
+            await this.broker.call('socketio.disconnectClient', {
+              socketId: partecipant.socketId
+            });
+          }
 
           // rimuovo il socketid dal partecipant
           await this.broker.call('partecipant.update', {

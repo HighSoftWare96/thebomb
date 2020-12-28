@@ -111,10 +111,11 @@ class SocketIoMultiplayerNamespace {
       });
 
       // cerco una stanza corrispondente
-      const foundRoom = await this.service.broker.call('room.find', {
+      const foundRooms = await this.service.broker.call('room.find', {
         query: { socketioRoom, locked: false }
       });
 
+      const foundRoom = foundRooms[0];
 
       // alla disconnessione mi assicuro che il partecipante lasci la stanza
       client.on('disconnect', async () => {
@@ -124,7 +125,7 @@ class SocketIoMultiplayerNamespace {
           });
 
           const updatedRoom = await this.service.broker.call('room.leave',
-            { id: foundRoom[0].id },
+            { id: foundRoom.id },
             { meta: { user: updatedPartecipant } }
           );
 
@@ -156,7 +157,7 @@ class SocketIoMultiplayerNamespace {
       this.service.logger.info(
         'New client connected @'
         + ' PARTECIPANT_ID: ' + partecipant.id
-        + ' ROOM_ID:' + foundRoom[0].id
+        + ' ROOM_ID:' + foundRoom.id
         + ' SOCKETIO_ROOM:' + socketioRoom
       );
 
@@ -164,13 +165,13 @@ class SocketIoMultiplayerNamespace {
       client.emit(
         events.fromServer.roomJoined,
         {
-          room: foundRoom[0],
+          room: foundRoom,
           partecipant: updatedPartecipant
         });
 
       const partecipants = [];
 
-      for (const id of foundRoom[0].partecipantIds) {
+      for (const id of foundRoom.partecipantIds) {
         const currentP = await this.service.broker.call('partecipant.get', {
           id
         });
@@ -181,7 +182,7 @@ class SocketIoMultiplayerNamespace {
       this.io.to(socketioRoom).emit(
         events.fromServer.newRoomate,
         {
-          room: foundRoom[0],
+          room: foundRoom,
           partecipants,
           updatedPartecipant
         });
