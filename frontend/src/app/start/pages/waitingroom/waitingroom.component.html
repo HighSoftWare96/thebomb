@@ -1,6 +1,7 @@
 <div class="container d-flex flex-column align-items-center justify-content-center">
   <a *ngIf="getLink(room$ | async) as link" class="game-link" (click)="copyLink(link)">
-    {{link}}
+    <fa-icon [icon]="faClipboard"></fa-icon>
+    &nbsp;&nbsp;{{link}}
   </a>
   <div class="d-flex flex-row flex-wrap">
     <div *ngFor="let roomate of (roomates$ | async)" class="roomate text-center">

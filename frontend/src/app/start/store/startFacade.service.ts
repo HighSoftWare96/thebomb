@@ -45,4 +45,8 @@ export class StartFacadeService {
   joinRoom(name: string, avatarSeed: string, inviteId?: string) {
     this.store.dispatch(startActions.loadJoinRoom({ name, avatarSeed, inviteId }))
   }
+
+  leaveRoom() {
+    this.store.dispatch(startActions.loadLeaveRoom());
+  }
 }

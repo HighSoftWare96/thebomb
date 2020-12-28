@@ -213,4 +213,15 @@ export class StartEffects {
       }
     })
   )
+
+  @Effect({
+    dispatch: false
+  })
+  loadLeaveRoomEffect$ = this.action$.pipe(
+    ofType(startActions.loadLeaveRoom),
+    tap(() => {
+      this.socketIo.stop();
+    })
+  )
+
 }

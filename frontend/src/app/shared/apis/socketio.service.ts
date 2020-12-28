@@ -41,7 +41,9 @@ export class SocketioService {
   }
 
   stop() {
-    this.ioClient.disconnect();
+    if (this.ioClient) {
+      this.ioClient.disconnect();
+    }
     this.ioClient = undefined;
   }
 

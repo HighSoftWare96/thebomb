@@ -1,8 +1,10 @@
+import { ModalService } from './services/modal.service';
 import { CommonModule } from '@angular/common';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TranslateModule } from '@ngx-translate/core';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { ToastrModule } from 'ngx-toastr';
@@ -10,11 +12,13 @@ import { GameAvatarComponent } from './components/gameAvatar/gameAvatar.componen
 import { GameButtonComponent } from './components/gameButton/gameButton.component';
 import { GameInputComponent } from './components/gameInput/gameInput.component';
 import { GameSelectComponent } from './components/gameSelect/gameSelect.component';
+import { ShortcutsBarComponent } from './components/shortcutsBar/shortcutsBar.component';
 import { AuthGuard } from './guards/auth.guard';
 import { LockableGuard } from './guards/lockable.guard';
 import { RoomGuard } from './guards/room.guard';
 import { BearerInterceptor } from './interceptors/bearer.interceptor';
 import { MainLayoutComponent } from './layouts/main/main.layout';
+import { ManualComponent } from './modals/manual/manual.component';
 import { Page404Component } from './pages/404/404.component';
 import { SettingsService } from './services/settings.service';
 import { SoundEffectsService } from './services/soundEffects.service';
@@ -26,7 +30,9 @@ import { SoundEffectsService } from './services/soundEffects.service';
     MainLayoutComponent,
     GameInputComponent,
     GameSelectComponent,
-    GameAvatarComponent
+    GameAvatarComponent,
+    ShortcutsBarComponent,
+    ManualComponent
   ],
   imports: [
     CommonModule,
@@ -36,6 +42,7 @@ import { SoundEffectsService } from './services/soundEffects.service';
     TranslateModule.forChild(),
     TooltipModule.forRoot(),
     ToastrModule.forRoot(),
+    FontAwesomeModule
   ],
   exports: [
     TranslateModule,
@@ -45,7 +52,10 @@ import { SoundEffectsService } from './services/soundEffects.service';
     MainLayoutComponent,
     GameInputComponent,
     GameSelectComponent,
-    GameAvatarComponent
+    ShortcutsBarComponent,
+    GameAvatarComponent,
+    FontAwesomeModule,
+    ManualComponent
   ]
 })
 export class AppCommonModule {
@@ -63,7 +73,8 @@ export class AppCommonModule {
         RoomGuard,
         SoundEffectsService,
         LockableGuard,
-        SettingsService
+        SettingsService,
+        ModalService
       ]
     }
   }

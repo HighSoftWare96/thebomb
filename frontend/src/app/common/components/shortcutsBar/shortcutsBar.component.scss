@@ -1,0 +1,27 @@
+@import "../../../../assets/styles/variables";
+
+:host {
+  z-index: 20;
+}
+
+.shortcut-btn {
+  color: $accent;
+  font-size: 28px;
+  border-radius: 50%;
+  background: white;
+  border: 5px solid rgba($accent, .3);
+  width: 55px;
+  height: 55px;
+  margin: 5px;
+  transition: all 120ms ease-in;
+  outline: none !important;
+  background-clip: padding-box;
+}
+
+.shortcut-btn:hover {
+  transform: scale(1.2);
+}
+
+.shortcut-btn:active {
+  transform: scale(0.8);
+}

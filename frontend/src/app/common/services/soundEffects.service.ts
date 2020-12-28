@@ -1,3 +1,4 @@
+import { SettingsService } from './settings.service';
 import { Injectable } from '@angular/core';
 
 const SOUNDS = {
@@ -18,9 +19,16 @@ export class SoundEffectsService {
   musicCache = {};
   currentPlaying = {};
 
-  constructor() { }
+  constructor(
+    private settings: SettingsService
+  ) { }
 
   playEffect(soundKey, config = {}) {
+    if (!this.settings.get('sounds')) {
+      return;
+    }
+
+
     if (!SOUNDS[soundKey]) {
       console.warn('Sound key not found: ', soundKey);
       return;
@@ -42,6 +50,10 @@ export class SoundEffectsService {
   }
 
   playMusic(musicKey, config = {}) {
+    if (!this.settings.get('sounds')) {
+      return;
+    }
+
     if (!MUSICS[musicKey]) {
       console.warn('Music key not found: ', musicKey);
       return;
@@ -63,6 +75,10 @@ export class SoundEffectsService {
   }
 
   stopMusic(musicKey) {
+    if (!this.settings.get('sounds')) {
+      return;
+    }
+
     if (!MUSICS[musicKey]) {
       console.warn('Music key not found: ', musicKey);
       return;
@@ -70,6 +86,13 @@ export class SoundEffectsService {
 
     if (this.musicCache[musicKey]) {
       this.musicCache[musicKey].pause();
+    }
+  }
+
+  stopAll() {
+    for (const currentMusicKey in this.currentPlaying) {
+      const sound = this.currentPlaying[currentMusicKey];
+      sound.pause();
     }
   }
 }

@@ -1,2 +1,5 @@
-<img [width]="size * 10" (click)="changeAvatar()" [src]="'https://avatars.dicebear.com/v2/avataaars/' + value + '.svg'"
-  class="avatar" [ngClass]="{transition: transition}" />
+<div class="position-relative" (click)="changeAvatar()" [ngClass]="{'cursor-pointer': changable}">
+  <img [width]="size * 10" [src]="'https://avatars.dicebear.com/v2/avataaars/' + value + '.svg'" class="avatar"
+    [ngClass]="{transition: transition}" />
+  <fa-icon class="change-icon" *ngIf="changable" [icon]="faSyncAlt"></fa-icon>
+</div>

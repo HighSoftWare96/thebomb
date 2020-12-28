@@ -1,4 +1,3 @@
-import { ToastrService } from 'ngx-toastr';
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Spinkit } from 'ng-http-loader';
@@ -10,7 +9,7 @@ import { Spinkit } from 'ng-http-loader';
 })
 export class AppComponent implements OnInit {
   spinkit = Spinkit;
-  
+
   constructor(
     private translate: TranslateService
   ) { }

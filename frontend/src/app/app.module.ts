@@ -62,8 +62,7 @@ export function createTranslateLoader(http: HttpClient) {
         deps: [HttpClient]
       }
     }),
-    SharedModule.forRoot(),
-    FontAwesomeModule
+    SharedModule.forRoot()
   ],
   providers: [
     RootFacadeService

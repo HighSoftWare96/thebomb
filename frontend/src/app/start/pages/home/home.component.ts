@@ -41,6 +41,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    // ensuring not in any room
+    this.startFacade.leaveRoom();
     this.startFacade.refreshPartecipant();
   }
 

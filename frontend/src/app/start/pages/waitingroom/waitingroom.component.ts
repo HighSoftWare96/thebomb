@@ -7,6 +7,7 @@ import { Room } from 'src/app/shared/interfaces/Room';
 import { StartFacadeService } from '../../store/startFacade.service';
 import { GameApi } from 'src/app/shared/apis/game.service';
 import { Router } from '@angular/router';
+import { faClipboard } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-waitingroom',
@@ -14,6 +15,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./waitingroom.component.scss']
 })
 export class WaitingRoomComponent implements OnInit, OnDestroy {
+  faClipboard = faClipboard;
 
   currentPartecipant$: Observable<Partecipant>;
   room$: Observable<Room>;

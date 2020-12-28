@@ -74,8 +74,8 @@ export class PlayEffects {
   loadRoundEnded$ = this.actions$.pipe(
     ofType(playActions.loadRoundEnded),
     tap(() => {
-      this.soundEffects.playEffect('explosion');
       this.soundEffects.stopMusic('clock');
+      this.soundEffects.playEffect('explosion');
     })
   );
 
@@ -142,6 +142,16 @@ export class PlayEffects {
     withLatestFrom(this.startFacade.currentRoom$),
     tap(([_, { id }]) => {
       this.socketioService.recallWaitingRoom(id);
+    })
+  );
+
+  @Effect({
+    dispatch: false
+  })
+  loadEndGameEffect$ = this.actions$.pipe(
+    ofType(playActions.loadGameEnded),
+    tap(() => { 
+      this.soundEffects.stopMusic('clock');
     })
   );
 

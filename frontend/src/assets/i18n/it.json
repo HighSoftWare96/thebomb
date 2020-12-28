@@ -8,5 +8,18 @@
     "MUST_NOT_BEGIN_WITH": "La parola non deve cominciare con la sillaba!",
     "MUST_NOT_END_WITH": "La parola non deve finire con la sillaba!",
     "INVALID_WORD": "Parola sconosciuta!"
+  },
+  "manual": {
+    "title": "Benvenuto in The Bomb!",
+    "howto": "Come giocare?",
+    "body": "In ogni round riceverai una sillaba e ogni giocatore, a turno, dovrà cercare di comporre in un determinato modo una parola contenente la sillaba. Ma attenzione! Non hai tantissimo tempo per rispondere: se indovinerai una parola passerai la bomba al prossimo giocatore altrimenti se la bomba esploderà prima che tu possa scegliere, perderai il round! Il sistema deciderà quando far esplodere la bomba, la sillaba di ogni round ma anche come potrai comporre le parole: alle volte come vuoi, alle volte non potrai invece mettere la sillaba all'inizio o alla fine della parola! Concentrati: potrai utilizzare solo parole esistenti!",
+    "infos": "Il progetto",
+    "infoBody": "Il progetto è un progetto open source nato, come hobby, durante e in seguito al lockdown 2020. Nei link sottostanti trovate modi per supportarlo e perfino il codice sorgente! Se ti è piaciuto, condividilo!",
+    "links": "Link utili",
+    "github": "Github",
+    "support": "Wow, grazie!",
+    "supporthint": "Comprami un caffè!",
+    "share": "Copia il link e condividi!",
+    "link": "Share the love!"
   }
 }

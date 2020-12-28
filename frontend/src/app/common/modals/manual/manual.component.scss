@@ -1,0 +1,23 @@
+@import "../../../../assets/styles/variables";
+
+:host {
+  text-align: justify;
+}
+
+p {
+  font-weight: 200;
+}
+
+p.subtitle {
+  font-weight: 600;
+}
+
+a {
+  color: white;
+  text-decoration: none;
+  font-size: 12px;
+
+  fa-icon {
+    font-size: 30px;
+  }
+}

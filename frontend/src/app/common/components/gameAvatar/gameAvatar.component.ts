@@ -1,5 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, forwardRef } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { faSyncAlt } from '@fortawesome/free-solid-svg-icons';
 import { generateAvatarSeed } from 'src/app/shared/helpers/random';
 
 @Component({
@@ -8,11 +9,13 @@ import { generateAvatarSeed } from 'src/app/shared/helpers/random';
   styleUrls: ['./gameAvatar.component.scss'],
   providers: [{
     provide: NG_VALUE_ACCESSOR,
-    useExisting: GameAvatarComponent,
+    useExisting: forwardRef(() => GameAvatarComponent),
     multi: true,
   }]
 })
 export class GameAvatarComponent implements OnInit {
+  faSyncAlt = faSyncAlt;
+
   @Input() changable: boolean = true;
   @Input() size: number = 12;
   @Input() transition = false;

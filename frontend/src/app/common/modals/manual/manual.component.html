@@ -1,0 +1,33 @@
+<div class="game-modal-container">
+  <div class="overlay" (click)="close()"></div>
+  <div class="game-modal animate__animated animate__bounceIn">
+    <button class="close-btn" (click)="close()">
+      <fa-icon [icon]="faClose"></fa-icon>
+    </button>
+    <div class="scrollable">
+      <h4 class="subtitle">{{'manual.title' | translate}}</h4>
+      <p class="subtitle">{{'manual.howto' | translate}}</p>
+      <p>{{'manual.body' | translate}}</p>
+      <p class="subtitle">{{'manual.infos' | translate}}</p>
+      <p>{{'manual.infoBody' | translate}}</p>
+      <div class="text-center my-2 d-flex flex-wrap flex-row justify-content-center align-items-center">
+        <a href="https://www.buymeacoffee.com/highsoftware96" target="_blank" class="m-2"
+          tooltip="{{'manual.support' | translate}}">
+          <img class="mx-2" src="../../../../assets/images/coffee.png" height="30"> {{'manual.supporthint' | translate}}
+        </a>
+        <a href="https://github.com/HighSoftWare96/thebomb" target="_blank" class="m-2 text-monospace"
+          tooltip="{{'manual.github' | translate}}">
+          <img class="mx-2" src="../../../../assets/images/github.png" height="30"> seeCodeBase()
+        </a>
+        <a (click)="copyLink()" class="m-2" tooltip="{{'manual.link' | translate}}">
+          <img class="mx-2" src="../../../../assets/images/share.svg" height="30"> {{'manual.share' | translate}}
+        </a>
+      </div>
+      <small>Other credits: <a
+          href="https://it.freepik.com/vettori-gratuito/rotondo-stile-bomba-nera-realistico_4904112.htm#page=1&query=bomb&position=6"
+          target="_blank">pikisuperstar</a>, <a
+          href="https://it.freepik.com/vettori-gratuito/esplosione-di-fumetti_11053562.htm#page=1&query=explosion&position=12"
+          target="_blank">macrovector</a>, <a href="https://freesound.org/" target="_blank">freesound.org</a></small>
+    </div>
+  </div>
+</div>

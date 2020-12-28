@@ -85,3 +85,7 @@ export const loadGameStarted = createAction(
   '[Start.socketio] game started',
   props<{ game: Game }>()
 );
+
+export const loadLeaveRoom = createAction(
+  '[Start.room] Leave room'
+);

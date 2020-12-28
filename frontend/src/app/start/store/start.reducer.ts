@@ -41,6 +41,11 @@ const startReducerFun = createReducer(initialStartState,
     ...state,
     room,
     partecipant
+  })),
+  on(startActions.loadLeaveRoom, (s) => ({
+    ...s,
+    room: null,
+    roomates: []
   }))
 );
 
