@@ -58,3 +58,5 @@ You can run the backend by running: `npm run dev` on each node folder.
 #### Frontend
 
 Simply use the [Angular CLI](https://cli.angular.io/): `ng serve -o`.
+
+### Screenshots 📸
