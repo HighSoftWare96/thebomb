@@ -19,7 +19,7 @@ But of course, during 2020 quarantine: I was used to meet with my friends and fa
 
 ## ⚙ The logic
 
-I think this is a old game logic. On each round you get a syllable, each player, in turn, has to guess a word that contains (somehow) that syllable. But be careful you do not have plenty of time: if you guess a word you will "hand the bomb" to the next player, instead if the bomb explodes when you're trying to put a word you will lose! On each round the system will decide the syllable, when to make the bomb explode but also how to compose the guessing words: do not put the syllable at the beginning of the word, or not at the end or put wherever you want. You cannot reuse a word in the same round, you have to choose an existing and reasonable words.
+I think this is a old game logic. On each round you get a syllable, each player, in turn, has to guess a word that contains (somehow) that syllable. But be careful you do not have plenty of time: if you guess a word you will "hand the bomb" to the next player, instead if the bomb explodes when you're trying to put a word you will lose! On each round the system will decide the syllable, when to make the bomb explode but also how to compose the guessing words: do not put the syllable at the beginning of the word, or not at the end or put wherever you want. You cannot reuse a word in the same round, you have to choose existing and reasonable words.
 
 ## 💻 Nerd details
 
