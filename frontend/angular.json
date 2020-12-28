@@ -35,7 +35,9 @@
               "src/assets/styles/_modals.scss",
               "src/assets/styles/_toasts.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/particles.js/particles.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -103,7 +105,9 @@
               "src/assets/styles/_toasts.scss",
               "src/assets/styles/_modals.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/particles.js/particles.js"
+            ]
           }
         },
         "lint": {

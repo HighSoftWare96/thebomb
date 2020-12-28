@@ -1,7 +1,7 @@
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { SettingsService } from './common/services/settings.service';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewChecked, AfterViewInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Spinkit } from 'ng-http-loader';
 
@@ -10,7 +10,7 @@ import { Spinkit } from 'ng-http-loader';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   spinkit = Spinkit;
 
   subs: Subscription[] = [];
@@ -19,7 +19,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private settings: SettingsService,
     private translate: TranslateService,
     private toaster: ToastrService
-  ) { 
+  ) {
   }
 
   ngOnDestroy() { }
@@ -32,6 +32,14 @@ export class AppComponent implements OnInit, OnDestroy {
       this.settings.settings$.subscribe(s => {
         this.translate.use(s.lang);
       })
+    );
+  }
+  
+  ngAfterViewInit() {
+    (window as any).particlesJS.load(
+      'particlesjs',
+      '../assets/configs/particlesjs-config.json',
+      function () { }
     );
   }
 
