@@ -1,4 +1,4 @@
-const { MoleculerError } = require("moleculer").Errors;
+const { MoleculerError } = require('moleculer').Errors;
 
 const unauth = function unauth() {
   return new MoleculerError(

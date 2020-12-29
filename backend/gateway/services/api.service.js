@@ -1,4 +1,4 @@
-const ApiGateway = require("moleculer-web");
+const ApiGateway = require('moleculer-web');
 const { gateway, jwt: jwtConfig } = require('config');
 const routes = require('routes');
 const jwt = require('jsonwebtoken');
@@ -6,7 +6,7 @@ const freeRoutes = require('routes/free-routes');
 const { unauth } = require('helpers/errors');
 
 module.exports = {
-  name: "api",
+  name: 'api',
   mixins: [ApiGateway],
   settings: {
     port: gateway.port,
@@ -19,7 +19,7 @@ module.exports = {
     logResponseData: null,
 
     assets: {
-      folder: "public",
+      folder: 'public',
       options: {}
     }
   },

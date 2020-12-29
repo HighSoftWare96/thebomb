@@ -1,4 +1,4 @@
-const { MoleculerError } = require("moleculer").Errors;
+const { MoleculerError } = require('moleculer').Errors;
 
 const notFound = function notFound(entityName, entityId) {
   return new MoleculerError(

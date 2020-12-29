@@ -8,6 +8,7 @@
     "cli": "moleculer connect Redis",
     "ci": "jest --watch",
     "test": "jest --coverage",
+    "lint:fix": "eslint ./ ./services --fix",
     "lint": "eslint services"
   },
   "keywords": [
@@ -24,6 +25,7 @@
   },
   "dependencies": {
     "app-module-path": "^2.2.0",
+    "dotenv": "^8.2.0",
     "ioredis": "^4.14.1",
     "jsonwebtoken": "^8.5.1",
     "moleculer": "^0.14.0",

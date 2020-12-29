@@ -7,6 +7,7 @@
     "start": "moleculer-runner",
     "cli": "moleculer connect Redis",
     "ci": "jest --watch",
+    "lint:fix": "eslint ./ ./services --fix",
     "test": "jest --coverage",
     "lint": "eslint services"
   },
@@ -23,6 +24,7 @@
   },
   "dependencies": {
     "app-module-path": "^2.2.0",
+    "dotenv": "^8.2.0",
     "ioredis": "^4.14.1",
     "lodash": "^4.17.20",
     "moleculer": "^0.14.0",

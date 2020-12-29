@@ -1,7 +1,7 @@
 const boot = function boot() {
-    // boot operations
+  // boot operations
 };
 
 module.exports = {
-    boot
+  boot
 };
