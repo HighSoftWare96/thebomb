@@ -21,4 +21,4 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
           repository: highsoftware96/thebomb-frontend
           dockerfile: frontend/Dockerfile
-          tags: latest
+          tag-sha: true
