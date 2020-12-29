@@ -1,0 +1,109 @@
+
+version: "3"
+services:
+
+
+  frontend:
+    build: ../../frontend
+    container_name: thebomb-frontend
+    image: index.docker.io/highsoftware96/thebomb-frontend:latest
+    env_file:
+      - .env.front
+    networks:
+      - local_net
+    depends_on:
+      - gateway
+      - db
+    ports:
+      - "8888:8888"
+
+
+  gateway:
+    build: ../../gateway
+    container_name: thebomb-gateway
+    image: index.docker.io/highsoftware96/thebomb-gateway:latest
+    env_file:
+      - .env.gateway
+    depends_on:
+      - db
+      - redis
+    ports:
+      # api
+      - "3000:3000"
+
+
+  bridge:
+    build: ../../bridge
+    container_name: thebomb-bridge
+    image: index.docker.io/highsoftware96/thebomb-bridge:latest
+    env_file:
+      - .env.bridge
+    depends_on:
+      - db
+      - redis
+    ports:
+      # socketio
+      - "3001:3001"
+
+
+  rooms:
+    build: ../../rooms
+    container_name: thebomb-rooms
+    image: index.docker.io/highsoftware96/thebomb-rooms:latest
+    env_file:
+      - .env.rooms
+    depends_on:
+      - db
+      - redis
+  
+  
+  game:
+    build: ../../game
+    container_name: thebomb-game
+    image: index.docker.io/highsoftware96/thebomb-game:latest
+    env_file:
+      - .env.game
+    depends_on:
+      - db
+      - redis
+  
+  
+  words:
+    build: ../../words
+    container_name: thebomb-words
+    image: index.docker.io/highsoftware96/thebomb-words:latest
+    env_file:
+      - .env.words
+    depends_on:
+      - db
+      - redis
+  
+  db:
+    container_name: db
+    image: postgres:12.2-2
+    volumes:
+      - /data/db:/var/lib/postgresql/data
+    env_file:
+      - .env.db
+    networks:
+      - local_net
+    ports:
+      - "5432:5432"
+  
+  redis:
+    container_name: redis
+    image: bitnami/redis:latest
+    env_file:
+      - .env.redis
+    ports:
+      - "6379:6379"
+  
+  watchtower:
+    image: containrrr/watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - $HOME/.docker/config.json:/config.json
+    command: --interval 30
+networks:
+  local_net:
+    driver: bridge

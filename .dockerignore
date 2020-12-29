@@ -1,0 +1,16 @@
+.github
+python
+.gitignore
+.dockerignore
+*.code-workspace
+README.md
+node_modules
+npm-debug.log
+Dockerfile*
+docker-compose*
+.dockerignore
+.git
+.gitignore
+README.md
+.vscode
+screens
