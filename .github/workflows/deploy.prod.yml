@@ -33,8 +33,7 @@ jobs:
         with:
           context: ./backend/rooms
           file: ./backend/rooms/Dockerfile
-          tag-sha: true
-          push: true
+          push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.docker_meta.outputs.tags }}
           labels: ${{ steps.docker_meta.outputs.labels }}
 
@@ -64,8 +63,7 @@ jobs:
         with:
           context: ./backend/game
           file: ./backend/game/Dockerfile
-          tag-sha: true
-          push: true
+          push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.docker_meta.outputs.tags }}
           labels: ${{ steps.docker_meta.outputs.labels }}
 
@@ -95,8 +93,7 @@ jobs:
         with:
           context: ./backend/words
           file: ./backend/words/Dockerfile
-          tag-sha: true
-          push: true
+          push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.docker_meta.outputs.tags }}
           labels: ${{ steps.docker_meta.outputs.labels }}
 
@@ -126,8 +123,7 @@ jobs:
         with:
           context: ./backend/gateway
           file: ./backend/gateway/Dockerfile
-          tag-sha: true
-          push: true
+          push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.docker_meta.outputs.tags }}
           labels: ${{ steps.docker_meta.outputs.labels }}
 
@@ -157,8 +153,7 @@ jobs:
         with:
           context: ./backend/bridge
           file: ./backend/bridge/Dockerfile
-          tag-sha: true
-          push: true
+          push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.docker_meta.outputs.tags }}
           labels: ${{ steps.docker_meta.outputs.labels }}
 
@@ -188,8 +183,7 @@ jobs:
         with:
           context: ./frontend/
           file: ./frontend/Dockerfile
-          tag-sha: true
-          push: true
+          push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.docker_meta.outputs.tags }}
           labels: ${{ steps.docker_meta.outputs.labels }}
 
@@ -219,8 +213,7 @@ jobs:
         with:
           context: ./deploy/postgres
           file: ./deploy/postgres/Dockerfile
-          tag-sha: true
-          push: true
+          push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.docker_meta.outputs.tags }}
           labels: ${{ steps.docker_meta.outputs.labels }}
 
@@ -250,7 +243,6 @@ jobs:
         with:
           context: ./deploy/nginx
           file: ./deploy/nginx/Dockerfile
-          tag-sha: true
-          push: true
+          push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.docker_meta.outputs.tags }}
           labels: ${{ steps.docker_meta.outputs.labels }}
