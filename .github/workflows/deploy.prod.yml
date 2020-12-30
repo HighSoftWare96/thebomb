@@ -2,104 +2,149 @@ name: Production deploy
 
 on:
   push:
-    branches: [ production ]
+    branches: [production]
   pull_request:
-    branches: [ production ]
+    branches: [production]
 
 jobs:
-    builddeploy-rooms:
-      name: Build and Deploy rooms
-      runs-on: ubuntu-latest
-      steps:
+  builddeploy-rooms:
+    name: Build and Deploy rooms
+    runs-on: ubuntu-latest
+    steps:
       - name: Checkout code
         uses: actions/checkout@v2.3.4
-
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v2.2.1
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v2.2.1
+        with:
           repository: highsoftware96/thebomb-rooms
-          dockerfile: backend/rooms/Dockerfile
+          file: backend/rooms/Dockerfile
           tag-sha: true
 
-    builddeploy-game:
-      name: Build and Deploy game
-      runs-on: ubuntu-latest
-      steps:
+  builddeploy-game:
+    name: Build and Deploy game
+    runs-on: ubuntu-latest
+    steps:
       - name: Checkout code
         uses: actions/checkout@v2.3.4
-
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
       - name: Build and push Docker image
         uses: docker/build-push-action@v2.2.1
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           repository: highsoftware96/thebomb-game
-          dockerfile: backend/game/Dockerfile
+          file: backend/game/Dockerfile
           tag-sha: true
 
-    builddeploy-words:
-      name: Build and Deploy words
-      runs-on: ubuntu-latest
-      steps:
+  builddeploy-words:
+    name: Build and Deploy words
+    runs-on: ubuntu-latest
+    steps:
       - name: Checkout code
         uses: actions/checkout@v2.3.4
-
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
       - name: Build and push Docker image
         uses: docker/build-push-action@v2.2.1
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           repository: highsoftware96/thebomb-words
-          dockerfile: backend/words/Dockerfile
+          file: backend/words/Dockerfile
           tag-sha: true
 
-    builddeploy-gateway:
-      name: Build and Deploy gateway
-      runs-on: ubuntu-latest
-      steps:
+  builddeploy-gateway:
+    name: Build and Deploy gateway
+    runs-on: ubuntu-latest
+    steps:
       - name: Checkout code
         uses: actions/checkout@v2.3.4
-
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
       - name: Build and push Docker image
         uses: docker/build-push-action@v2.2.1
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           repository: highsoftware96/thebomb-gateway
-          dockerfile: backend/gateway/Dockerfile
+          file: backend/gateway/Dockerfile
           tag-sha: true
 
-    builddeploy-bridge:
-      name: Build and Deploy bridge
-      runs-on: ubuntu-latest
-      steps:
+  builddeploy-bridge:
+    name: Build and Deploy bridge
+    runs-on: ubuntu-latest
+    steps:
       - name: Checkout code
         uses: actions/checkout@v2.3.4
-
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
       - name: Build and push Docker image
         uses: docker/build-push-action@v2.2.1
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           repository: highsoftware96/thebomb-bridge
-          dockerfile: backend/bridge/Dockerfile
+          file: backend/bridge/Dockerfile
           tag-sha: true
-          
-          
-    builddeploy-frontend:
-      name: Build and Deploy Frontend
-      runs-on: ubuntu-latest
-      steps:
+
+  builddeploy-frontend:
+    name: Build and Deploy Frontend
+    runs-on: ubuntu-latest
+    steps:
       - name: Checkout code
         uses: actions/checkout@v2.3.4
-
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
       - name: Build and push Docker image
         uses: docker/build-push-action@v2.2.1
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           repository: highsoftware96/thebomb-frontend
-          dockerfile: backend/frontend/Dockerfile
+          file: backend/frontend/Dockerfile
           tag-sha: true
