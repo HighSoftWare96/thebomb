@@ -1,3 +1,5 @@
+![CodeQL](https://github.com/HighSoftWare96/thebomb/workflows/CodeQL/badge.svg)
+
 # 💣 The BOMB
 
 - [💣 The BOMB](#-the-bomb)
