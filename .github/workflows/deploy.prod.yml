@@ -20,7 +20,7 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           repository: highsoftware96/thebomb-rooms
-          dockerfile: rooms/Dockerfile
+          dockerfile: backend/rooms/Dockerfile
           tag-sha: true
 
     builddeploy-game:
@@ -36,7 +36,7 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           repository: highsoftware96/thebomb-game
-          dockerfile: game/Dockerfile
+          dockerfile: backend/game/Dockerfile
           tag-sha: true
 
     builddeploy-words:
@@ -52,7 +52,7 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           repository: highsoftware96/thebomb-words
-          dockerfile: words/Dockerfile
+          dockerfile: backend/words/Dockerfile
           tag-sha: true
 
     builddeploy-gateway:
@@ -68,7 +68,7 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           repository: highsoftware96/thebomb-gateway
-          dockerfile: gateway/Dockerfile
+          dockerfile: backend/gateway/Dockerfile
           tag-sha: true
 
     builddeploy-bridge:
@@ -84,7 +84,7 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           repository: highsoftware96/thebomb-bridge
-          dockerfile: bridge/Dockerfile
+          dockerfile: backend/bridge/Dockerfile
           tag-sha: true
           
           
@@ -101,5 +101,5 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           repository: highsoftware96/thebomb-frontend
-          dockerfile: frontend/Dockerfile
+          dockerfile: backend/frontend/Dockerfile
           tag-sha: true
