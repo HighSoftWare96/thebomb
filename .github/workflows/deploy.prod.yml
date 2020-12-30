@@ -25,6 +25,7 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v2.2.1
         with:
+          push: true
           context: ./backend/rooms
           file: ./backend/rooms/Dockerfile
           repository: highsoftware96/thebomb-rooms
@@ -48,6 +49,7 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v2.2.1
         with:
+          push: true
           context: ./backend/game
           file: ./backend/game/Dockerfile
           repository: highsoftware96/thebomb-game
@@ -71,6 +73,7 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v2.2.1
         with:
+          push: true
           context: ./backend/words
           file: ./backend/words/Dockerfile
           repository: highsoftware96/thebomb-words
@@ -94,6 +97,7 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v2.2.1
         with:
+          push: true
           context: ./backend/gateway
           file: ./backend/gateway/Dockerfile
           repository: highsoftware96/thebomb-gateway
@@ -117,6 +121,7 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v2.2.1
         with:
+          push: true
           context: ./backend/bridge
           file: ./backend/bridge/Dockerfile
           repository: highsoftware96/thebomb-bridge
@@ -140,6 +145,7 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v2.2.1
         with:
+          push: true
           context: ./frontend/
           file: ./frontend/Dockerfile
           repository: highsoftware96/thebomb-frontend
