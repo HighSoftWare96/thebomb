@@ -25,8 +25,8 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v2.2.1
         with:
+          context: backend/rooms
           repository: highsoftware96/thebomb-rooms
-          file: backend/rooms/Dockerfile
           tag-sha: true
 
   builddeploy-game:
@@ -47,10 +47,8 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v2.2.1
         with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+          context: backend/game
           repository: highsoftware96/thebomb-game
-          file: backend/game/Dockerfile
           tag-sha: true
 
   builddeploy-words:
@@ -71,10 +69,8 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v2.2.1
         with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+          context: backend/words
           repository: highsoftware96/thebomb-words
-          file: backend/words/Dockerfile
           tag-sha: true
 
   builddeploy-gateway:
@@ -95,10 +91,8 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v2.2.1
         with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+          context: backend/gateway
           repository: highsoftware96/thebomb-gateway
-          file: backend/gateway/Dockerfile
           tag-sha: true
 
   builddeploy-bridge:
@@ -119,10 +113,8 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v2.2.1
         with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+          context: backend/bridge
           repository: highsoftware96/thebomb-bridge
-          file: backend/bridge/Dockerfile
           tag-sha: true
 
   builddeploy-frontend:
@@ -143,8 +135,6 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v2.2.1
         with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+          context: backend/frontend
           repository: highsoftware96/thebomb-frontend
-          file: frontend/Dockerfile
           tag-sha: true
