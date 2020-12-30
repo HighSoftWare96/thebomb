@@ -14,6 +14,7 @@ class SocketIoManager {
       port: socketioConfig.port,
       host: socketioConfig.ip
     });
+    this.service.logger.info('SocketIO listening on: ' + socketioConfig.ip + ':'+ socketioConfig.port);
     this.namespaces = {
       multiplayer: new SocketIoMultiplayerNamespace(
         this.service, this.io

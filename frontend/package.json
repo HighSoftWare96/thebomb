@@ -3,10 +3,10 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "test": "ng test",
-    "lint": "ng lint",
+    "start": "npx ng serve --host 0.0.0.0 --poll=500",
+    "build": "npx ng build --prod",
+    "test": "npx ng test",
+    "lint": "npx ng lint",
     "e2e": "ng e2e"
   },
   "private": true,
@@ -30,6 +30,7 @@
     "@ngx-translate/core": "^12.1.2",
     "@ngx-translate/http-loader": "^4.0.0",
     "bootstrap": "^4.4.1",
+    "dotenv": "^8.2.0",
     "ng-http-loader": "^9.1.0",
     "ngx-bootstrap": "^5.6.1",
     "ngx-toastr": "^13.2.0",

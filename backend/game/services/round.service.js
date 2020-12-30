@@ -297,7 +297,7 @@ module.exports = {
       } else {
         const fromdb = await this.broker.call(`${wordService}.find`, {
           limit: 1,
-          query: { word: response }
+          query: { word: responseLowerCase }
         });
         const {length = 0} = fromdb;
         // verifico che la parola esista

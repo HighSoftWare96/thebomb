@@ -1,6 +1,8 @@
 @import "./variables";
 
 .toast-container {
+  font-family: "Kanit", sans-serif;
+
   .ngx-toastr {
     border-radius: 50px;
     box-shadow: none;

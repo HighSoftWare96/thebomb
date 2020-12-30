@@ -6,7 +6,7 @@ module.exports = {
     port: process.env.GATEWAY_PORT || 3000
   },
   jwt: {
-    secret: 'C-qn35=J!$=k*G)NzKxkbV2v@KWZ[Ga(',
+    secret: 'tW(@&aX4D;a.ksjhdlauisgdliuagsdaH?2`;"D,;:jqg?k;[4jHa(',
     expiresInMinutes: 1440,
     notBefore: 0,
     audience: 'thebomb:authentication',

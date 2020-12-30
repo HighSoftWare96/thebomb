@@ -1,0 +1,106 @@
+version: "3"
+services:
+  nginx:
+    build: ./nginx
+    restart: always
+    container_name: thebomb-nginx
+    image: index.docker.io/highsoftware96/thebomb-nginx:latest
+    env_file: .env.nginx
+    depends_on:
+      - gateway
+      - db
+      - frontend
+    ports:
+      - "8080:8080"
+
+  frontend:
+    restart: always
+    build: ../frontend
+    container_name: thebomb-frontend
+    image: index.docker.io/highsoftware96/thebomb-frontend:latest
+    env_file:
+      - .env.front
+    depends_on:
+      - gateway
+      - db
+
+  gateway:
+    restart: always
+    build: ../backend/gateway
+    container_name: thebomb-gateway
+    image: index.docker.io/highsoftware96/thebomb-gateway:latest
+    env_file:
+      - .env.gateway
+    depends_on:
+      - db
+      - redis
+
+  bridge:
+    restart: always
+    build: ../backend/bridge
+    container_name: thebomb-bridge
+    image: index.docker.io/highsoftware96/thebomb-bridge:latest
+    env_file:
+      - .env.bridge
+    depends_on:
+      - db
+      - redis
+
+  rooms:
+    restart: always
+    build: ../backend/rooms
+    container_name: thebomb-rooms
+    image: index.docker.io/highsoftware96/thebomb-rooms:latest
+    env_file:
+      - .env.rooms
+    depends_on:
+      - db
+      - redis
+
+  game:
+    restart: always
+    build: ../backend/game
+    container_name: thebomb-game
+    image: index.docker.io/highsoftware96/thebomb-game:latest
+    env_file:
+      - .env.game
+    depends_on:
+      - db
+      - redis
+
+  words:
+    restart: always
+    build: ../backend/words
+    container_name: thebomb-words
+    image: index.docker.io/highsoftware96/thebomb-words:latest
+    env_file:
+      - .env.words
+    depends_on:
+      - db
+      - redis
+
+  db:
+    build: ./postgres
+    restart: always
+    container_name: db
+    image: index.docker.io/highsoftware96/thebomb-db:latest
+    volumes:
+      - ~/database:/var/lib/postgresql/data
+    env_file:
+      - .env.db
+    # ports:
+    #   - 5432:5432
+
+  redis:
+    restart: always
+    container_name: redis
+    image: bitnami/redis:latest
+    env_file:
+      - .env.redis
+
+  watchtower:
+    image: containrrr/watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - $HOME/.docker/config.json:/config.json
+    command: --interval 30
