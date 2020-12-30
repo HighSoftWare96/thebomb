@@ -16,12 +16,7 @@ module.exports = {
 
     log4XXResponses: false,
     logRequestParams: null,
-    logResponseData: null,
-
-    assets: {
-      folder: 'public',
-      options: {}
-    }
+    logResponseData: null
   },
   methods: {
     async authenticate(ctx, route, req) {
@@ -32,17 +27,11 @@ module.exports = {
 
         const { authorization } = req.headers;
         const encoded = RegExp(/Bearer (.*)/gi).exec(authorization)[1];
-
         const decoded = jwt.verify(encoded, secret, {
           issuer,
           audience
         });
-
-        const partecipant = await ctx.broker.call('partecipant.get', {
-          id: decoded.id
-        });
-
-        return partecipant;
+        return decoded;
       } catch (e) {
         return null;
       }

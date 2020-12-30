@@ -7,8 +7,89 @@ on:
     branches: [ production ]
 
 jobs:
-    builddeploy.front:
-      name: Build and Deploy Front-end
+    builddeploy-rooms:
+      name: Build and Deploy rooms
+      runs-on: ubuntu-latest
+      steps:
+      - name: Checkout code
+        uses: actions/checkout@v2.3.4
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v2.2.1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: highsoftware96/thebomb-rooms
+          dockerfile: rooms/Dockerfile
+          tag-sha: true
+
+    builddeploy-game:
+      name: Build and Deploy game
+      runs-on: ubuntu-latest
+      steps:
+      - name: Checkout code
+        uses: actions/checkout@v2.3.4
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v2.2.1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: highsoftware96/thebomb-game
+          dockerfile: game/Dockerfile
+          tag-sha: true
+
+    builddeploy-words:
+      name: Build and Deploy words
+      runs-on: ubuntu-latest
+      steps:
+      - name: Checkout code
+        uses: actions/checkout@v2.3.4
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v2.2.1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: highsoftware96/thebomb-words
+          dockerfile: words/Dockerfile
+          tag-sha: true
+
+    builddeploy-gateway:
+      name: Build and Deploy gateway
+      runs-on: ubuntu-latest
+      steps:
+      - name: Checkout code
+        uses: actions/checkout@v2.3.4
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v2.2.1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: highsoftware96/thebomb-gateway
+          dockerfile: gateway/Dockerfile
+          tag-sha: true
+
+    builddeploy-bridge:
+      name: Build and Deploy bridge
+      runs-on: ubuntu-latest
+      steps:
+      - name: Checkout code
+        uses: actions/checkout@v2.3.4
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v2.2.1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: highsoftware96/thebomb-bridge
+          dockerfile: bridge/Dockerfile
+          tag-sha: true
+          
+          
+    builddeploy-frontend:
+      name: Build and Deploy Frontend
       runs-on: ubuntu-latest
       steps:
       - name: Checkout code

@@ -10,7 +10,11 @@ module.exports = {
   },
   socketio: {
     ip: process.env.SOCKETIO_IP_ADDRESS || '0.0.0.0',
-    port: process.env.SOCKETIO_PORT || 3001
+    port: process.env.SOCKETIO_PORT || 3001,
+    namespaces: {
+      multiplayer: 'multiplayer',
+      singleplayer: 'singleplayer'
+    }
   },
   jwt: {
     secret: 'tW(@&aX4D;a.ksjhdlauisgdliuagsdaH?2`;"D,;:jqg?k;[4jHa(',

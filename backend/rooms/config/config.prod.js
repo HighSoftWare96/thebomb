@@ -25,6 +25,7 @@ module.exports = {
     notBefore: 0,
     audience: 'thebomb:session',
     issuer: 'session.service',
-    secure: true
+    secure: process.env.COOKIE_SECURE !== undefined ? 
+      /(true)|(1)/gi.test(process.env.COOKIE_SECURE) : true
   }
 };
