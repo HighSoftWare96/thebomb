@@ -80,15 +80,16 @@ services:
       - redis
 
   db:
+    build: ./postgres
     restart: always
     container_name: db
-    image: postgres:12.2
+    image: index.docker.io/highsoftware96/thebomb-db:latest
     volumes:
       - ~/database:/var/lib/postgresql/data
     env_file:
       - .env.db
-    ports:
-      - 5432:5432
+    # ports:
+    #   - 5432:5432
 
   redis:
     restart: always
