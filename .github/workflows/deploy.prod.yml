@@ -13,6 +13,12 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2.3.4
+      - name: Docker meta
+        id: docker_meta
+        uses: crazy-max/ghaction-docker-meta@v1
+        with:
+          images: highsoftware96/thebomb-rooms
+          tag-sha: true
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
       - name: Set up Docker Buildx
@@ -27,7 +33,6 @@ jobs:
         with:
           context: ./backend/rooms
           file: ./backend/rooms/Dockerfile
-          repository: highsoftware96/thebomb-rooms
           tag-sha: true
           push: true
           tags: ${{ steps.docker_meta.outputs.tags }}
@@ -43,7 +48,7 @@ jobs:
         id: docker_meta
         uses: crazy-max/ghaction-docker-meta@v1
         with:
-          images: name/app # list of Docker images to use as base name for tags
+          images: highsoftware96/thebomb-game
           tag-sha: true
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
@@ -59,7 +64,6 @@ jobs:
         with:
           context: ./backend/game
           file: ./backend/game/Dockerfile
-          repository: highsoftware96/thebomb-game
           tag-sha: true
           push: true
           tags: ${{ steps.docker_meta.outputs.tags }}
@@ -75,7 +79,7 @@ jobs:
         id: docker_meta
         uses: crazy-max/ghaction-docker-meta@v1
         with:
-          images: name/app # list of Docker images to use as base name for tags
+          images: highsoftware96/thebomb-words
           tag-sha: true
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
@@ -91,7 +95,6 @@ jobs:
         with:
           context: ./backend/words
           file: ./backend/words/Dockerfile
-          repository: highsoftware96/thebomb-words
           tag-sha: true
           push: true
           tags: ${{ steps.docker_meta.outputs.tags }}
@@ -107,7 +110,7 @@ jobs:
         id: docker_meta
         uses: crazy-max/ghaction-docker-meta@v1
         with:
-          images: name/app # list of Docker images to use as base name for tags
+          images: highsoftware96/thebomb-gateway
           tag-sha: true
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
@@ -123,7 +126,6 @@ jobs:
         with:
           context: ./backend/gateway
           file: ./backend/gateway/Dockerfile
-          repository: highsoftware96/thebomb-gateway
           tag-sha: true
           push: true
           tags: ${{ steps.docker_meta.outputs.tags }}
@@ -139,7 +141,7 @@ jobs:
         id: docker_meta
         uses: crazy-max/ghaction-docker-meta@v1
         with:
-          images: name/app # list of Docker images to use as base name for tags
+          images: highsoftware96/thebomb-bridge
           tag-sha: true
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
@@ -155,7 +157,6 @@ jobs:
         with:
           context: ./backend/bridge
           file: ./backend/bridge/Dockerfile
-          repository: highsoftware96/thebomb-bridge
           tag-sha: true
           push: true
           tags: ${{ steps.docker_meta.outputs.tags }}
@@ -171,7 +172,7 @@ jobs:
         id: docker_meta
         uses: crazy-max/ghaction-docker-meta@v1
         with:
-          images: name/app # list of Docker images to use as base name for tags
+          images: highsoftware96/thebomb-frontend
           tag-sha: true
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
@@ -187,7 +188,6 @@ jobs:
         with:
           context: ./frontend/
           file: ./frontend/Dockerfile
-          repository: highsoftware96/thebomb-frontend
           tag-sha: true
           push: true
           tags: ${{ steps.docker_meta.outputs.tags }}
