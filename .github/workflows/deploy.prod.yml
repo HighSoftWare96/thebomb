@@ -146,5 +146,5 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           repository: highsoftware96/thebomb-frontend
-          file: backend/frontend/Dockerfile
+          file: frontend/Dockerfile
           tag-sha: true
