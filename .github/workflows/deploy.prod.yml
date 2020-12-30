@@ -25,11 +25,13 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v2.2.1
         with:
-          push: true
           context: ./backend/rooms
           file: ./backend/rooms/Dockerfile
           repository: highsoftware96/thebomb-rooms
           tag-sha: true
+          push: true
+          tags: ${{ steps.docker_meta.outputs.tags }}
+          labels: ${{ steps.docker_meta.outputs.labels }}
 
   builddeploy-game:
     name: Build and Deploy game
@@ -37,6 +39,12 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2.3.4
+      - name: Docker meta
+        id: docker_meta
+        uses: crazy-max/ghaction-docker-meta@v1
+        with:
+          images: name/app # list of Docker images to use as base name for tags
+          tag-sha: true
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
       - name: Set up Docker Buildx
@@ -49,11 +57,13 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v2.2.1
         with:
-          push: true
           context: ./backend/game
           file: ./backend/game/Dockerfile
           repository: highsoftware96/thebomb-game
           tag-sha: true
+          push: true
+          tags: ${{ steps.docker_meta.outputs.tags }}
+          labels: ${{ steps.docker_meta.outputs.labels }}
 
   builddeploy-words:
     name: Build and Deploy words
@@ -61,6 +71,12 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2.3.4
+      - name: Docker meta
+        id: docker_meta
+        uses: crazy-max/ghaction-docker-meta@v1
+        with:
+          images: name/app # list of Docker images to use as base name for tags
+          tag-sha: true
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
       - name: Set up Docker Buildx
@@ -73,11 +89,13 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v2.2.1
         with:
-          push: true
           context: ./backend/words
           file: ./backend/words/Dockerfile
           repository: highsoftware96/thebomb-words
           tag-sha: true
+          push: true
+          tags: ${{ steps.docker_meta.outputs.tags }}
+          labels: ${{ steps.docker_meta.outputs.labels }}
 
   builddeploy-gateway:
     name: Build and Deploy gateway
@@ -85,6 +103,12 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2.3.4
+      - name: Docker meta
+        id: docker_meta
+        uses: crazy-max/ghaction-docker-meta@v1
+        with:
+          images: name/app # list of Docker images to use as base name for tags
+          tag-sha: true
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
       - name: Set up Docker Buildx
@@ -97,11 +121,13 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v2.2.1
         with:
-          push: true
           context: ./backend/gateway
           file: ./backend/gateway/Dockerfile
           repository: highsoftware96/thebomb-gateway
           tag-sha: true
+          push: true
+          tags: ${{ steps.docker_meta.outputs.tags }}
+          labels: ${{ steps.docker_meta.outputs.labels }}
 
   builddeploy-bridge:
     name: Build and Deploy bridge
@@ -109,6 +135,12 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2.3.4
+      - name: Docker meta
+        id: docker_meta
+        uses: crazy-max/ghaction-docker-meta@v1
+        with:
+          images: name/app # list of Docker images to use as base name for tags
+          tag-sha: true
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
       - name: Set up Docker Buildx
@@ -121,11 +153,13 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v2.2.1
         with:
-          push: true
           context: ./backend/bridge
           file: ./backend/bridge/Dockerfile
           repository: highsoftware96/thebomb-bridge
           tag-sha: true
+          push: true
+          tags: ${{ steps.docker_meta.outputs.tags }}
+          labels: ${{ steps.docker_meta.outputs.labels }}
 
   builddeploy-frontend:
     name: Build and Deploy Frontend
@@ -133,6 +167,12 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2.3.4
+      - name: Docker meta
+        id: docker_meta
+        uses: crazy-max/ghaction-docker-meta@v1
+        with:
+          images: name/app # list of Docker images to use as base name for tags
+          tag-sha: true
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
       - name: Set up Docker Buildx
@@ -145,8 +185,10 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v2.2.1
         with:
-          push: true
           context: ./frontend/
           file: ./frontend/Dockerfile
           repository: highsoftware96/thebomb-frontend
           tag-sha: true
+          push: true
+          tags: ${{ steps.docker_meta.outputs.tags }}
+          labels: ${{ steps.docker_meta.outputs.labels }}
