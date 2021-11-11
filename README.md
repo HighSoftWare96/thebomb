@@ -16,6 +16,10 @@
 
 This word game is inspired to the classical board game "Passa la bomba" that in italian means "hand the bomb". 
 
+#### Architecture overview video (language: italian)
+
+https://www.youtube.com/watch?v=fim4Mubrrng&t=1523s
+
 ## 😆 How this project started?
 
 But of course, during 2020 quarantine: I was used to meet with my friends and family though long video calls playing board or online games to spend some time "together". Since there was no online version of this game my idea was to bring this simple concept online (I assure that is better than trying to playing sharing Paint on the desktop!).
