@@ -88,8 +88,8 @@ services:
       - ~/database:/var/lib/postgresql/data
     env_file:
       - .env.db
-    # ports:
-    #   - 5432:5432
+    ports:
+      - 5432:5432
 
   redis:
     restart: always
