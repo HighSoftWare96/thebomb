@@ -27,7 +27,7 @@
     "app-module-path": "^2.2.0",
     "dotenv": "^8.2.0",
     "ioredis": "^4.14.1",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "moleculer": "^0.14.0",
     "moleculer-db": "^0.8.18",
     "moleculer-db-adapter-sequelize": "^0.2.6",
