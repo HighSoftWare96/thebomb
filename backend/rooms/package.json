@@ -33,7 +33,7 @@
     "moment": "^2.29.4",
     "pg": "^8.0.2",
     "pg-hstore": "^2.3.3",
-    "sequelize": "^5.21.6",
+    "sequelize": "^6.29.0",
     "uuid": "^7.0.3"
   },
   "engines": {
